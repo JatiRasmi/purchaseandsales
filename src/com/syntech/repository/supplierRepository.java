@@ -28,4 +28,15 @@ public class supplierRepository {
     public List<Supplier> findAll(){
         return  supplierList;
     }
-}
+    
+    public  Supplier findById(Long id){
+        for(Supplier s: supplierList)
+                if(s.getId().equals(id))
+                    return s;
+        return null;
+    }
+    public void delete(Supplier supplierList){
+        this.supplierList.remove(supplierList);
+    }
+    
+ }

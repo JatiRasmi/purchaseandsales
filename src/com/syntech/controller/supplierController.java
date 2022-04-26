@@ -35,7 +35,7 @@ public class supplierController {
                     list();
                     break;
                 case "3" :
-//                    delete();
+                    delete();
                     break;
                 case "4":
 //                    edit();
@@ -123,6 +123,19 @@ public class supplierController {
                                 n -> System.out.println(n)
                         );
         System.out.println("____________________________________________________________________________");
+    }
+    
+    public static void delete(){
+        System.out.println("Enter suppliers id: ");
+        Scanner sc = new Scanner(System.in);
+        Long id =sc.nextLong();
+        Supplier supplier = supplierrepository.findById(id);
+        if(supplier == null){
+            System.out.println("Supplier id "+id+ "not found");
+        }else{
+            supplierrepository.delete(supplier);
+            list();
+        }
     }
 }
 

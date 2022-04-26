@@ -28,7 +28,7 @@ public class customerRepository {
         return customerList;
     }
 
-        public Customer findById(Long id) {
+    public Customer findById(Long id) {
         for (Customer c : customerList) {
             if (c.getId().equals(id)) {
                 return c;
@@ -36,14 +36,10 @@ public class customerRepository {
         }
         return null;
     }
-        
-        public void edit(Customer cust) {
-
-       customerList.stream().filter(x -> x.getId().equals(cust.getId())).forEach(cu -> {
-                    cu.setName(cust.getName());
-                    cu.setAddress(cust.getAddress());
-                    cu.setEmail(cust.getEmail());
-                    cu.setContact(cust.getContact());
-                });
+    
+    public void delete(Customer customer) {
+        this.customerList.remove(customer);
     }
+        
+    
 }

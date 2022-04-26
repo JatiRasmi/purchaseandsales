@@ -40,10 +40,10 @@ public class customerController {
                     list();
                     break;
                 case "3":
-//                    list();
+                    delete();
                     break;
                 case "4":
-//                    list();
+//                    edit();
                     break;
                 case "5":
                     return;
@@ -77,8 +77,7 @@ public class customerController {
 
     } 
     
-    
-    
+      
     public static void list(){
         System.out.println("________________");
         System.out.println("Customer's Info");
@@ -88,11 +87,23 @@ public class customerController {
 //      System.out.println(customerrepository.findAll());
         customerrepository.findAll().stream().forEach(x -> System.out.println(x));
         System.out.println("*****************************************************************************");
+        System.out.println();
     }
     
     
-    
-    
+    public static void delete(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter customer's Id: ");
+        Long id = sc.nextLong();
+        Customer customer = customerrepository.findById(id);
+        if(customer == null){
+            System.out.println("Customer's ID "+ id + "not found");
+        }else{
+            customerrepository.delete(customer);
+            System.out.println("Customer of id "+id+" deleted succesfully!!");
+            list();
+        }
+    }   
     
     
     public static void createOption(){

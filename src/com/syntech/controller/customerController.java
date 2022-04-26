@@ -43,7 +43,7 @@ public class customerController {
                     delete();
                     break;
                 case "4":
-//                    edit();
+                    edit();
                     break;
                 case "5":
                     return;
@@ -104,6 +104,44 @@ public class customerController {
             list();
         }
     }   
+    
+    
+    public static void edit(){
+        Long id = null;
+        String name = null;
+        String address = null;
+        String email = null;
+        String contact = null;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter id of customer to edit: ");
+        id = sc.nextLong();
+        Customer customer = customerrepository.findById(id);
+        if (customer == null) {
+            System.out.println("Customer with id: " + id + " not found");
+
+        } else {
+            while (name == null || name.isEmpty()) {
+                System.out.println("Enter customer name");
+                name = sc.next();
+            }
+            while (address == null || address.isEmpty()) {
+                System.out.println("Enter customer address");
+                address = sc.next();
+            }
+            while (email == null || email.isEmpty()) {
+                System.out.println("Enter customer email");
+                email = sc.next();
+            }
+            while (contact == null || contact.isEmpty()) {
+                System.out.println("Enter customer contact");
+                contact = sc.next();
+            }
+            
+            Customer cust = new Customer(id, name, address, email, contact);
+            customerrepository.edit(cust);
+            System.out.println("Edited Successfully!");
+        }
+    }
     
     
     public static void createOption(){

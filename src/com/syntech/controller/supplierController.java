@@ -22,13 +22,25 @@ public class supplierController {
         System.out.println("Suppliers Operation");
         do{
             System.out.println("Enter 1 to create");
-            System.out.println("Enter 2 to exit");
+            System.out.println("Enter 2 to list");
+            System.out.println("Enter 3 to delete");
+            System.out.println("Enter 4 to edit");
+            System.out.println("Enter 5 to exit");
             choice = sc.next();
             switch(choice){
                 case "1" : 
                     create();
                     break;
                 case "2":
+                    list();
+                    break;
+                case "3" :
+//                    delete();
+                    break;
+                case "4":
+//                    edit();
+                    break;
+                case "5":
                     return;
                 default:
                     System.out.println("Invalid Option");
@@ -37,8 +49,27 @@ public class supplierController {
         }while(!choice.equals("0"));
     }
     
-    
     public static void create(){
+        String choice;
+        Scanner sc = new Scanner(System.in);
+        do{
+            System.out.println("Enter 1 to add supplier");
+            System.out.println("Enter 2 to exit");
+            choice = sc.next();
+            switch(choice){
+                case "1": 
+                    createOption();
+                    break;
+                case "2":
+                    return;
+                default: 
+                    System.out.println("Invalid option");
+                    break;
+            }
+        }while(!choice.equals("0"));
+    }
+    
+    public static void createOption(){
         Long id = null;
         String name = null;
         String address = null;
@@ -79,8 +110,19 @@ public class supplierController {
         }
         Supplier supplier = new Supplier(id, name, address, email, contact, description);
         supplierrepository.create(supplier);
-        System.out.println(supplierrepository.findAll());
+//        System.out.println(supplierrepository.findAll());
         
+    }
+    public static void list(){
+        System.out.println("Supplier's Info");
+        System.out.println("----------------");
+        supplierrepository
+                .findAll()
+                    .stream()
+                        .forEach(
+                                n -> System.out.println(n)
+                        );
+        System.out.println("____________________________________________________________________________");
     }
 }
 

@@ -35,8 +35,18 @@ public class supplierRepository {
                     return s;
         return null;
     }
+    
     public void delete(Supplier supplierList){
         this.supplierList.remove(supplierList);
     }
     
+    public void edit(Supplier supplier){
+        supplierList.stream().filter(n -> n.getId().equals(supplier.getId())).forEach(s -> {
+            s.setName(supplier.getName());
+            s.setAddress(supplier.getAddress());
+            s.setEmail(supplier.getEmail());
+            s.setContact(supplier.getContact());
+            s.setDescription(supplier.getDescription());
+        });
+    }
  }

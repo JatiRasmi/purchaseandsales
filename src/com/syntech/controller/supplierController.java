@@ -38,7 +38,7 @@ public class supplierController {
                     delete();
                     break;
                 case "4":
-//                    edit();
+                    edit();
                     break;
                 case "5":
                     return;
@@ -111,6 +111,7 @@ public class supplierController {
         Supplier supplier = new Supplier(id, name, address, email, contact, description);
         supplierrepository.create(supplier);
 //        System.out.println(supplierrepository.findAll());
+//          list();
         
     }
     public static void list(){
@@ -136,6 +137,45 @@ public class supplierController {
             supplierrepository.delete(supplier);
             list();
         }
+    }
+    public static void edit(){
+        Long id = null;
+        String name = null;
+        String address = null;
+        String email = null;
+        String contact = null;
+        String description = null;
+        System.out.println("Enter supplier's id:");
+        Scanner sc = new Scanner(System.in);
+        id = sc.nextLong();
+        Supplier supplier = supplierrepository.findById(id);
+        if(supplier == null){
+            System.out.println("Supplier id" + id + "not found");
+        }else{
+            while(name == null || name.isEmpty()){
+                System.out.println("Enter supplier name: ");
+                name = sc.nextLine(); 
+            }
+            while(address == null || address.isEmpty()){
+                System.out.println("Enter supplier address: ");
+                address = sc.nextLine();
+            }
+            while(email == null || email.isEmpty()){
+                System.out.println("Enter supplier email: ");
+                email = sc.nextLine();
+            }
+            while(contact == null || contact.isEmpty()){
+                System.out.println("Enter supplier contact: ");
+                contact = sc.nextLine();
+            }
+            while(description == null || description.isEmpty()){
+                System.out.println("Enter suppliers product description: ");
+                description = sc.nextLine();
+            }
+        }
+        Supplier supply = new Supplier(id, name, address, email, contact, description);
+        supplierrepository.edit(supply);
+        list();
     }
 }
 

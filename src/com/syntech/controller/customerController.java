@@ -15,24 +15,25 @@ import java.util.Scanner;
  * @author rasmi
  */
 public class customerController {
+
     private static customerRepository customerrepository;
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         customerrepository = new customerRepository();
-        
+
         Scanner sc = new Scanner(System.in);
         String choice;
-            System.out.println("*******************");
-            System.out.println("Customer Operation");
-            System.out.println("*******************");
-        do{
+        System.out.println("*******************");
+        System.out.println("Customer Operation");
+        System.out.println("*******************");
+        do {
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list ");
             System.out.println("Enter 3 to delete");
             System.out.println("Enter 4 to edit");
             System.out.println("Enter 5 to Exit");
             choice = sc.next();
-            switch(choice){
+            switch (choice) {
                 case "1":
                     create();
                     break;
@@ -47,41 +48,39 @@ public class customerController {
                     break;
                 case "5":
                     return;
-                default: 
+                default:
                     System.out.println("Invalid option");
                     break;
             }
-        }while (!choice.equals("0"));
-        
-    } 
-    
-    public static void create(){
+        } while (!choice.equals("0"));
+
+    }
+
+    public static void create() {
         String choice;
         Scanner sc = new Scanner(System.in);
-        do{
+        do {
             System.out.println("Enter 1 to Add customer");
             System.out.println("Enter 2 to Exit");
             choice = sc.next();
-            switch(choice){
+            switch (choice) {
                 case "1":
-                 createOption();
-              break;
+                    createOption();
+                    break;
                 case "2":
                     return;
-              default: 
-                  System.out.println("Invalid option");
-                  break;
+                default:
+                    System.out.println("Invalid option");
+                    break;
             }
-        }while (!choice.equals("0"));
-        
+        } while (!choice.equals("0"));
 
-    } 
-    
-      
-    public static void list(){
-        System.out.println("________________");
+    }
+
+    public static void list() {
+        System.out.println("-----------------");
         System.out.println("Customer's Info");
-        System.out.println("________________");
+        System.out.println("-----------------");
         System.out.println();
         System.out.println("*****************************************************************************");
 //      System.out.println(customerrepository.findAll());
@@ -89,24 +88,22 @@ public class customerController {
         System.out.println("*****************************************************************************");
         System.out.println();
     }
-    
-    
-    public static void delete(){
+
+    public static void delete() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter customer's Id: ");
         Long id = sc.nextLong();
         Customer customer = customerrepository.findById(id);
-        if(customer == null){
-            System.out.println("Customer's ID "+ id + "not found");
-        }else{
+        if (customer == null) {
+            System.out.println("Customer's ID " + id + "not found");
+        } else {
             customerrepository.delete(customer);
-            System.out.println("Customer of id "+id+" deleted succesfully!!");
+            System.out.println("Customer of id " + id + " deleted succesfully!!");
             list();
         }
-    }   
-    
-    
-    public static void edit(){
+    }
+
+    public static void edit() {
         Long id = null;
         String name = null;
         String address = null;
@@ -136,53 +133,53 @@ public class customerController {
                 System.out.println("Enter customer contact");
                 contact = sc.next();
             }
-            
+
             Customer cust = new Customer(id, name, address, email, contact);
             customerrepository.edit(cust);
             System.out.println("Edited Successfully!");
+            list();
         }
     }
-    
-    
-    public static void createOption(){
+
+    public static void createOption() {
         Long id = null;
         String name = null;
         String address = null;
         String email = null;
         String contact = null;
         Scanner sc = new Scanner(System.in);
-        while(id == null){
+        while (id == null) {
             System.out.println("Enter customer id:");
             String cid = sc.next();
-            try{
+            try {
                 id = Long.parseLong(cid);
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error");
                 id = null;
             }
         }
-        while(name == null || name.isEmpty()){
+        while (name == null || name.isEmpty()) {
             System.out.println("Enter customer name: ");
             name = sc.next();
             break;
         }
-        while(address == null || address.isEmpty()){
+        while (address == null || address.isEmpty()) {
             System.out.println("Enter customer address: ");
             address = sc.next();
             break;
         }
-        while(email == null || email.isEmpty()){
+        while (email == null || email.isEmpty()) {
             System.out.println("Enter customer email: ");
             email = sc.next();
             break;
         }
-        while(contact == null || contact.isEmpty()){
+        while (contact == null || contact.isEmpty()) {
             System.out.println("Enter customer contact: ");
             contact = sc.next();
             break;
         }
-        Customer customer = new Customer(id,name,address,email,contact);
+        Customer customer = new Customer(id, name, address, email, contact);
         customerrepository.create(customer);
     }
 
-}      
+}

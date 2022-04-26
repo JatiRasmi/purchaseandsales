@@ -42,7 +42,11 @@ public class customerRepository {
     }
         
     public void edit(Customer cust) {
-        customerList.stream().filter(x -> x.getId().equals(cust.getId())).forEach(cu -> {
+//        customerList.stream().filter(x -> x.getId().equals(cust.getId())).forEach(cu -> {
+            customerList.stream()
+                    .filter(n -> n.getId().equals(cust.getId()))
+                    .forEach(cu ->{
+            
             cu.setName(cust.getName());
             cu.setAddress(cust.getAddress());
             cu.setEmail(cust.getEmail());

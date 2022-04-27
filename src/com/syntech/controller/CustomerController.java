@@ -5,22 +5,22 @@
  */
 package com.syntech.controller;
 
-import static com.syntech.controller.customerController.create;
+import static com.syntech.controller.CustomerController.create;
 import com.syntech.model.Customer;
-import com.syntech.repository.customerRepository;
+import com.syntech.repository.AbstractRepository;
+import com.syntech.repository.CustomerRepository;
 import java.util.Scanner;
 
 /**
  *
  * @author rasmi
  */
-public class customerController {
+public class CustomerController {
 
-    private static customerRepository customerrepository;
+    private static AbstractRepository abstractrepository;
 
     public static void main(String[] args) {
-        customerrepository = new customerRepository();
-
+        abstractrepository = new CustomerRepository();
         Scanner sc = new Scanner(System.in);
         String choice;
         System.out.println("*******************");
@@ -76,72 +76,7 @@ public class customerController {
         } while (!choice.equals("0"));
 
     }
-
-    public static void list() {
-        System.out.println("-----------------");
-        System.out.println("Customer's Info");
-        System.out.println("-----------------");
-        System.out.println();
-        System.out.println("*****************************************************************************");
-//      System.out.println(customerrepository.findAll());
-        customerrepository.findAll().stream().forEach(x -> System.out.println(x));
-        System.out.println("*****************************************************************************");
-        System.out.println();
-    }
-
-    public static void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter customer's Id: ");
-        Long id = sc.nextLong();
-        Customer customer = customerrepository.findById(id);
-        if (customer == null) {
-            System.out.println("Customer's ID " + id + "not found");
-        } else {
-            customerrepository.delete(customer);
-            System.out.println("Customer of id " + id + " deleted succesfully!!");
-            list();
-        }
-    }
-
-    public static void edit() {
-        Long id = null;
-        String name = null;
-        String address = null;
-        String email = null;
-        String contact = null;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter id of customer to edit: ");
-        id = sc.nextLong();
-        Customer customer = customerrepository.findById(id);
-        if (customer == null) {
-            System.out.println("Customer with id: " + id + " not found");
-
-        } else {
-            while (name == null || name.isEmpty()) {
-                System.out.println("Enter customer name");
-                name = sc.next();
-            }
-            while (address == null || address.isEmpty()) {
-                System.out.println("Enter customer address");
-                address = sc.next();
-            }
-            while (email == null || email.isEmpty()) {
-                System.out.println("Enter customer email");
-                email = sc.next();
-            }
-            while (contact == null || contact.isEmpty()) {
-                System.out.println("Enter customer contact");
-                contact = sc.next();
-            }
-
-            Customer cust = new Customer(id, name, address, email, contact);
-            customerrepository.edit(cust);
-            System.out.println("Edited Successfully!");
-            list();
-        }
-    }
-
-    public static void createOption() {
+public static void createOption() {
         Long id = null;
         String name = null;
         String address = null;
@@ -179,7 +114,72 @@ public class customerController {
             break;
         }
         Customer customer = new Customer(id, name, address, email, contact);
-        customerrepository.create(customer);
+        abstractrepository.create(customer);
+        list();
     }
 
+    public static void list() {
+        System.out.println("-----------------");
+        System.out.println("Customer's Info");
+        System.out.println("-----------------");
+        System.out.println();
+        System.out.println("*****************************************************************************");
+        abstractrepository.findAll().stream().forEach(x -> System.out.println(x));
+        System.out.println("*****************************************************************************");
+        System.out.println();
+    }
+
+    public static void delete() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter customer's Id: ");
+        Long id = sc.nextLong();
+        Customer customer = (Customer) abstractrepository.findById(id);
+        if (customer == null) {
+            System.out.println("Customer's ID " + id + " not found");
+        } else {
+            abstractrepository.delete(customer);
+            System.out.println("Customer of id " + id + " deleted succesfully!!");
+            list();
+        }
+    }
+
+    public static void edit() {
+        Long id = null;
+        String name = null;
+        String address = null;
+        String email = null;
+        String contact = null;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter id of customer to edit: ");
+        id = sc.nextLong();
+        Customer customer = (Customer) abstractrepository.findById(id);
+        if (customer == null) {
+            System.out.println("Customer with id: " + id + " not found");
+
+        } else {
+            while (name == null || name.isEmpty()) {
+                System.out.println("Enter customer name");
+                name = sc.next();
+            }
+            while (address == null || address.isEmpty()) {
+                System.out.println("Enter customer address");
+                address = sc.next();
+            }
+            while (email == null || email.isEmpty()) {
+                System.out.println("Enter customer email");
+                email = sc.next();
+            }
+            while (contact == null || contact.isEmpty()) {
+                System.out.println("Enter customer contact");
+                contact = sc.next();
+            }
+
+            Customer cust = new Customer(id, name, address, email, contact);
+            abstractrepository.edit(cust);
+            System.out.println("Edited Successfully!");
+            list();
+        }
+    }
+
+    
 }

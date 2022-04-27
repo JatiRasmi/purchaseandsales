@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class Customer {
+public class Customer implements IEntity{
 
     Long id;
     String name;
@@ -27,6 +27,7 @@ public class Customer {
         this.contact = contact;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -47,6 +48,7 @@ public class Customer {
         return contact;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -65,6 +67,10 @@ public class Customer {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+   @Override
+    public String toString() {
+        return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;
     }
 
     @Override
@@ -105,9 +111,5 @@ public class Customer {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;
-    }
-
+ 
 }

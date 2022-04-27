@@ -11,7 +11,8 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class Supplier {
+public class Supplier implements IEntity {
+
     Long id;
     String name;
     String address;
@@ -28,6 +29,7 @@ public class Supplier {
         this.description = description;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -52,6 +54,7 @@ public class Supplier {
         return description;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -92,11 +95,10 @@ public class Supplier {
         hash = 53 * hash + Objects.hashCode(this.description);
         return hash;
     }
-    
-    
+
     @Override
     public boolean equals(Object obj) {
-        
+
         if (obj == null) {
             return false;
         }
@@ -124,6 +126,5 @@ public class Supplier {
         }
         return true;
     }
-    
-    
+
 }

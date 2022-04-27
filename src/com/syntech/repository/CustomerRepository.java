@@ -12,15 +12,16 @@ import com.syntech.model.Customer;
  * @author rasmi
  */
 public class CustomerRepository extends AbstractRepository<Customer> {
+
     @Override
     public void edit(Customer cust) {
-            super.findAll().stream()
-                    .filter(n -> n.getId().equals(cust.getId()))
-                        .forEach((Customer cu) -> {
-                            cu.setName(cust.getName());
-                            cu.setAddress(cust.getAddress());
-                            cu.setEmail(cust.getEmail());
-                            cu.setContact(cust.getContact());
-            });
-    } 
+        super.findAll().stream()
+                .filter(n -> n.getId().equals(cust.getId()))
+                .forEach((Customer cu) -> {
+                    cu.setName(cust.getName());
+                    cu.setAddress(cust.getAddress());
+                    cu.setEmail(cust.getEmail());
+                    cu.setContact(cust.getContact());
+                });
+    }
 }

@@ -6,7 +6,6 @@
 package com.syntech.controller;
 
 import com.syntech.model.Supplier;
-import com.syntech.repository.AbstractRepository;
 import com.syntech.repository.SupplierRepository;
 import java.util.Scanner;
 
@@ -16,10 +15,10 @@ import java.util.Scanner;
  */
 public class SupplierController {
 
-    private static AbstractRepository abstractrepository;
+    private static SupplierRepository supplierRepository;
 
-    public static void main(String[] args) {
-        abstractrepository = new SupplierRepository();
+    public void supplierOption(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
         String choice;
         Scanner sc = new Scanner(System.in);
         System.out.println("Suppliers Operation");
@@ -53,26 +52,6 @@ public class SupplierController {
     }
 
     public static void create() {
-        String choice;
-        Scanner sc = new Scanner(System.in);
-        do {
-            System.out.println("Enter 1 to add supplier");
-            System.out.println("Enter 2 to exit");
-            choice = sc.next();
-            switch (choice) {
-                case "1":
-                    createOption();
-                    break;
-                case "2":
-                    return;
-                default:
-                    System.out.println("Invalid option");
-                    break;
-            }
-        } while (!choice.equals("0"));
-    }
-
-    public static void createOption() {
         Long id = null;
         String name = null;
         String address = null;
@@ -112,7 +91,7 @@ public class SupplierController {
             break;
         }
         Supplier supplier = new Supplier(id, name, address, email, contact, description);
-        abstractrepository.create(supplier);
+        supplierRepository.create(supplier);
         list();
 
     }
@@ -120,7 +99,7 @@ public class SupplierController {
     public static void list() {
         System.out.println("Supplier's Info");
         System.out.println("----------------");
-        abstractrepository
+        supplierRepository
                 .findAll()
                 .stream()
                 .forEach(
@@ -133,11 +112,11 @@ public class SupplierController {
         System.out.println("Enter suppliers id: ");
         Scanner sc = new Scanner(System.in);
         Long id = sc.nextLong();
-        Supplier supplier = (Supplier) abstractrepository.findById(id);
+        Supplier supplier = (Supplier) supplierRepository.findById(id);
         if (supplier == null) {
             System.out.println("Supplier id " + id + "not found");
         } else {
-            abstractrepository.delete(supplier);
+            supplierRepository.delete(supplier);
             list();
         }
     }
@@ -152,7 +131,7 @@ public class SupplierController {
         System.out.println("Enter supplier's id:");
         Scanner sc = new Scanner(System.in);
         id = sc.nextLong();
-        Supplier supplier = (Supplier) abstractrepository.findById(id);
+        Supplier supplier = (Supplier) supplierRepository.findById(id);
         if (supplier == null) {
             System.out.println("Supplier id" + id + "not found");
         } else {
@@ -178,7 +157,7 @@ public class SupplierController {
             }
         }
         Supplier supply = new Supplier(id, name, address, email, contact, description);
-        abstractrepository.edit(supply);
+        supplierRepository.edit(supply);
         list();
     }
 }

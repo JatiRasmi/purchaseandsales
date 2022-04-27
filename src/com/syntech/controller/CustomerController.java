@@ -5,9 +5,8 @@
  */
 package com.syntech.controller;
 
-import static com.syntech.controller.CustomerController.create;
+//import static com.syntech.controller.CustomerController.create;
 import com.syntech.model.Customer;
-import com.syntech.repository.AbstractRepository;
 import com.syntech.repository.CustomerRepository;
 import java.util.Scanner;
 
@@ -17,10 +16,10 @@ import java.util.Scanner;
  */
 public class CustomerController {
 
-    private static AbstractRepository abstractrepository;
+    private static CustomerRepository customerRepository;
 
-    public static void main(String[] args) {
-        abstractrepository = new CustomerRepository();
+    public void customerOption(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
         Scanner sc = new Scanner(System.in);
         String choice;
         System.out.println("*******************");
@@ -57,26 +56,6 @@ public class CustomerController {
     }
 
     public static void create() {
-        String choice;
-        Scanner sc = new Scanner(System.in);
-        do {
-            System.out.println("Enter 1 to Add customer");
-            System.out.println("Enter 2 to Exit");
-            choice = sc.next();
-            switch (choice) {
-                case "1":
-                    createOption();
-                    break;
-                case "2":
-                    return;
-                default:
-                    System.out.println("Invalid option");
-                    break;
-            }
-        } while (!choice.equals("0"));
-
-    }
-public static void createOption() {
         Long id = null;
         String name = null;
         String address = null;
@@ -114,7 +93,7 @@ public static void createOption() {
             break;
         }
         Customer customer = new Customer(id, name, address, email, contact);
-        abstractrepository.create(customer);
+        customerRepository.create(customer);
         list();
     }
 
@@ -124,7 +103,7 @@ public static void createOption() {
         System.out.println("-----------------");
         System.out.println();
         System.out.println("*****************************************************************************");
-        abstractrepository.findAll().stream().forEach(x -> System.out.println(x));
+        customerRepository.findAll().stream().forEach(x -> System.out.println(x));
         System.out.println("*****************************************************************************");
         System.out.println();
     }
@@ -133,11 +112,11 @@ public static void createOption() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter customer's Id: ");
         Long id = sc.nextLong();
-        Customer customer = (Customer) abstractrepository.findById(id);
+        Customer customer = (Customer) customerRepository.findById(id);
         if (customer == null) {
             System.out.println("Customer's ID " + id + " not found");
         } else {
-            abstractrepository.delete(customer);
+            customerRepository.delete(customer);
             System.out.println("Customer of id " + id + " deleted succesfully!!");
             list();
         }
@@ -152,7 +131,7 @@ public static void createOption() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter id of customer to edit: ");
         id = sc.nextLong();
-        Customer customer = (Customer) abstractrepository.findById(id);
+        Customer customer = (Customer) customerRepository.findById(id);
         if (customer == null) {
             System.out.println("Customer with id: " + id + " not found");
 
@@ -175,11 +154,10 @@ public static void createOption() {
             }
 
             Customer cust = new Customer(id, name, address, email, contact);
-            abstractrepository.edit(cust);
+            customerRepository.edit(cust);
             System.out.println("Edited Successfully!");
             list();
         }
     }
 
-    
 }

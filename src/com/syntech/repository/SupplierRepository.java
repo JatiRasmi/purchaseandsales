@@ -17,14 +17,13 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
     public void edit(Supplier supplier) {
         super.findAll()
                 .stream()
-                    .filter
-                        (n -> n.getId().equals(supplier.getId()))
-                            .forEach(s -> {
-                                s.setName(supplier.getName());
-                                s.setAddress(supplier.getAddress());
-                                s.setEmail(supplier.getEmail());
-                                s.setContact(supplier.getContact());
-                                s.setDescription(supplier.getDescription());
-                            });
+                .filter(n -> n.getId().equals(supplier.getId()))
+                .forEach(s -> {
+                    s.setName(supplier.getName());
+                    s.setAddress(supplier.getAddress());
+                    s.setEmail(supplier.getEmail());
+                    s.setContact(supplier.getContact());
+                    s.setDescription(supplier.getDescription());
+                });
     }
 }

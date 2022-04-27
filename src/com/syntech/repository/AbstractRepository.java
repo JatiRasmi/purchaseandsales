@@ -25,11 +25,11 @@ public abstract class AbstractRepository<T extends IEntity> {
     public void create(T list) {
         this.list.add(list);
     }
-    
+
     public List<T> findAll() {
         return list;
     }
-    
+
     public T findById(Long id) {
         for (T s : list) {
             if (s.getId().equals(id)) {   // create an interface for getId and
@@ -38,15 +38,11 @@ public abstract class AbstractRepository<T extends IEntity> {
         }
         return null;
     }
-    
 
     public void delete(T list) {
         this.list.remove(list);
     }
 
-    
-   public void edit(T e) {
-        
-    }
-    
+    abstract void edit(T e);
+
 }

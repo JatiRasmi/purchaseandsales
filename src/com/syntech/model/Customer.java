@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class Customer implements IEntity{
+public class Customer implements IEntity {
 
     Long id;
     String name;
@@ -68,7 +68,8 @@ public class Customer implements IEntity{
     public void setContact(String contact) {
         this.contact = contact;
     }
-   @Override
+
+    @Override
     public String toString() {
         return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;
     }
@@ -111,5 +112,4 @@ public class Customer implements IEntity{
         return true;
     }
 
- 
 }

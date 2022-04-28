@@ -5,9 +5,11 @@
  */
 package com.syntech.controller;
 
-//import static com.syntech.controller.CustomerController.create;
 import com.syntech.model.Customer;
 import com.syntech.repository.CustomerRepository;
+import static com.syntech.util.Validator.isValidateNumber;
+import static com.syntech.util.Validator.isValidateEmail;
+import static com.syntech.util.Validator.isValidateString;
 import java.util.Scanner;
 
 /**
@@ -72,30 +74,44 @@ public class CustomerController {
                 id = null;
             }
         }
-        while (name == null || name.isEmpty()) {
+        while(name == null || name.isEmpty()) {
             System.out.println("Enter customer name: ");
             name = sc.next();
-            break;
+            if(!isValidateString(name)){
+                System.out.println("Invaild Name !!");
+                name = null;
+            }
         }
         while (address == null || address.isEmpty()) {
             System.out.println("Enter customer address: ");
             address = sc.next();
-            break;
+            if(!isValidateString (address)){
+                System.out.println("Invalid Address!!!");
+                address = null;
+            }
         }
         while (email == null || email.isEmpty()) {
             System.out.println("Enter customer email: ");
             email = sc.next();
-            break;
+            if(!isValidateEmail (email)){
+                System.out.println("Invalid Email!!!");
+                email = null;
+            }
         }
         while (contact == null || contact.isEmpty()) {
             System.out.println("Enter customer contact: ");
             contact = sc.next();
-            break;
+            if(!isValidateNumber (contact)){
+                System.out.println("Invalid Contact!!!");
+                contact = null;
+            }
         }
         Customer customer = new Customer(id, name, address, email, contact);
         customerRepository.create(customer);
         list();
     }
+    
+    
 
     public static void list() {
         System.out.println("-----------------");

@@ -71,23 +71,23 @@ public class SupplierController {
         }
         while (name == null || name.isEmpty()) {
             System.out.println("Enter Supplier name: ");
-            name = sc.nextLine();
+            name = sc.next();
         }
         while (address == null || address.isEmpty()) {
             System.out.println("Enter Supplier address: ");
-            address = sc.nextLine();
+            address = sc.next();
         }
         while (email == null || email.isEmpty()) {
             System.out.println("Enter supplier email: ");
-            email = sc.nextLine();
+            email = sc.next();
         }
         while (contact == null || contact.isEmpty()) {
             System.out.println("Enter supplier contact: ");
-            contact = sc.nextLine();
+            contact = sc.next();
         }
         while (description == null || description.isEmpty()) {
             System.out.println("Enter suppliers product description");
-            description = sc.nextLine();
+            description = sc.next();
             break;
         }
         Supplier supplier = new Supplier(id, name, address, email, contact, description);

@@ -7,9 +7,9 @@ package com.syntech.controller;
 
 import com.syntech.model.Customer;
 import com.syntech.repository.CustomerRepository;
-import static com.syntech.util.Validator.isValidateNumber;
-import static com.syntech.util.Validator.isValidateEmail;
-import static com.syntech.util.Validator.isValidateString;
+import static com.syntech.util.Validator.isValidNumber;
+import static com.syntech.util.Validator.isValidEmail;
+import static com.syntech.util.Validator.isValidString;
 import java.util.Scanner;
 
 /**
@@ -77,7 +77,7 @@ public class CustomerController {
         while(name == null || name.isEmpty()) {
             System.out.println("Enter customer name: ");
             name = sc.next();
-            if(!isValidateString(name)){
+            if(!isValidString(name)){
                 System.out.println("Invaild Name !!");
                 name = null;
             }
@@ -85,7 +85,7 @@ public class CustomerController {
         while (address == null || address.isEmpty()) {
             System.out.println("Enter customer address: ");
             address = sc.next();
-            if(!isValidateString (address)){
+            if(!isValidString (address)){
                 System.out.println("Invalid Address!!!");
                 address = null;
             }
@@ -93,7 +93,7 @@ public class CustomerController {
         while (email == null || email.isEmpty()) {
             System.out.println("Enter customer email: ");
             email = sc.next();
-            if(!isValidateEmail (email)){
+            if(!isValidEmail (email)){
                 System.out.println("Invalid Email!!!");
                 email = null;
             }
@@ -101,7 +101,7 @@ public class CustomerController {
         while (contact == null || contact.isEmpty()) {
             System.out.println("Enter customer contact: ");
             contact = sc.next();
-            if(!isValidateNumber (contact)){
+            if(!isValidNumber (contact)){
                 System.out.println("Invalid Contact!!!");
                 contact = null;
             }

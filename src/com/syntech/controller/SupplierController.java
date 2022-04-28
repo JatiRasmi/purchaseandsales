@@ -158,24 +158,44 @@ public class SupplierController {
             System.out.println("Supplier id" + id + "not found");
         } else {
             while (name == null || name.isEmpty()) {
-                System.out.println("Enter supplier name: ");
-                name = sc.nextLine();
+                System.out.println("Enter Supplier name: ");
+                name = sc.next();
+                if(!isValidString(name)){
+                    System.out.println("Invaild Name !!");
+                    name = null;
+                }
             }
             while (address == null || address.isEmpty()) {
-                System.out.println("Enter supplier address: ");
-                address = sc.nextLine();
+                System.out.println("Enter Supplier address: ");
+                address = sc.next();
+                if(!isValidString(address)){
+                    System.out.println("Invaild address !!");
+                    address = null;
+                }
             }
             while (email == null || email.isEmpty()) {
                 System.out.println("Enter supplier email: ");
-                email = sc.nextLine();
+                email = sc.next();
+                if(!isValidEmail(email)){
+                    System.out.println("Invaild Email !!");
+                    email = null;
+                }
             }
             while (contact == null || contact.isEmpty()) {
                 System.out.println("Enter supplier contact: ");
-                contact = sc.nextLine();
+                contact = sc.next();
+                if(!isValidNumber(contact)){
+                    System.out.println("Invaild contact !!");
+                    contact = null;
+                }
             }
             while (description == null || description.isEmpty()) {
-                System.out.println("Enter suppliers product description: ");
-                description = sc.nextLine();
+                System.out.println("Enter suppliers product description");
+                description = sc.next();
+                if(!isValidString(description)){
+                    System.out.println("Invaild description !!");
+                    description = null;
+                }
             }
         }
         Supplier supply = new Supplier(id, name, address, email, contact, description);

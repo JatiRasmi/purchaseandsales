@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author rasmi
  */
-public abstract class Validator {
+public class Validator {
 
     public static boolean isValidString(String str) {
         String regex = "^[A-Za-z]+$";
@@ -27,6 +27,7 @@ public abstract class Validator {
         Matcher m = p.matcher(str);
         return m.matches();
     }
+
     public static boolean isValidEmail(String str) {
         String regex = "^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$";  //rasmi@gmail.com  //rasmi01@gmail.com
         Pattern p = Pattern.compile(regex);

@@ -152,22 +152,38 @@ public class CustomerController {
             System.out.println("Customer with id: " + id + " not found");
 
         } else {
-            while (name == null || name.isEmpty()) {
-                System.out.println("Enter customer name");
-                name = sc.next();
+            while(name == null || name.isEmpty()) {
+            System.out.println("Enter customer name: ");
+            name = sc.next();
+            if(!isValidString(name)){
+                System.out.println("Invaild Name !!");
+                name = null;
             }
-            while (address == null || address.isEmpty()) {
-                System.out.println("Enter customer address");
-                address = sc.next();
+        }
+        while (address == null || address.isEmpty()) {
+            System.out.println("Enter customer address: ");
+            address = sc.next();
+            if(!isValidString (address)){
+                System.out.println("Invalid Address!!!");
+                address = null;
             }
-            while (email == null || email.isEmpty()) {
-                System.out.println("Enter customer email");
-                email = sc.next();
+        }
+        while (email == null || email.isEmpty()) {
+            System.out.println("Enter customer email: ");
+            email = sc.next();
+            if(!isValidEmail (email)){
+                System.out.println("Invalid Email!!!");
+                email = null;
             }
-            while (contact == null || contact.isEmpty()) {
-                System.out.println("Enter customer contact");
-                contact = sc.next();
+        }
+        while (contact == null || contact.isEmpty()) {
+            System.out.println("Enter customer contact: ");
+            contact = sc.next();
+            if(!isValidNumber (contact)){
+                System.out.println("Invalid Contact!!!");
+                contact = null;
             }
+        }
 
             Customer cust = new Customer(id, name, address, email, contact);
             customerRepository.edit(cust);

@@ -54,7 +54,7 @@ public class ValidatorTest {
           assertEquals(false, Validator.isValidString(" "));
           assertFalse(Validator.isValidString("a@smi!"));
           assertTrue(Validator.isValidString("Rasmi"));
-          
+          assertNotNull(Validator.isValidString("sds"));
     }
 
     /**

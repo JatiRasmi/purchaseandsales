@@ -48,7 +48,7 @@ public class SupplierRepositoryTest {
         supplierRepository.create(s);
         Assert.assertEquals("abc", supplierRepository.findById(1L).getName());
     }
-    
+//    public 
     public void testDelete(){
         SupplierRepository supplierRepository = new  SupplierRepository();
         Supplier s = new Supplier(2L,"xyz","ktm","xyz@gmail.com","9852634178","xyz");

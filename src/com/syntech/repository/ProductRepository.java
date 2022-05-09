@@ -19,6 +19,8 @@ public class ProductRepository extends AbstractRepository<Product> {
                 .filter(n -> n.getId().equals(u.getId()))
                 .forEach((Product un) -> {
                     un.setName(u.getName());
+                    un.setDescription(u.getDescription());
+                    un.setUnitid(u.getUnitid());
                 });
     }
 

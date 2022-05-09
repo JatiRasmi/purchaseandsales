@@ -83,11 +83,7 @@ public class Supplier implements IEntity {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Id=" + id + ", name=" + name + ", address=" + address + ", email=" + email + ", contact=" + contact + ", description=" + description;
-    }
-
+   
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -129,6 +125,10 @@ public class Supplier implements IEntity {
             return false;
         }
         return true;
+    }
+ @Override
+    public String toString() {
+        return "Id=" + id + "\t  name=" + name + " \t address=" + address + " \t email=" + email + " \t contact=" + contact + " \t description=" + description;
     }
 
 }

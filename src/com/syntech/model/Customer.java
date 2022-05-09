@@ -73,11 +73,7 @@ public class Customer implements IEntity {
         this.contact = contact;
     }
 
-    @Override
-    public String toString() {
-        return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;
-    }
-
+    
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -114,6 +110,10 @@ public class Customer implements IEntity {
             return false;
         }
         return true;
+    }
+    @Override
+    public String toString() {
+        return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;
     }
 
 }

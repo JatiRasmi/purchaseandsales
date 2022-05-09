@@ -43,11 +43,7 @@ public class Unit implements IEntity {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Id=" + id + " Name=" + name;
-    }
-
+    
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -73,6 +69,10 @@ public class Unit implements IEntity {
             return false;
         }
         return true;
+    }
+    @Override
+    public String toString() {
+        return "Id=" + id + " Name=" + name;
     }
 
 }

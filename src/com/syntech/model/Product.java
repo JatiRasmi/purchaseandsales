@@ -67,11 +67,7 @@ public class Product implements IEntity {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "\n Id=" + id + " \n Unit :" + unitid + "\n Name=" + name + "\n Description=" + description;
-    }
-
+    
     @Override
     public final int hashCode() {
         int hash = 7;
@@ -107,4 +103,9 @@ public class Product implements IEntity {
         }
         return true;
     }
+    @Override
+    public String toString() {
+        return "\n Id=" + id + " \n Unit :" + unitid + "\n Name=" + name + "\n Description=" + description;
+    }
+
 }

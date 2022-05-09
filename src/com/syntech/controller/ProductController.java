@@ -64,7 +64,6 @@ public class ProductController {
         Unit unit = null;
         String name = null;
         String description = null;
-        List<Unit> units = unitRepository.findAll();
         Scanner sc = new Scanner(System.in);
         while (id == null) {
             System.out.println("Enter Product id: ");
@@ -79,6 +78,8 @@ public class ProductController {
             description = sc.next();
         }
 
+        
+        List<Unit> units = unitRepository.findAll();
         while (unit == null) {
 //           display unit list
             System.out.println("Unit Info : ");
@@ -114,7 +115,7 @@ public class ProductController {
         } else {
             productRepository.delete(product);
             System.out.println("Product id " + id + " deleted succesfully!!");
-//            list();
+            list();
         }
     }
 
@@ -169,5 +170,4 @@ public class ProductController {
             list();
         }
     }
-
 }

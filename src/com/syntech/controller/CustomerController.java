@@ -74,10 +74,10 @@ public class CustomerController {
                 id = null;
             }
         }
-        while(name == null || name.isEmpty()) {
+        while (name == null || name.isEmpty()) {
             System.out.println("Enter customer name: ");
             name = sc.next();
-            if(!isValidString(name)){
+            if (!isValidString(name)) {
                 System.out.println("Invaild Name !!");
                 name = null;
             }
@@ -85,7 +85,7 @@ public class CustomerController {
         while (address == null || address.isEmpty()) {
             System.out.println("Enter customer address: ");
             address = sc.next();
-            if(!isValidString (address)){
+            if (!isValidString(address)) {
                 System.out.println("Invalid Address!!!");
                 address = null;
             }
@@ -93,7 +93,7 @@ public class CustomerController {
         while (email == null || email.isEmpty()) {
             System.out.println("Enter customer email: ");
             email = sc.next();
-            if(!isValidEmail (email)){
+            if (!isValidEmail(email)) {
                 System.out.println("Invalid Email!!!");
                 email = null;
             }
@@ -101,7 +101,7 @@ public class CustomerController {
         while (contact == null || contact.isEmpty()) {
             System.out.println("Enter customer contact: ");
             contact = sc.next();
-            if(!isValidNumber (contact)){
+            if (!isValidNumber(contact)) {
                 System.out.println("Invalid Contact!!!");
                 contact = null;
             }
@@ -110,8 +110,6 @@ public class CustomerController {
         customerRepository.create(customer);
         list();
     }
-    
-    
 
     public static void list() {
         System.out.println("-----------------");
@@ -152,38 +150,38 @@ public class CustomerController {
             System.out.println("Customer with id: " + id + " not found");
 
         } else {
-            while(name == null || name.isEmpty()) {
-            System.out.println("Enter customer name: ");
-            name = sc.next();
-            if(!isValidString(name)){
-                System.out.println("Invaild Name !!");
-                name = null;
+            while (name == null || name.isEmpty()) {
+                System.out.println("Enter customer name: ");
+                name = sc.next();
+                if (!isValidString(name)) {
+                    System.out.println("Invaild Name !!");
+                    name = null;
+                }
             }
-        }
-        while (address == null || address.isEmpty()) {
-            System.out.println("Enter customer address: ");
-            address = sc.next();
-            if(!isValidString (address)){
-                System.out.println("Invalid Address!!!");
-                address = null;
+            while (address == null || address.isEmpty()) {
+                System.out.println("Enter customer address: ");
+                address = sc.next();
+                if (!isValidString(address)) {
+                    System.out.println("Invalid Address!!!");
+                    address = null;
+                }
             }
-        }
-        while (email == null || email.isEmpty()) {
-            System.out.println("Enter customer email: ");
-            email = sc.next();
-            if(!isValidEmail (email)){
-                System.out.println("Invalid Email!!!");
-                email = null;
+            while (email == null || email.isEmpty()) {
+                System.out.println("Enter customer email: ");
+                email = sc.next();
+                if (!isValidEmail(email)) {
+                    System.out.println("Invalid Email!!!");
+                    email = null;
+                }
             }
-        }
-        while (contact == null || contact.isEmpty()) {
-            System.out.println("Enter customer contact: ");
-            contact = sc.next();
-            if(!isValidNumber (contact)){
-                System.out.println("Invalid Contact!!!");
-                contact = null;
+            while (contact == null || contact.isEmpty()) {
+                System.out.println("Enter customer contact: ");
+                contact = sc.next();
+                if (!isValidNumber(contact)) {
+                    System.out.println("Invalid Contact!!!");
+                    contact = null;
+                }
             }
-        }
 
             Customer cust = new Customer(id, name, address, email, contact);
             customerRepository.edit(cust);

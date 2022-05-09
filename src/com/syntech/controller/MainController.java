@@ -6,7 +6,9 @@
 package com.syntech.controller;
 
 import com.syntech.repository.CustomerRepository;
+import com.syntech.repository.ProductRepository;
 import com.syntech.repository.SupplierRepository;
+import com.syntech.repository.UnitRepository;
 import java.util.Scanner;
 
 /**
@@ -18,8 +20,12 @@ public class MainController {
     public static void main(String[] args) {
         CustomerController cc = new CustomerController();
         SupplierController sp = new SupplierController();
+        UnitController uc = new UnitController();
+        ProductController pc = new ProductController();
         CustomerRepository customerRepository = new CustomerRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
+        UnitRepository unitRepository = new UnitRepository();
+        ProductRepository productRepository = new ProductRepository();
         Scanner sc = new Scanner(System.in);
         String choice;
         System.out.println("*******************");
@@ -28,7 +34,9 @@ public class MainController {
         do {
             System.out.println("Enter 1 for customer");
             System.out.println("Enter 2 for Supplier ");
-            System.out.println("Enter 3 to Exit");
+            System.out.println("Enter 3 for Unit ");
+            System.out.println("Enter 4 for Product");
+            System.out.println("Enter 5 to Exit");
             choice = sc.next();
             switch (choice) {
                 case "1":
@@ -38,6 +46,12 @@ public class MainController {
                     sp.supplierOption(supplierRepository);
                     break;
                 case "3":
+                    uc.unitOption(unitRepository);
+                    break;
+                case "4":
+                    pc.productOption(productRepository, unitRepository);
+                    break;
+                case "5":
                     return;
                 default:
                     System.out.println("Invalid option");

@@ -13,12 +13,16 @@ import java.util.Objects;
  */
 public class Supplier implements IEntity {
 
-    Long id;
-    String name;
-    String address;
-    String email;
-    String contact;
-    String description;
+    private Long id;
+    private String name;
+    private String address;
+    private String email;
+    private String contact;
+    private String description;
+
+    public Supplier() {
+
+    }
 
     public Supplier(Long id, String name, String address, String email, String contact, String description) {
         this.id = id;
@@ -97,7 +101,7 @@ public class Supplier implements IEntity {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
 
         if (obj == null) {
             return false;

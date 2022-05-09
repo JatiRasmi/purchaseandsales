@@ -13,11 +13,15 @@ import java.util.Objects;
  */
 public class Customer implements IEntity {
 
-    Long id;
-    String name;
-    String address;
-    String email;
-    String contact;
+    private Long id;
+    private String name;
+    private String address;
+    private String email;
+    private String contact;
+
+    public Customer() {
+
+    }
 
     public Customer(Long id, String name, String address, String email, String contact) {
         this.id = id;

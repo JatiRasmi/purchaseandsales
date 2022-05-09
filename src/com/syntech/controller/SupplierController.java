@@ -75,7 +75,7 @@ public class SupplierController {
         while (name == null || name.isEmpty()) {
             System.out.println("Enter Supplier name: ");
             name = sc.next();
-            if(!isValidString(name)){
+            if (!isValidString(name)) {
                 System.out.println("Invaild Name !!");
                 name = null;
             }
@@ -83,7 +83,7 @@ public class SupplierController {
         while (address == null || address.isEmpty()) {
             System.out.println("Enter Supplier address: ");
             address = sc.next();
-            if(!isValidString(address)){
+            if (!isValidString(address)) {
                 System.out.println("Invaild address !!");
                 address = null;
             }
@@ -91,7 +91,7 @@ public class SupplierController {
         while (email == null || email.isEmpty()) {
             System.out.println("Enter supplier email: ");
             email = sc.next();
-            if(!isValidEmail(email)){
+            if (!isValidEmail(email)) {
                 System.out.println("Invaild Email !!");
                 email = null;
             }
@@ -99,7 +99,7 @@ public class SupplierController {
         while (contact == null || contact.isEmpty()) {
             System.out.println("Enter supplier contact: ");
             contact = sc.next();
-            if(!isValidNumber(contact)){
+            if (!isValidNumber(contact)) {
                 System.out.println("Invaild contact !!");
                 contact = null;
             }
@@ -107,7 +107,7 @@ public class SupplierController {
         while (description == null || description.isEmpty()) {
             System.out.println("Enter suppliers product description");
             description = sc.next();
-            if(!isValidString(description)){
+            if (!isValidString(description)) {
                 System.out.println("Invaild description !!");
                 description = null;
             }
@@ -160,7 +160,7 @@ public class SupplierController {
             while (name == null || name.isEmpty()) {
                 System.out.println("Enter Supplier name: ");
                 name = sc.next();
-                if(!isValidString(name)){
+                if (!isValidString(name)) {
                     System.out.println("Invaild Name !!");
                     name = null;
                 }
@@ -168,7 +168,7 @@ public class SupplierController {
             while (address == null || address.isEmpty()) {
                 System.out.println("Enter Supplier address: ");
                 address = sc.next();
-                if(!isValidString(address)){
+                if (!isValidString(address)) {
                     System.out.println("Invaild address !!");
                     address = null;
                 }
@@ -176,7 +176,7 @@ public class SupplierController {
             while (email == null || email.isEmpty()) {
                 System.out.println("Enter supplier email: ");
                 email = sc.next();
-                if(!isValidEmail(email)){
+                if (!isValidEmail(email)) {
                     System.out.println("Invaild Email !!");
                     email = null;
                 }
@@ -184,7 +184,7 @@ public class SupplierController {
             while (contact == null || contact.isEmpty()) {
                 System.out.println("Enter supplier contact: ");
                 contact = sc.next();
-                if(!isValidNumber(contact)){
+                if (!isValidNumber(contact)) {
                     System.out.println("Invaild contact !!");
                     contact = null;
                 }
@@ -192,7 +192,7 @@ public class SupplierController {
             while (description == null || description.isEmpty()) {
                 System.out.println("Enter suppliers product description");
                 description = sc.next();
-                if(!isValidString(description)){
+                if (!isValidString(description)) {
                     System.out.println("Invaild description !!");
                     description = null;
                 }

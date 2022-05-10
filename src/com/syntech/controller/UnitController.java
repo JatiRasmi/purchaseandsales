@@ -22,13 +22,14 @@ public class UnitController {
         this.unitRepository = unitRepository;
         Scanner sc = new Scanner(System.in);
         String choice;
-        System.out.println("Enter Unit Operations : ");
         do {
+            System.out.println("-------------------------Unit Operations------------------------- ");
             System.out.println("Enter 1 to create : ");
             System.out.println("Enter 2 to list : ");
             System.out.println("Enter 3 to delete : ");
             System.out.println("Enter 4 to edit : ");
             System.out.println("Enter 5 to exit: ");
+            System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
                 case "1":
@@ -56,6 +57,7 @@ public class UnitController {
         Long id = null;
         String name = null;
         Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
             System.out.println("Enter Unit id: ");
             id = sc.nextLong();
@@ -66,17 +68,21 @@ public class UnitController {
         }
         Unit unit = new Unit(id, name);
         unitRepository.create(unit);
-        System.out.println("Unit added successfully!!!");
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Operation completed successfully!!!");
     }
 
     public static void list() {
-        System.out.println("--------Unit list------------");
+        System.out.println("__________________________________________________________________________________________________________________");
+        System.out.println("   Unit List");
+        System.out.println("----------------");
         unitRepository.findAll().stream().forEach(x -> System.out.println(x));
-        System.out.println("-----------END--------------");
+        System.out.println("___________________________________________________________________________________________________________________");
     }
 
     public static void delete() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("-------------------------Delete Operation--------------------");
         System.out.println("Enter Unit Id: ");
         Long id = sc.nextLong();
         Unit unit = (Unit) unitRepository.findById(id);
@@ -84,7 +90,8 @@ public class UnitController {
             System.out.println("Unit ID " + id + " not found");
         } else {
             unitRepository.delete(unit);
-            System.out.println("Unit id " + id + " deleted succesfully!!");
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
             list();
         }
     }
@@ -93,6 +100,7 @@ public class UnitController {
         Long id = null;
         String unitname = null;
         Scanner sc = new Scanner(System.in);
+        System.out.println("-------------------------Edit Operation--------------------");
         System.out.println("Enter unit id to edit: ");
         id = sc.nextLong();
         Unit unit = (Unit) unitRepository.findById(id);
@@ -111,7 +119,8 @@ public class UnitController {
 
             Unit un = new Unit(id, unitname);
             unitRepository.edit(un);
-            System.out.println("Edited Successfully!");
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
             list();
         }
     }

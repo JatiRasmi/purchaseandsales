@@ -4,11 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/controller/ProductController.java</file>
-            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/controller/UnitController.java</file>
-            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/model/IEntity.java</file>
-            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/model/UEntity.java</file>
-            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/model/Customer.java</file>
-            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/model/Unit.java</file>
+            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/model/PurchaseOrderDetail.java</file>
+            <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/controller/PurchaseOrderDetailController.java</file>
             <file>file:/home/rasmi/NetBeansProjects/purchaseandsales/src/com/syntech/controller/MainController.java</file>
         </group>
     </open-files>

@@ -24,13 +24,15 @@ public class SupplierController {
         this.supplierRepository = supplierRepository;
         String choice;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Suppliers Operation");
         do {
+            
+            System.out.println("-----------------------Suppliers Operation-------------------------");
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list");
             System.out.println("Enter 3 to delete");
             System.out.println("Enter 4 to edit");
             System.out.println("Enter 5 to exit");
+            System.out.println("---------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
                 case "1":
@@ -62,6 +64,7 @@ public class SupplierController {
         String contact = null;
         String description = null;
         Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
             System.out.println("Enter supplier id :");
             String sid = sc.nextLine();
@@ -114,23 +117,27 @@ public class SupplierController {
         }
         Supplier supplier = new Supplier(id, name, address, email, contact, description);
         supplierRepository.create(supplier);
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Operation completed successfully!!!");
         list();
 
     }
 
     public static void list() {
-        System.out.println("Supplier's Info");
-        System.out.println("----------------");
+        System.out.println("__________________________________________________________________________________________________________________");
+        System.out.println("   Supplier's List");
+        System.out.println("-----------------------");
         supplierRepository
                 .findAll()
                 .stream()
                 .forEach(
                         n -> System.out.println(n)
                 );
-        System.out.println("____________________________________________________________________________");
+        System.out.println("___________________________________________________________________________________________________________________");
     }
 
     public static void delete() {
+        System.out.println("-------------------------Delete Operation--------------------");
         System.out.println("Enter suppliers id: ");
         Scanner sc = new Scanner(System.in);
         Long id = sc.nextLong();
@@ -139,6 +146,8 @@ public class SupplierController {
             System.out.println("Supplier id " + id + "not found");
         } else {
             supplierRepository.delete(supplier);
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
             list();
         }
     }
@@ -150,6 +159,7 @@ public class SupplierController {
         String email = null;
         String contact = null;
         String description = null;
+        System.out.println("-------------------------Edit Operation--------------------");
         System.out.println("Enter supplier's id:");
         Scanner sc = new Scanner(System.in);
         id = sc.nextLong();
@@ -200,6 +210,9 @@ public class SupplierController {
         }
         Supplier supply = new Supplier(id, name, address, email, contact, description);
         supplierRepository.edit(supply);
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println("Operation completed successfully!!!");
+
         list();
     }
 }

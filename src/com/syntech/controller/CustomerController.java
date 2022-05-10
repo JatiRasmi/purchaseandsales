@@ -24,15 +24,14 @@ public class CustomerController {
         this.customerRepository = customerRepository;
         Scanner sc = new Scanner(System.in);
         String choice;
-        System.out.println("*******************");
-        System.out.println("Customer Operation");
-        System.out.println("*******************");
         do {
+            System.out.println("------------------------Customer Operation-------------------------");
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list ");
             System.out.println("Enter 3 to delete");
             System.out.println("Enter 4 to edit");
             System.out.println("Enter 5 to Exit");
+            System.out.println("--------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
                 case "1":
@@ -64,6 +63,7 @@ public class CustomerController {
         String email = null;
         String contact = null;
         Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
             System.out.println("Enter customer id:");
             String cid = sc.next();
@@ -108,22 +108,22 @@ public class CustomerController {
         }
         Customer customer = new Customer(id, name, address, email, contact);
         customerRepository.create(customer);
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Operation completed successfully!!!");
         list();
     }
 
     public static void list() {
-        System.out.println("-----------------");
-        System.out.println("Customer's Info");
-        System.out.println("-----------------");
-        System.out.println();
-        System.out.println("*****************************************************************************");
+        System.out.println("__________________________________________________________________________________________________________________");
+        System.out.println("   Customer's List");
+        System.out.println("---------------------");
         customerRepository.findAll().stream().forEach(x -> System.out.println(x));
-        System.out.println("*****************************************************************************");
-        System.out.println();
+        System.out.println("___________________________________________________________________________________________________________________");
     }
 
     public static void delete() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Delete Operation-----------------------");
         System.out.println("Enter customer's Id: ");
         Long id = sc.nextLong();
         Customer customer = (Customer) customerRepository.findById(id);
@@ -131,7 +131,8 @@ public class CustomerController {
             System.out.println("Customer's ID " + id + " not found");
         } else {
             customerRepository.delete(customer);
-            System.out.println("Customer of id " + id + " deleted succesfully!!");
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
             list();
         }
     }
@@ -143,6 +144,7 @@ public class CustomerController {
         String email = null;
         String contact = null;
         Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Edit Operation-----------------------");
         System.out.println("Enter id of customer to edit: ");
         id = sc.nextLong();
         Customer customer = (Customer) customerRepository.findById(id);
@@ -185,7 +187,8 @@ public class CustomerController {
 
             Customer cust = new Customer(id, name, address, email, contact);
             customerRepository.edit(cust);
-            System.out.println("Edited Successfully!");
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
             list();
         }
     }

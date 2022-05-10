@@ -139,13 +139,13 @@ public class PurchaseOrderDetailController {
             vat = sc.nextLong();
             System.out.println("Vat (%) : \n" + vat);
         }
-        Long vats = calculation.calculateVat(sub, vat);
+        Long vats = calculation.calculateVat(subtotalafterdiscount , vat);
         System.out.println("VAT Amount : \n" + vats);
         
         Long total = calculation.calculateTotal(subtotalafterdiscount,vats);
         System.out.println("Total Amount : \n " + total);
         
-        PurchaseOrderDetail purchaseorderdetail = new PurchaseOrderDetail(id,purchaseorder,product,quantity,rate,sub,discount,subtotalafterdiscount,dis,vat,vats,total);
+        PurchaseOrderDetail purchaseorderdetail = new PurchaseOrderDetail(id,purchaseorder,product,quantity,rate,sub,discount,dis,subtotalafterdiscount,vat,vats,total);
         purchaseorderdetailRepository.create(purchaseorderdetail);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");

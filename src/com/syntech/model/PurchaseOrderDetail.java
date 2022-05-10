@@ -178,7 +178,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "\n Id = " + id + "\n ----Purchase Order-------  \t" + purchaseorder + "\n ---------Product----------  \t" + "--------------------"+ name + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount +"\t Discount Amount = " + discountamount +"\n subtotalafterdiscount = "+ subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
+        return "\n Id = " + id + "\n"+ "\n _____Purchase Order_______  \t" + purchaseorder + "\n _______Product_______  \t" + name + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount +"\t Discount Amount = " + discountamount +"\n subtotalafterdiscount = "+ subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
     }
     
 }

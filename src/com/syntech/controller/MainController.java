@@ -9,6 +9,7 @@ import com.syntech.repository.CustomerRepository;
 import com.syntech.repository.ProductRepository;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
+import com.syntech.repository.SalesOrderRepository;
 import com.syntech.repository.SupplierRepository;
 import com.syntech.repository.UnitRepository;
 import java.util.Scanner;
@@ -26,45 +27,53 @@ public class MainController {
         ProductController pc = new ProductController();
         PurchaseOrderController poc = new PurchaseOrderController();
         PurchaseOrderDetailController podc = new PurchaseOrderDetailController();
-
+        SalesOrderController soc = new SalesOrderController();
+            
         CustomerRepository customerRepository = new CustomerRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
         UnitRepository unitRepository = new UnitRepository();
         ProductRepository productRepository = new ProductRepository();
         PurchaseOrderRepository purchaseorderRepository = new PurchaseOrderRepository();
         PurchaseOrderDetailRepository purchaseorderdetailRepository = new PurchaseOrderDetailRepository();
+        SalesOrderRepository salesorderRepository = new SalesOrderRepository();
+        
         Scanner sc = new Scanner(System.in);
         String choice;
         do {
             System.out.println("------------------------Choose Operation for----------------------");
-            System.out.println("Enter 1 for customer");
-            System.out.println("Enter 2 for Supplier ");
-            System.out.println("Enter 3 for Unit ");
-            System.out.println("Enter 4 for Product");
-            System.out.println("Enter 5 for Purchase Order");
-            System.out.println("Enter 6 for Purchase Order Detail");
-            System.out.println("Enter 7 to Exit");
+            System.out.println("Enter 1 for Unit ");
+            System.out.println("Enter 2 for Product");
+            System.out.println("Enter 3 for Supplier ");
+            System.out.println("Enter 4 for Purchase Order");
+            System.out.println("Enter 5 for Purchase Order Detail");
+            System.out.println("Enter 6 for customer");
+            System.out.println("Enter 7 for Sales Order");
+            System.out.println("Enter 8 to Exit");
             System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
                 case "1":
-                    cc.customerOption(customerRepository);
-                    break;
-                case "2":
-                    sp.supplierOption(supplierRepository);
-                    break;
-                case "3":
                     uc.unitOption(unitRepository);
                     break;
-                case "4":
+                case "2":
                     pc.productOption(productRepository, unitRepository);
                     break;
-                case "5":
+                case "3":
+                    sp.supplierOption(supplierRepository);
+                    break;
+                case "4":
                     poc.purchaseorderOption(purchaseorderRepository, supplierRepository);
                     break;
-                case "6":
+                case "5":
                     podc.purchaseOrderDetailOption(purchaseorderdetailRepository, purchaseorderRepository, productRepository);
-                case "7":
+                    break;
+                case "6":
+                    cc.customerOption(customerRepository);
+                    break;
+                case "7" : 
+                    soc.salesorderOption(salesorderRepository, customerRepository);
+                    break;
+                case "8":
                     return;
                 default:
                     System.out.println("Invalid option");

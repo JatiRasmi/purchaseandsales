@@ -32,8 +32,8 @@ public class PurchaseOrderDetailController {
 
         Scanner sc = new Scanner(System.in);
         String choice;
-        System.out.println("---------------Purchase Order Detail Operation---------------------");
         do {
+            System.out.println("---------------Purchase Order Detail Operation---------------------");
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list");
             System.out.println("Enter 3 to delete");
@@ -57,10 +57,11 @@ public class PurchaseOrderDetailController {
                 case "5":
                     return;
                 default:
-                    System.out.print("Invalid Option");
+                    System.out.println("Invalid Option!!");
                     break;
             }
-        } while (!choice.equals(0));
+            System.out.println();
+        } while (!choice.equals("0"));
     }
 
     public static void create() {
@@ -247,8 +248,6 @@ public class PurchaseOrderDetailController {
                 }
                 purchaseorder = purchaseorderRepository.findById(purchaseId);
             }
-
-            System.out.println();
 
             System.out.println();
             List<Product> products = productRepository.findAll();

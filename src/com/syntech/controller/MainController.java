@@ -9,6 +9,7 @@ import com.syntech.repository.CustomerRepository;
 import com.syntech.repository.ProductRepository;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
+import com.syntech.repository.SalesOrderDetailRepository;
 import com.syntech.repository.SalesOrderRepository;
 import com.syntech.repository.SupplierRepository;
 import com.syntech.repository.UnitRepository;
@@ -28,6 +29,8 @@ public class MainController {
         PurchaseOrderController poc = new PurchaseOrderController();
         PurchaseOrderDetailController podc = new PurchaseOrderDetailController();
         SalesOrderController soc = new SalesOrderController();
+        SalesOrderDetailController sodc = new SalesOrderDetailController();
+        
             
         CustomerRepository customerRepository = new CustomerRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
@@ -36,6 +39,7 @@ public class MainController {
         PurchaseOrderRepository purchaseorderRepository = new PurchaseOrderRepository();
         PurchaseOrderDetailRepository purchaseorderdetailRepository = new PurchaseOrderDetailRepository();
         SalesOrderRepository salesorderRepository = new SalesOrderRepository();
+        SalesOrderDetailRepository salesorderdetailRepository = new SalesOrderDetailRepository();
         
         Scanner sc = new Scanner(System.in);
         String choice;
@@ -48,7 +52,8 @@ public class MainController {
             System.out.println("Enter 5 for Purchase Order Detail");
             System.out.println("Enter 6 for customer");
             System.out.println("Enter 7 for Sales Order");
-            System.out.println("Enter 8 to Exit");
+            System.out.println("Enter 8 for Sales Order Detail");
+            System.out.println("Enter 9 to Exit");
             System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
@@ -74,6 +79,9 @@ public class MainController {
                     soc.salesorderOption(salesorderRepository, customerRepository);
                     break;
                 case "8":
+                    sodc.salesOrderDetailOption(salesorderdetailRepository, salesorderRepository, productRepository);
+                    break;
+                case "9":
                     return;
                 default:
                     System.out.println("Invalid option");

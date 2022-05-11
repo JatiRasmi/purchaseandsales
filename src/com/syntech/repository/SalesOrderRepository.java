@@ -20,7 +20,5 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder>{
                     un.setDate(u.getDate());
                     un.setCustomer(u.getCustomer()); 
                 });
-    }
-
-    
+    }    
 }

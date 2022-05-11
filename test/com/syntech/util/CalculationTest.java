@@ -5,61 +5,70 @@
  */
 package com.syntech.util;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.util.Arrays;
+import java.util.Collection;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  *
  * @author rasmi
  */
+@RunWith(Parameterized.class)
 public class CalculationTest {
+
+    private Calculation calculation;
+    private Long rate;
+    private Long quantity;
+    private Long subtotal;
+    private Long discount;
+    private Long discountamount;
+    private Long subtotalafterdiscount;
+    private Long vat;
+    private Long vatamount;
+    private Long totalamount;
+    Long actual;
+
     
-    public CalculationTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+    public CalculationTest(Long rate, Long quantity, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
+        this.calculation = new Calculation();
+        this.quantity = quantity;
+        this.rate = rate;
+        this.subtotal = subtotal;
+        this.discount = discount;
+        this.discountamount = discountamount;
+        this.subtotalafterdiscount = subtotalafterdiscount;
+        this.vat = vat;
+        this.vatamount = vatamount;
+        this.totalamount = totalamount;
     }
 
-    /**
-     * Test of calculateSubtotal method, of class Calculation.
-     */
+    @Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+            {0L, 0L, 0L, 1L, 0L, 0L, 6L, 0L, 0L},  //obj 1
+            {10L, 50L, 500L, 10L, 50L, 450L, 10L, 45L, 495L},}); //obj 2
+//  rate,quantity,subtotal(expected),discount, discountamount(expected), subtotalafterdiscount(expected), vat, vatamount(expected),total(expected)
+    }
+
     @Test
     public void calculateSubtotal() {
-        System.out.println("calculateSubtotal");
-        Long rate = 100L;
-        Long quantity = 5L;
-	Long expected = 500L;
-	Long actual = (rate* quantity);  
-	assertEquals(expected,actual);
-	 }
+        System.out.println("Subtotal");
+        actual = calculation.calculateSubtotal(rate, quantity);
+        Assert.assertEquals(subtotal, actual);
+    }
+
     /**
      * Test of calculateDiscount method, of class Calculation.
      */
     @Test
     public void testCalculateDiscount() {
         System.out.println("calculateDiscount");
-        Long subtotal = 500L;
-        Long discount = 6L;
-        Long expected = 30L;
-        Long actual = (subtotal*discount)/100;
-        assertEquals(expected, actual);
+        actual = calculation.calculateDiscount(subtotal, discount);
+        Assert.assertEquals(discountamount, actual);
     }
 
     /**
@@ -68,11 +77,8 @@ public class CalculationTest {
     @Test
     public void testCalculateSubtotalAfterDiscount() {
         System.out.println("calculateSubtotalAfterDiscount");
-        Long subtotal = 500L;
-        Long discountAmount = 30L;
-        Long expected = 470L ;
-        Long actual = (subtotal-discountAmount);
-        assertEquals(expected,actual);
+        actual = calculation.calculateSubtotalAfterDiscount(subtotal, discountamount);
+        Assert.assertEquals(subtotalafterdiscount, actual);
     }
 
     /**
@@ -81,11 +87,8 @@ public class CalculationTest {
     @Test
     public void testCalculateVat() {
         System.out.println("calculateVat");
-        Long subtotalafterdiscount = 480L;
-        Long vat = 5L;
-        Long expected = 24L;
-        Long actual = (subtotalafterdiscount*vat)/100;
-        assertEquals(expected, actual);
+        actual = calculation.calculateVat(subtotalafterdiscount, vat);
+        Assert.assertEquals(vatamount, actual);
     }
 
     /**
@@ -94,11 +97,8 @@ public class CalculationTest {
     @Test
     public void testCalculateTotal() {
         System.out.println("calculateTotal");
-        Long subtotalafterdiscount = 480L;
-        Long vat = 24L;
-        Long expected = 504L;
-        Long actual = (subtotalafterdiscount+vat);
-        assertEquals(expected,actual);
+        actual = calculation.calculateTotal(subtotalafterdiscount,vatamount);
+        Assert.assertEquals(totalamount,actual);
     }
     
 }

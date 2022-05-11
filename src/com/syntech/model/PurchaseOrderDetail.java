@@ -12,9 +12,10 @@ import java.util.Objects;
  * @author rasmi
  */
 public class PurchaseOrderDetail implements IEntity {
+
     private Long id;
     private PurchaseOrder purchaseorder;
-    private Product name;
+    private Product product;
     private Long quantity;
     private Long rate;
     private Long subtotal;
@@ -26,14 +27,13 @@ public class PurchaseOrderDetail implements IEntity {
     private Long totalamount;
 
     public PurchaseOrderDetail() {
-        
-    }
-    
 
-    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseorder, Product name, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount,Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
+    }
+
+    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseorder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
         this.id = id;
         this.purchaseorder = purchaseorder;
-        this.name = name;
+        this.product = product;
         this.quantity = quantity;
         this.rate = rate;
         this.subtotal = subtotal;
@@ -54,10 +54,9 @@ public class PurchaseOrderDetail implements IEntity {
         return purchaseorder;
     }
 
-    public Product getName() {
-        return name;
+    public Product getProduct() {
+        return product;
     }
-
 
     public Long getQuantity() {
         return quantity;
@@ -92,10 +91,9 @@ public class PurchaseOrderDetail implements IEntity {
         this.purchaseorder = purchaseorder;
     }
 
-    public void setName(Product name) {
-        this.name = name;
+    public void setProduct(Product product) {
+        this.product = product;
     }
-
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
@@ -126,7 +124,7 @@ public class PurchaseOrderDetail implements IEntity {
         int hash = 5;
         hash = 89 * hash + Objects.hashCode(this.id);
         hash = 89 * hash + Objects.hashCode(this.purchaseorder);
-        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.product);
 //        hash = 89 * hash + Objects.hashCode(this.unit);
         hash = 89 * hash + Objects.hashCode(this.quantity);
         hash = 89 * hash + Objects.hashCode(this.rate);
@@ -152,7 +150,7 @@ public class PurchaseOrderDetail implements IEntity {
         if (!Objects.equals(this.purchaseorder, other.purchaseorder)) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.product, other.product)) {
             return false;
         }
         if (!Objects.equals(this.quantity, other.quantity)) {
@@ -178,7 +176,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "\n Id = " + id + "\n"+ "\n _____Purchase Order_______  \t" + purchaseorder + "\n _______Product_______  \t" + name + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount +"\t Discount Amount = " + discountamount +"\n subtotalafterdiscount = "+ subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
+        return "\n Id = " + id + "\n" + "\n _____Purchase Order_______  \t" + purchaseorder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountamount + "\n subtotalafterdiscount = " + subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
     }
-    
+
 }

@@ -18,7 +18,7 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
                 .filter(n -> n.getId().equals(u.getId()))
                 .forEach((PurchaseOrderDetail un) -> {
                     un.setPurchaseorder(u.getPurchaseorder());
-                    un.setName(u.getName());
+                    un.setProduct(u.getProduct());
                     un.setQuantity(u.getQuantity());
                     un.setRate(u.getRate());
                     un.setSubtotal(u.getSubtotal());

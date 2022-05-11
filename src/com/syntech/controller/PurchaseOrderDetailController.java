@@ -20,19 +20,20 @@ import java.util.Scanner;
  * @author rasmi
  */
 public class PurchaseOrderDetailController {
+
     private static PurchaseOrderDetailRepository purchaseorderdetailRepository;
     private static PurchaseOrderRepository purchaseorderRepository;
     private static ProductRepository productRepository;
-    
-    public void purchaseOrderDetailOption(PurchaseOrderDetailRepository purchaseorderdetailRepository, PurchaseOrderRepository purchaseorderRepository, ProductRepository productRepository){
+
+    public void purchaseOrderDetailOption(PurchaseOrderDetailRepository purchaseorderdetailRepository, PurchaseOrderRepository purchaseorderRepository, ProductRepository productRepository) {
         this.purchaseorderdetailRepository = purchaseorderdetailRepository;
         this.purchaseorderRepository = purchaseorderRepository;
         this.productRepository = productRepository;
-              
+
         Scanner sc = new Scanner(System.in);
         String choice;
         System.out.println("---------------Purchase Order Detail Operation---------------------");
-        do{
+        do {
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list");
             System.out.println("Enter 3 to delete");
@@ -40,18 +41,18 @@ public class PurchaseOrderDetailController {
             System.out.println("Enter 5 to exit");
             System.out.println("--------------------------------------------------------------------");
             choice = sc.next();
-            switch(choice){
-                case "1" : 
+            switch (choice) {
+                case "1":
                     create();
                     break;
-                case "2" :
+                case "2":
                     list();
                     break;
                 case "3":
-//                    delete();
+                    delete();
                     break;
-                case "4" : 
-//                    edit();
+                case "4":
+                    edit();
                     break;
                 case "5":
                     return;
@@ -59,104 +60,219 @@ public class PurchaseOrderDetailController {
                     System.out.print("Invalid Option");
                     break;
             }
-        }while(!choice.equals(0));
+        } while (!choice.equals(0));
     }
-        
-    public static void create(){
+
+    public static void create() {
         Long id = null;
         PurchaseOrder purchaseorder = null;
         Product product = null;
         Long quantity = null;
         Long rate = null;
-        Long subtotal= null;
+        Long subtotal = null;
         Long discount = null;
         Long vat = null;
         Long totalamount = null;
-        
+
         Calculation calculation = new Calculation();
         Scanner sc = new Scanner(System.in);
-        while(id == null){
+        while (id == null) {
             System.out.println("Enter Purchase Order Detail Id : ");
             id = sc.nextLong();
         }
-        System.out.println();
-        List<PurchaseOrder> purchaseOrder = purchaseorderRepository.findAll();
-        while(purchaseorder == null){
-            System.out.println("_________Purchase Order List________ ");
-            System.out.println(purchaseOrder);
-            
-            Long purchaseId = null;
-            while(purchaseId == null){
-                System.out.println("Enter Id of Purchase Order from list");
-                purchaseId = sc.nextLong();
-            }
-            purchaseorder = purchaseorderRepository.findById(id);
-        }
-        
-        
-        System.out.println();
-        
-        System.out.println();
-        List<Product> products = productRepository.findAll();
-        while(product == null){
-            System.out.println("_________Product List________");
-            System.out.println(products);
-            
-            Long productId = null;
-            while(productId == null){
-                System.out.println("Enter Id of product from the list");
-                productId = sc.nextLong();
-            }
-            product = productRepository.findById(id);
-        }
-        
-        System.out.println();
-        while(quantity == null){
+        while (quantity == null) {
             System.out.println("Enter Quantity : ");
             quantity = sc.nextLong();
         }
-        while(rate == null){
+        while (rate == null) {
             System.out.println("Enter Rate : ");
             rate = sc.nextLong();
         }
-        
+
         Long sub = calculation.calculateSubtotal(rate, quantity);
-        System.out.println("Sub Total \n " +sub );
-        
-        while(discount == null){
+        System.out.println("Sub Total \n " + sub);
+
+        while (discount == null) {
             System.out.println("Enter discount (%) : ");
             discount = sc.nextLong();
             System.out.println("Discount (%) : \n" + discount);
         }
         Long dis = calculation.calculateDiscount(sub, discount);
         System.out.println("Discount Amount : \n " + dis);
-        
-        Long subtotalafterdiscount = calculation.calculateSubtotalAfterDiscount(sub,dis);
-        System.out.println("Sub Total After Discount : \n" + subtotalafterdiscount );
-       
-        while(vat == null){
+
+        Long subtotalafterdiscount = calculation.calculateSubtotalAfterDiscount(sub, dis);
+        System.out.println("Sub Total After Discount : \n" + subtotalafterdiscount);
+
+        while (vat == null) {
             System.out.println("Enter VAT (%) : ");
             vat = sc.nextLong();
             System.out.println("Vat (%) : \n" + vat);
         }
-        Long vats = calculation.calculateVat(subtotalafterdiscount , vat);
+        Long vats = calculation.calculateVat(subtotalafterdiscount, vat);
         System.out.println("VAT Amount : \n" + vats);
-        
-        Long total = calculation.calculateTotal(subtotalafterdiscount,vats);
+
+        Long total = calculation.calculateTotal(subtotalafterdiscount, vats);
         System.out.println("Total Amount : \n " + total);
-        
-        PurchaseOrderDetail purchaseorderdetail = new PurchaseOrderDetail(id,purchaseorder,product,quantity,rate,sub,discount,dis,subtotalafterdiscount,vat,vats,total);
+
+        System.out.println();
+        List<PurchaseOrder> purchaseOrder = purchaseorderRepository.findAll();
+        while (purchaseorder == null) {
+            System.out.println("_________Purchase Order List________ ");
+            System.out.println(purchaseOrder);
+
+            Long purchaseId = null;
+            while (purchaseId == null) {
+                System.out.println("Enter Id of Purchase Order from list");
+                purchaseId = sc.nextLong();
+            }
+            purchaseorder = purchaseorderRepository.findById(purchaseId);
+        }
+
+        System.out.println();
+
+        System.out.println();
+        List<Product> products = productRepository.findAll();
+        while (product == null) {
+            System.out.println("_________Product List________");
+            System.out.println(products);
+
+            Long productId = null;
+            while (productId == null) {
+                System.out.println("Enter Id of product from the list");
+                productId = sc.nextLong();
+            }
+            product = productRepository.findById(productId);
+        }
+
+        System.out.println();
+
+        PurchaseOrderDetail purchaseorderdetail = new PurchaseOrderDetail(id, purchaseorder, product, quantity, rate, sub, discount, dis, subtotalafterdiscount, vat, vats, total);
         purchaseorderdetailRepository.create(purchaseorderdetail);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
         list();
     }
-    
+
     public static void list() {
         System.out.println("__________________________________________________________________________________________________________________");
         System.out.println("   Purchase Order Detail List");
         System.out.println("----------------------------------");
-        purchaseorderdetailRepository.findAll().forEach(x -> System.out.println(x +" \n \t"));
+        purchaseorderdetailRepository.findAll().forEach(x -> System.out.println(x + " \n \t"));
         System.out.println("___________________________________________________________________________________________________________________");
     }
+
+    public static void delete() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Delete Operation-----------------------");
+        System.out.println("Enter Purchase Order Detail Id: ");
+        Long id = sc.nextLong();
+        PurchaseOrderDetail purchaseorderDetail = (PurchaseOrderDetail) purchaseorderdetailRepository.findById(id);
+        if (purchaseorderDetail == null) {
+            System.out.println("Purchase order detail id " + id + "not found");
+        } else {
+            purchaseorderdetailRepository.delete(purchaseorderDetail);
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
+            list();
+
+        }
+    }
+
+    public static void edit() {
+        Long id = null;
+        PurchaseOrder purchaseorder = null;
+        Product product = null;
+        Long quantity = null;
+        Long rate = null;
+        Long subtotal = null;
+        Long discount = null;
+        Long vat = null;
+        Long totalamount = null;
+
+        Calculation calculation = new Calculation();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("------------------Edit Operation-----------------------");
+        System.out.println("Enter purchase order detail id to edit: ");
+        id = sc.nextLong();
+        PurchaseOrderDetail purchaseorderDetail = (PurchaseOrderDetail) purchaseorderdetailRepository.findById(id);
+        if (purchaseorderDetail == null) {
+            System.out.println("Purchase order detail id: " + id + " not found");
+
+        } else {
+
+            while (quantity == null) {
+                System.out.println("Enter Quantity : ");
+                quantity = sc.nextLong();
+            }
+            while (rate == null) {
+                System.out.println("Enter Rate : ");
+                rate = sc.nextLong();
+            }
+
+            Long sub = calculation.calculateSubtotal(rate, quantity);
+            System.out.println("Sub Total \n " + sub);
+
+            while (discount == null) {
+                System.out.println("Enter discount (%) : ");
+                discount = sc.nextLong();
+                System.out.println("Discount (%) : \n" + discount);
+            }
+            Long dis = calculation.calculateDiscount(sub, discount);
+            System.out.println("Discount Amount : \n " + dis);
+
+            Long subtotalafterdiscount = calculation.calculateSubtotalAfterDiscount(sub, dis);
+            System.out.println("Sub Total After Discount : \n" + subtotalafterdiscount);
+
+            while (vat == null) {
+                System.out.println("Enter VAT (%) : ");
+                vat = sc.nextLong();
+                System.out.println("Vat (%) : \n" + vat);
+            }
+            Long vats = calculation.calculateVat(subtotalafterdiscount, vat);
+            System.out.println("VAT Amount : \n" + vats);
+
+            Long total = calculation.calculateTotal(subtotalafterdiscount, vats);
+            System.out.println("Total Amount : \n " + total);
+
+            System.out.println();
+            List<PurchaseOrder> purchaseOrder = purchaseorderRepository.findAll();
+            while (purchaseorder == null) {
+                System.out.println("_________Purchase Order List________ ");
+                System.out.println(purchaseOrder);
+
+                Long purchaseId = null;
+                while (purchaseId == null) {
+                    System.out.println("Enter Id of Purchase Order from list");
+                    purchaseId = sc.nextLong();
+                }
+                purchaseorder = purchaseorderRepository.findById(purchaseId);
+            }
+
+            System.out.println();
+
+            System.out.println();
+            List<Product> products = productRepository.findAll();
+            while (product == null) {
+                System.out.println("_________Product List________");
+                System.out.println(products);
+
+                Long productId = null;
+                while (productId == null) {
+                    System.out.println("Enter Id of product from the list");
+                    productId = sc.nextLong();
+                }
+                product = productRepository.findById(productId);
+            }
+
+            PurchaseOrderDetail purchaseorderdetail = new PurchaseOrderDetail(id, purchaseorder, product, quantity, rate, sub, discount, dis, subtotalafterdiscount, vat, vats, total);
+            purchaseorderdetailRepository.edit(purchaseorderdetail);
+            purchaseorderdetail.setPurchaseorder(purchaseorder);
+            purchaseorderdetail.setProduct(product);
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
+            list();
+
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ import java.util.Scanner;
  * @author rasmi
  */
 public class PurchaseOrderController {
+
     private static PurchaseOrderRepository purchaseorderRepository;
     private static SupplierRepository supplierRepository;
 
@@ -78,7 +79,6 @@ public class PurchaseOrderController {
             expecteddeliverydate = sc.next();
         }
 
-        
         List<Supplier> suppliers = supplierRepository.findAll();
         while (supplier == null) {
             System.out.println("_________Supplier List___________ : ");
@@ -107,6 +107,7 @@ public class PurchaseOrderController {
         purchaseorderRepository.findAll().forEach(x -> System.out.println(x));
         System.out.println("___________________________________________________________________________________________________________________");
     }
+
     public static void delete() {
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Delete Operation-----------------------");
@@ -122,6 +123,7 @@ public class PurchaseOrderController {
             list();
         }
     }
+
     public static void edit() {
         Long id = null;
         Supplier supplier = null;
@@ -144,7 +146,6 @@ public class PurchaseOrderController {
             while (expecteddeliverydate == null || expecteddeliverydate.isEmpty()) {
                 System.out.println("Enter expected delivery date: ");
                 expecteddeliverydate = sc.next();
-                
 
             }
             while (supplier == null) {
@@ -169,7 +170,4 @@ public class PurchaseOrderController {
         }
     }
 
-
 }
-
-

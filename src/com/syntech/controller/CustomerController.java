@@ -69,7 +69,7 @@ public class CustomerController {
             String cid = sc.next();
             try {
                 id = Long.parseLong(cid);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Error");
                 id = null;
             }

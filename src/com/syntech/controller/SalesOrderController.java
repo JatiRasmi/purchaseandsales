@@ -9,6 +9,7 @@ import com.syntech.model.Customer;
 import com.syntech.model.SalesOrder;
 import com.syntech.repository.CustomerRepository;
 import com.syntech.repository.SalesOrderRepository;
+import static com.syntech.util.Validator.isValidString;
 import java.util.List;
 import java.util.Scanner;
 
@@ -67,8 +68,14 @@ public class SalesOrderController {
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
-            System.out.println("Enter Sales id: ");
-            id = sc.nextLong();
+            System.out.println("Enter sales id:");
+            String sid = sc.next();
+            try {
+                id = Long.parseLong(sid);
+            } catch (NumberFormatException e) {
+                System.out.println("Error");
+                id = null;
+            }
         }
         while (date == null || date.isEmpty()) {
             System.out.println("Enter date: ");

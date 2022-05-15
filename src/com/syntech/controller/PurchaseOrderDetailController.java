@@ -78,8 +78,14 @@ public class PurchaseOrderDetailController {
         Calculation calculation = new Calculation();
         Scanner sc = new Scanner(System.in);
         while (id == null) {
-            System.out.println("Enter Purchase Order Detail Id : ");
-            id = sc.nextLong();
+            System.out.println("Enter purchase order detail id:");
+            String pid = sc.next();
+            try {
+                id = Long.parseLong(pid);
+            } catch (NumberFormatException e) {
+                System.out.println("Error");
+                id = null;
+            }
         }
         while (quantity == null) {
             System.out.println("Enter Quantity : ");

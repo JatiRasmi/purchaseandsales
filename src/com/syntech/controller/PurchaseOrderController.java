@@ -7,6 +7,7 @@ package com.syntech.controller;
 
 import com.syntech.model.PurchaseOrder;
 import com.syntech.model.Supplier;
+import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SupplierRepository;
 import java.util.List;
@@ -20,10 +21,12 @@ public class PurchaseOrderController {
 
     private static PurchaseOrderRepository purchaseorderRepository;
     private static SupplierRepository supplierRepository;
+    private static PurchaseOrderDetailRepository purchaseorderdetailRepository;
 
-    public void purchaseorderOption(PurchaseOrderRepository purchaseorderRepository, SupplierRepository supplierRepository) {
+    public void purchaseorderOption(PurchaseOrderRepository purchaseorderRepository, SupplierRepository supplierRepository, PurchaseOrderDetailRepository purchaseorderdetailRepository) {
         this.purchaseorderRepository = purchaseorderRepository;
         this.supplierRepository = supplierRepository;
+        this.purchaseorderdetailRepository = purchaseorderdetailRepository;
 
         Scanner sc = new Scanner(System.in);
         String choice;
@@ -33,7 +36,8 @@ public class PurchaseOrderController {
             System.out.println("Enter 2 to list: ");
             System.out.println("Enter 3 to delete");
             System.out.println("Enter 4 to edit");
-            System.out.println("Enter 5 to exit");
+            System.out.println("Enter 5 to list detail of purchase order");
+            System.out.println("Enter 6 to exit");
             System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
@@ -50,6 +54,9 @@ public class PurchaseOrderController {
                     edit();
                     break;
                 case "5":
+                    listAll();
+                    break;
+                case "6":
                     return;
                 default:
                     System.out.println("Invalid Option!!");
@@ -67,8 +74,14 @@ public class PurchaseOrderController {
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
-            System.out.println("Enter Purchase id: ");
-            id = sc.nextLong();
+            System.out.println("Enter purchase id:");
+            String pid = sc.next();
+            try {
+                id = Long.parseLong(pid);
+            } catch (NumberFormatException e) {
+                System.out.println("Error");
+                id = null;
+            }
         }
         while (date == null || date.isEmpty()) {
             System.out.println("Enter date: ");
@@ -170,4 +183,7 @@ public class PurchaseOrderController {
         }
     }
 
+    public static void listAll() {
+        purchaseorderdetailRepository.findAll().forEach(x -> System.out.println(x));
+    }
 }

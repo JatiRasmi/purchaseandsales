@@ -25,7 +25,7 @@ public class SupplierController {
         String choice;
         Scanner sc = new Scanner(System.in);
         do {
-            
+
             System.out.println("-----------------------Suppliers Operation-------------------------");
             System.out.println("Enter 1 to create");
             System.out.println("Enter 2 to list");
@@ -70,7 +70,7 @@ public class SupplierController {
             String sid = sc.nextLine();
             try {
                 id = Long.parseLong(sid);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Error");
                 id = null;
             }

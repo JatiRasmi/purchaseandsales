@@ -67,7 +67,7 @@ public class MainController {
                     sp.supplierOption(supplierRepository);
                     break;
                 case "4":
-                    poc.purchaseorderOption(purchaseorderRepository, supplierRepository);
+                    poc.purchaseorderOption(purchaseorderRepository, supplierRepository, purchaseorderdetailRepository);
                     break;
                 case "5":
                     podc.purchaseOrderDetailOption(purchaseorderdetailRepository, purchaseorderRepository, productRepository);

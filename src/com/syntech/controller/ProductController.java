@@ -68,19 +68,32 @@ public class ProductController {
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
         while (id == null) {
-            System.out.println("Enter Product id: ");
-            id = sc.nextLong();
+            System.out.println("Enter Product id:");
+            String pid = sc.next();
+            try {
+                id = Long.parseLong(pid);
+            } catch (NumberFormatException e) {
+                System.out.println("Error");
+                id = null;
+            }
         }
         while (name == null || name.isEmpty()) {
             System.out.println("Enter Product name: ");
             name = sc.next();
+            if (!isValidString(name)) {
+                System.out.println("Invaild Product Name !!");
+                name = null;
+            }
         }
         while (description == null || description.isEmpty()) {
             System.out.println("Enter product description : ");
             description = sc.next();
+            if (!isValidString(description)) {
+                System.out.println("Invaild product description !!");
+                description = null;
+            }
         }
 
-        
         List<Unit> units = unitRepository.findAll();
         while (unit == null) {
 //           display unit list
@@ -175,9 +188,9 @@ public class ProductController {
             Product prod = new Product(id, unit, name, description);
             productRepository.edit(prod);
             product.setUnitid(unit);
-                System.out.println("------------------------------------------------------------");
-                System.out.println("Operation completed successfully!!!");
-                list();
+            System.out.println("------------------------------------------------------------");
+            System.out.println("Operation completed successfully!!!");
+            list();
         }
     }
 }

@@ -8,8 +8,8 @@ package com.syntech.controller;
 import com.syntech.model.Customer;
 import com.syntech.model.SalesOrder;
 import com.syntech.repository.CustomerRepository;
+import com.syntech.repository.SalesOrderDetailRepository;
 import com.syntech.repository.SalesOrderRepository;
-import static com.syntech.util.Validator.isValidString;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,10 +21,12 @@ public class SalesOrderController {
 
     private static SalesOrderRepository salesorderRepository;
     private static CustomerRepository customerRepository;
+    private static SalesOrderDetailRepository salesorderdetailRepository;
 
-    public void salesorderOption(SalesOrderRepository salesorderRepository, CustomerRepository customerRepository) {
+    public void salesorderOption(SalesOrderRepository salesorderRepository, CustomerRepository customerRepository,SalesOrderDetailRepository salesorderdetailRepository) {
         this.salesorderRepository = salesorderRepository;
         this.customerRepository = customerRepository;
+        this.salesorderdetailRepository = salesorderdetailRepository;
 
         Scanner sc = new Scanner(System.in);
         String choice;
@@ -34,7 +36,8 @@ public class SalesOrderController {
             System.out.println("Enter 2 to list: ");
             System.out.println("Enter 3 to delete");
             System.out.println("Enter 4 to edit");
-            System.out.println("Enter 5 to exit");
+            System.out.println("Enter 5 to list detail of sales order");
+            System.out.println("Enter 6 to exit");
             System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
@@ -50,7 +53,9 @@ public class SalesOrderController {
                 case "4":
                     edit();
                     break;
-                case "5":
+                case "5" :
+                    listAll();
+                case "6":
                     return;
                 default:
                     System.out.print("Invalid Option");
@@ -165,6 +170,9 @@ public class SalesOrderController {
             System.out.println("Operation completed successfully!!!");
             list();
         }
+    }
+    public static void listAll() {
+        salesorderdetailRepository.findAll().forEach(x -> System.out.println(x));
     }
 
 }

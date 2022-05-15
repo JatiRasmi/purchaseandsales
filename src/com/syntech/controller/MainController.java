@@ -76,7 +76,7 @@ public class MainController {
                     cc.customerOption(customerRepository);
                     break;
                 case "7" : 
-                    soc.salesorderOption(salesorderRepository, customerRepository);
+                    soc.salesorderOption(salesorderRepository, customerRepository,salesorderdetailRepository);
                     break;
                 case "8":
                     sodc.salesOrderDetailOption(salesorderdetailRepository, salesorderRepository, productRepository);

@@ -80,6 +80,7 @@ public class UnitController {
         unitRepository.create(unit);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
+        list();
     }
 
     public static void list() {
@@ -102,7 +103,7 @@ public class UnitController {
             unitRepository.delete(unit);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
-            list();
+//            list();
         }
     }
 

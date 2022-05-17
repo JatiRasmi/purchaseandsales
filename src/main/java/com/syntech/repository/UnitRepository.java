@@ -101,7 +101,19 @@ public class UnitRepository extends AbstractRepository<Unit> {
      * @param u
      */
     @Override
-    public void edit(Unit u){
+    public void edit(Unit u) {
+        try {
+            Connection con = connectDB();
+            String edit = "update unit set name = ? where id = ?";
+            PreparedStatement stmt = con.prepareStatement(edit);
+            stmt.setString(1, u.getName());
+            stmt.setLong(2,u.getId());
+            int i = stmt.executeUpdate();
+            System.out.println(i + " Update for unit successfull!!");
+        } catch (SQLException e) {
+            System.out.println("Edit for unit failed!!!");
+        }
+
 //        super.findAll().stream()
 //                    .filter(n -> n.getId().equals(u.getId()))
 //                    .forEach((Unit un) -> {

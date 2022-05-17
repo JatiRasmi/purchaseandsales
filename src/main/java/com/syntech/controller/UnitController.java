@@ -103,7 +103,7 @@ public class UnitController {
             unitRepository.delete(unit);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
-//            list();
+            list();
         }
     }
 

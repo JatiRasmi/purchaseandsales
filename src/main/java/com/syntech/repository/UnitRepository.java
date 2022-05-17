@@ -19,19 +19,22 @@ import java.util.List;
  */
 public class UnitRepository extends AbstractRepository<Unit> {
 
+    Connection con = connectDB();
+    PreparedStatement stmt;
+    ResultSet rs;
+
     @Override
     public void create(Unit u) {
 
         try {
-            Connection con = connectDB();
             String insert = "insert into unit(name) value(?)";
-            PreparedStatement stmt = con.prepareStatement(insert);
+            stmt = con.prepareStatement(insert);
             stmt.setString(1, u.getName());
             int i = stmt.executeUpdate();
-            System.out.println(i + " Insertion for unit successfull!!");
+            System.out.println(i + " Inserted successfull!!");
 
         } catch (SQLException e) {
-            System.out.println("Insertion for unit failed!!!");
+            System.out.println("Insertion failed!!!");
         }
     }
 
@@ -43,16 +46,16 @@ public class UnitRepository extends AbstractRepository<Unit> {
     public List<Unit> findAll() {
         List<Unit> list = new ArrayList<>();
         try {
-            Connection con = connectDB();
+//            Connection con = connectDB();
             String query = "select *from unit";
-            PreparedStatement stmt = con.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
+            stmt = con.prepareStatement(query);
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 Unit unit = new Unit(rs.getLong(1), rs.getString(2));
                 list.add(unit);
             }
         } catch (SQLException e) {
-            System.out.println("Unit display failed!!!");
+            System.out.println("Record Display failed!!!");
         }
         return list;
     }
@@ -66,17 +69,16 @@ public class UnitRepository extends AbstractRepository<Unit> {
     public Unit findById(Long id) {
         Unit unit = new Unit();
         try {
-            Connection con = connectDB();
+//            Connection con = connectDB();
             String query = "select *from unit where id = ?";
-            PreparedStatement stmt = con.prepareStatement(query);
+            stmt = con.prepareStatement(query);
             stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 unit = new Unit(rs.getLong(1), rs.getString(2));
-
             }
         } catch (SQLException e) {
-            System.out.println("Unit display failed!!!");
+            System.out.println("Record Display failed!!!");
         }
         return unit;
     }
@@ -85,14 +87,14 @@ public class UnitRepository extends AbstractRepository<Unit> {
 
     public void delete(Unit u) {
         try {
-            Connection con = connectDB();
+//            Connection con = connectDB();
             String delete = "delete from unit where id = ?";
-            PreparedStatement stmt = con.prepareStatement(delete);
+            stmt = con.prepareStatement(delete);
             stmt.setLong(1, u.getId());
             int i = stmt.executeUpdate();
-            System.out.println(i + " Deletion for unit successfull!!");
+            System.out.println(i + " Deleted successfull!!");
         } catch (SQLException e) {
-            System.out.println("Deletion for unit failed!!!");
+            System.out.println("Deletion failed!!!");
         }
     }
 
@@ -103,22 +105,16 @@ public class UnitRepository extends AbstractRepository<Unit> {
     @Override
     public void edit(Unit u) {
         try {
-            Connection con = connectDB();
+//            Connection con = connectDB();
             String edit = "update unit set name = ? where id = ?";
-            PreparedStatement stmt = con.prepareStatement(edit);
+            stmt = con.prepareStatement(edit);
             stmt.setString(1, u.getName());
-            stmt.setLong(2,u.getId());
+            stmt.setLong(2, u.getId());
             int i = stmt.executeUpdate();
-            System.out.println(i + " Update for unit successfull!!");
+            System.out.println(i + " Updated successfull!!");
         } catch (SQLException e) {
-            System.out.println("Edit for unit failed!!!");
+            System.out.println("Edition failed!!!");
         }
-
-//        super.findAll().stream()
-//                    .filter(n -> n.getId().equals(u.getId()))
-//                    .forEach((Unit un) -> {
-//                        un.setName(u.getName());
-//                    });
     }
 
 }

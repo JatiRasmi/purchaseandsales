@@ -8,6 +8,7 @@ package com.syntech.repository;
 import com.syntech.model.IEntity;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +25,14 @@ public abstract class AbstractRepository<T extends IEntity> {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/purchaseandsales", "root", "toor");
+            System.out.println("Connected Successfully!!!!!!!");
             return con;
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Connection failed!!");
         }
         return null;
     }
-
     public AbstractRepository() {
-
         list = new ArrayList();
     }
 

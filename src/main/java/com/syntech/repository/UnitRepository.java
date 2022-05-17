@@ -32,6 +32,26 @@ public class UnitRepository extends AbstractRepository<Unit> {
         }
     }
 
+    /**
+     *
+     * @param u
+     */
+    @Override
+    public void delete(Unit u) {
+        try {
+            Connection con = connectDB();
+            String delete = "delete from unit where id = ?";
+            PreparedStatement stmt = con.prepareStatement(delete);
+            stmt.setLong(1, u.getId());
+            int i = stmt.executeUpdate();
+            System.out.println(i + " Deletion for unit successfull!!");
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println("Deletion for unit failed!!!");
+        }
+    }
+
     @Override
     public void edit(Unit u) {
 //        super.findAll().stream()

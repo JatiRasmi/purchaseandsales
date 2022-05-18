@@ -24,7 +24,7 @@ public class ProductRepository extends AbstractRepository<Product> {
         try {
             String insert = "insert into product (unit_id,name,productdescription) values(?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
-            stmt.setLong(1, p.getUnitid().getId());
+            stmt.setLong(1, p.getUnit().getId());
             stmt.setString(2, p.getName());
             stmt.setString(3, p.getDescription());
             int i = stmt.executeUpdate();
@@ -90,7 +90,7 @@ public class ProductRepository extends AbstractRepository<Product> {
         try {
             String edit = "update product set unit_id = ?, name =? , productdescription = ? where id =?";
             PreparedStatement stmt = connectDB().prepareStatement(edit);
-            stmt.setLong(1, p.getUnitid().getId());
+            stmt.setLong(1, p.getUnit().getId());
             stmt.setString(2, p.getName());
             stmt.setString(3, p.getDescription());
             stmt.setLong(4, p.getId());

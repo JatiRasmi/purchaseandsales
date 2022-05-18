@@ -11,17 +11,21 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class PurchaseOrder implements IEntity{
+public class PurchaseOrder implements IEntity {
+
     private Long id;
     private Supplier supplierid;
     private String date;
     private String expecteddeliverydate;
 
     public PurchaseOrder() {
-    
+
     }
 
-    
+    public PurchaseOrder(Long id) {
+        this.id = id;
+    }
+
     public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate) {
         this.id = id;
         this.supplierid = supplierid;
@@ -75,7 +79,7 @@ public class PurchaseOrder implements IEntity{
 
     @Override
     public final boolean equals(Object obj) {
-        
+
         if (obj == null) {
             return false;
         }
@@ -102,6 +106,5 @@ public class PurchaseOrder implements IEntity{
     public String toString() {
         return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate;
     }
-    
-    
+
 }

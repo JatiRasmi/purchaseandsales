@@ -73,9 +73,17 @@ public class PurchaseOrderDetail implements IEntity {
     public Long getDiscount() {
         return discount;
     }
-
+    public Long getDiscountamount(){
+        return discountamount;
+    }
+    public Long getSubtotalAfterDiscount() {
+        return subtotalafterdiscount;
+    }
     public Long getVat() {
         return vat;
+    }
+    public Long getVatamount() {
+        return vatamount;
     }
 
     public Long getTotalamount() {

@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Product implements IEntity {
 
     private Long id;
-    private Unit unitid;
+    private Unit unit;
     private String name;
     private String description;
 
@@ -22,9 +22,14 @@ public class Product implements IEntity {
 
     }
 
+    public Product(Long id) {
+        this.id = id;
+    }
+
+
     public Product(Long id, Unit unitid, String name, String description) {
         this.id = id;
-        this.unitid = unitid;
+        this.unit = unitid;
         this.name = name;
         this.description = description;
     }
@@ -38,8 +43,8 @@ public class Product implements IEntity {
      *
      * @return
      */
-    public Unit getUnitid() {
-        return unitid;
+    public Unit getUnit() {
+        return unit;
     }
 
     public String getName() {
@@ -55,8 +60,8 @@ public class Product implements IEntity {
         this.id = id;
     }
 
-    public void setUnitid(Unit unitid) {
-        this.unitid = unitid;
+    public void setUnit(Unit unitid) {
+        this.unit = unitid;
     }
 
     public void setName(String name) {
@@ -67,12 +72,11 @@ public class Product implements IEntity {
         this.description = description;
     }
 
-    
     @Override
     public final int hashCode() {
         int hash = 7;
         hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.unitid);
+        hash = 89 * hash + Objects.hashCode(this.unit);
         hash = 89 * hash + Objects.hashCode(this.name);
         hash = 89 * hash + Objects.hashCode(this.description);
         return hash;
@@ -98,14 +102,15 @@ public class Product implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.unitid, other.unitid)) {
+        if (!Objects.equals(this.unit, other.unit)) {
             return false;
         }
         return true;
     }
+
     @Override
     public String toString() {
-        return "\n Id=" + id + " \n Unit :" + unitid + "\n Name=" + name + "\n Description=" + description;
+        return "\n Id=" + id + " \n Unit :" + unit + "\n Name=" + name + "\n Description=" + description;
     }
 
 }

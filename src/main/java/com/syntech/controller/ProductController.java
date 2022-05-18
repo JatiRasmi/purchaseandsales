@@ -109,7 +109,7 @@ public class ProductController {
             unit = unitRepository.findById(unitId);
         }
         Product product = new Product(id, unit, name, description);
-        product.setUnitid(unit);
+        product.setUnit(unit);
         productRepository.create(product);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
@@ -187,7 +187,7 @@ public class ProductController {
 
             Product prod = new Product(id, unit, name, description);
             productRepository.edit(prod);
-            product.setUnitid(unit);
+            product.setUnit(unit);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
             list();

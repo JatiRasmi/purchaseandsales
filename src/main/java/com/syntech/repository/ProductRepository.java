@@ -22,11 +22,11 @@ public class ProductRepository extends AbstractRepository<Product> {
     @Override
     public void create(Product p) {
         try {
-            String insert = "insert into product (name,productdescription,unit_id) values(?,?,?)";
+            String insert = "insert into product (unit_id,name,productdescription) values(?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
-            stmt.setString(1, p.getName());
-            stmt.setString(2, p.getDescription());
-            stmt.setLong(3, p.getUnitid().getId());
+            stmt.setLong(1, p.getUnitid().getId());
+            stmt.setString(2, p.getName());
+            stmt.setString(3, p.getDescription());
             int i = stmt.executeUpdate();
             System.out.println(i + " Inserted Successfully!!");
 

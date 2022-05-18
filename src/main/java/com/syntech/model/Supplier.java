@@ -24,6 +24,9 @@ public class Supplier implements IEntity {
 
     }
 
+    public Supplier(Long id){
+        this.id = id;
+    }
     public Supplier(Long id, String name, String address, String email, String contact, String description) {
         this.id = id;
         this.name = name;
@@ -32,6 +35,7 @@ public class Supplier implements IEntity {
         this.contact = contact;
         this.description = description;
     }
+
 
     @Override
     public Long getId() {

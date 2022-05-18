@@ -17,6 +17,11 @@ public class PurchaseOrder implements IEntity{
     private String date;
     private String expecteddeliverydate;
 
+    public PurchaseOrder() {
+    
+    }
+
+    
     public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate) {
         this.id = id;
         this.supplierid = supplierid;

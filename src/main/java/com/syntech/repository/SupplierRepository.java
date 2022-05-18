@@ -6,7 +6,6 @@
 package com.syntech.repository;
 
 import com.syntech.model.Supplier;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,16 +18,12 @@ import java.util.List;
  */
 public class SupplierRepository extends AbstractRepository<Supplier> {
 
-    Connection con = connectDB();
-    PreparedStatement stmt;
-    ResultSet rs;
-
     @Override
     public void create(Supplier s) {
         try {
 
             String insert = "insert into supplier(name,address,email,contact,description) values(?,?,?,?,?)";
-            stmt = con.prepareStatement(insert);
+            PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setString(1, s.getName());
             stmt.setString(2, s.getAddress());
             stmt.setString(3, s.getEmail());
@@ -46,8 +41,8 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
         List<Supplier> list = new ArrayList<>();
         try {
             String query = "select *from supplier";
-            stmt = con.prepareStatement(query);
-            rs = stmt.executeQuery();
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Supplier supplier = new Supplier(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                 list.add(supplier);
@@ -64,9 +59,9 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
         Supplier supplier = new Supplier();
         try {
             String query = "select *from supplier where id = ?";
-            stmt = con.prepareStatement(query);
+            PreparedStatement stmt = connectDB().prepareStatement(query);
             stmt.setLong(1, id);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 supplier = new Supplier(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
             }
@@ -80,7 +75,7 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
     public void delete(Supplier s) {
         try {
             String delete = "delete from supplier where id = ?";
-            stmt = con.prepareStatement(delete);
+            PreparedStatement stmt = connectDB().prepareStatement(delete);
             stmt.setLong(1, s.getId());
             int i = stmt.executeUpdate();
             System.out.println(i + " Deleted successfully!!");
@@ -93,7 +88,7 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
     public void edit(Supplier s) {
         try {
             String edit = "update supplier set name = ?, address = ? , email = ? , contact = ? , description = ? where id = ?";
-            stmt = con.prepareStatement(edit);
+            PreparedStatement stmt = connectDB().prepareStatement(edit);
             stmt.setString(1, s.getName());
             stmt.setString(2, s.getAddress());
             stmt.setString(3, s.getEmail());

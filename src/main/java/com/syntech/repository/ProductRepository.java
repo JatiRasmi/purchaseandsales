@@ -6,8 +6,12 @@
 package com.syntech.repository;
 
 import com.syntech.model.Product;
+import com.syntech.model.Unit;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +22,7 @@ public class ProductRepository extends AbstractRepository<Product> {
     @Override
     public void create(Product p) {
         try {
-            String insert = "insert into product (name,product_description,unitid) values(?,?,?)";
+            String insert = "insert into product (name,productdescription,unit_id) values(?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getDescription());
@@ -32,6 +36,25 @@ public class ProductRepository extends AbstractRepository<Product> {
         }
     }
 
+    @Override
+    public List<Product> findAll() {
+        List<Product> list = new ArrayList<>();
+        try {
+            String query = "select * from product";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getLong(1), new Unit(rs.getLong(2)), rs.getString(3), rs.getString(4));
+                list.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Record Display failed!!!");
+//            e.printStackTrace();
+        }
+        return list;
+    }
+
+    
     @Override
     public void edit(Product u) {
 //        super.findAll().stream()

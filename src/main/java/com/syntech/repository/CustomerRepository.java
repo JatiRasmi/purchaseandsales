@@ -6,7 +6,6 @@
 package com.syntech.repository;
 
 import com.syntech.model.Customer;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,16 +18,12 @@ import java.util.List;
  */
 public class CustomerRepository extends AbstractRepository<Customer> {
 
-    Connection con = connectDB();
-    PreparedStatement stmt;
-    ResultSet rs;
-
     @Override
     public void create(Customer c) {
         try {
 
             String insert = "insert into customer(name,address,email,contact) values(?,?,?,?)";
-            stmt = con.prepareStatement(insert);
+            PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setString(1, c.getName());
             stmt.setString(2, c.getAddress());
             stmt.setString(3, c.getEmail());
@@ -45,8 +40,8 @@ public class CustomerRepository extends AbstractRepository<Customer> {
         List<Customer> list = new ArrayList<>();
         try {
             String query = "select *from customer";
-            stmt = con.prepareStatement(query);
-            rs = stmt.executeQuery();
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Customer customer = new Customer(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                 list.add(customer);
@@ -63,9 +58,9 @@ public class CustomerRepository extends AbstractRepository<Customer> {
         Customer customer = new Customer();
         try {
             String query = "select *from customer where id = ?";
-            stmt = con.prepareStatement(query);
+            PreparedStatement stmt = connectDB().prepareStatement(query);
             stmt.setLong(1, id);
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 customer = new Customer(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
             }
@@ -79,7 +74,7 @@ public class CustomerRepository extends AbstractRepository<Customer> {
     public void delete(Customer c) {
         try {
             String delete = "delete from customer where id = ?";
-            stmt = con.prepareStatement(delete);
+            PreparedStatement stmt = connectDB().prepareStatement(delete);
             stmt.setLong(1, c.getId());
             int i = stmt.executeUpdate();
             System.out.println(i + " Deleted successfully!!");
@@ -92,7 +87,7 @@ public class CustomerRepository extends AbstractRepository<Customer> {
     public void edit(Customer c) {
         try {
             String edit = "update customer set name = ?, address = ? , email = ? , contact = ? where id = ?";
-            stmt = con.prepareStatement(edit);
+            PreparedStatement stmt = connectDB().prepareStatement(edit);
             stmt.setString(1, c.getName());
             stmt.setString(2, c.getAddress());
             stmt.setString(3, c.getEmail());

@@ -20,6 +20,10 @@ public class Unit implements IEntity {
 
     }
 
+    public Unit(Long id) {
+        this.id = id;
+    }
+
     public Unit(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -43,7 +47,6 @@ public class Unit implements IEntity {
         this.name = name;
     }
 
-    
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -70,6 +73,7 @@ public class Unit implements IEntity {
         }
         return true;
     }
+
     @Override
     public String toString() {
         return "Id=" + id + " Name=" + name;

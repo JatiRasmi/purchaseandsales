@@ -54,6 +54,35 @@ public class ProductRepository extends AbstractRepository<Product> {
         return list;
     }
 
+    @Override
+    public Product findById(Long id) {
+        Product product = new Product();
+        try {
+            String query = "select * from product where id = ?";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                product = new Product(rs.getLong(1), new Unit(rs.getLong(2)), rs.getString(3), rs.getString(4));
+            }
+        } catch (SQLException e) {
+            System.out.println("Record Display Failed!!!");
+        }
+        return product;
+    }
+    
+    @Override
+    public void delete(Product p){
+        try{
+            String delete = "delete from product where id = ?";
+            PreparedStatement stmt = connectDB().prepareStatement(delete);
+            stmt.setLong(1,p.getId());
+            int i = stmt.executeUpdate();
+            System.out.println( i + " Deleted Successfully!!!");
+        }catch(SQLException e){
+            System.out.println("Deletion Failed!!!");
+        }
+    }
     
     @Override
     public void edit(Product u) {

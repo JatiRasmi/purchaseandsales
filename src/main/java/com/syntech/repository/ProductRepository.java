@@ -45,6 +45,7 @@ public class ProductRepository extends AbstractRepository<Product> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Product product = new Product(rs.getLong(1), new Unit(rs.getLong(2)), rs.getString(3), rs.getString(4));
+//                 Product product = new Product(rs.getLong(1), new Unit(rs.getLong(2), rs.getString(2)), rs.getString(3), rs.getString(4));
                 list.add(product);
             }
         } catch (SQLException e) {
@@ -70,28 +71,34 @@ public class ProductRepository extends AbstractRepository<Product> {
         }
         return product;
     }
-    
+
     @Override
-    public void delete(Product p){
-        try{
+    public void delete(Product p) {
+        try {
             String delete = "delete from product where id = ?";
             PreparedStatement stmt = connectDB().prepareStatement(delete);
-            stmt.setLong(1,p.getId());
+            stmt.setLong(1, p.getId());
             int i = stmt.executeUpdate();
-            System.out.println( i + " Deleted Successfully!!!");
-        }catch(SQLException e){
+            System.out.println(i + " Deleted Successfully!!!");
+        } catch (SQLException e) {
             System.out.println("Deletion Failed!!!");
         }
     }
-    
+
     @Override
-    public void edit(Product u) {
-//        super.findAll().stream()
-//                .filter(n -> n.getId().equals(u.getId()))
-//                .forEach((Product un) -> {
-//                    un.setName(u.getName());
-//                    un.setDescription(u.getDescription());
-//                    un.setUnitid(u.getUnitid());
-//                });
+    public void edit(Product p) {
+        try {
+            String edit = "update product set unit_id = ?, name =? , productdescription = ? where id =?";
+            PreparedStatement stmt = connectDB().prepareStatement(edit);
+            stmt.setLong(1, p.getUnitid().getId());
+            stmt.setString(2, p.getName());
+            stmt.setString(3, p.getDescription());
+            stmt.setLong(4, p.getId());
+            int i = stmt.executeUpdate();
+            System.out.println("Edit Successfull!!");
+        } catch (SQLException e) {
+            System.out.println("Update Failed!!");
+            e.printStackTrace();
+        }
     }
 }

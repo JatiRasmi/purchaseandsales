@@ -5,7 +5,6 @@
  */
 package com.syntech.model;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -21,6 +20,10 @@ public class SalesOrder implements IEntity{
         this.id = id;
         this.customer = customer;
         this.date = date;
+    }
+
+    public SalesOrder() {
+        
     }
 
     @Override
@@ -83,6 +86,10 @@ public class SalesOrder implements IEntity{
     @Override
     public String toString() {
         return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date;
+    }
+
+    public Object getCustomerid() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

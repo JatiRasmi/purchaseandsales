@@ -31,6 +31,10 @@ public class Customer implements IEntity {
         this.contact = contact;
     }
 
+    public Customer(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Long getId() {
         return id;

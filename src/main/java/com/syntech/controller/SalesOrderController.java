@@ -72,16 +72,16 @@ public class SalesOrderController {
         String date = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
-        while (id == null) {
-            System.out.println("Enter sales id:");
-            String sid = sc.next();
-            try {
-                id = Long.parseLong(sid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter sales id:");
+//            String sid = sc.next();
+//            try {
+//                id = Long.parseLong(sid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (date == null || date.isEmpty()) {
             System.out.println("Enter date: ");
             date = sc.next();

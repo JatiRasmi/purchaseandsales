@@ -64,16 +64,16 @@ public class CustomerController {
         String contact = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
-        while (id == null) {
-            System.out.println("Enter customer id:");
-            String cid = sc.next();
-            try {
-                id = Long.parseLong(cid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter customer id:");
+//            String cid = sc.next();
+//            try {
+//                id = Long.parseLong(cid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (name == null || name.isEmpty()) {
             System.out.println("Enter customer name: ");
             name = sc.next();

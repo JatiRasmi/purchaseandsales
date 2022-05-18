@@ -77,16 +77,16 @@ public class SalesOrderDetailController {
 
         Calculation calculation = new Calculation();
         Scanner sc = new Scanner(System.in);
-        while (id == null) {
-            System.out.println("Enter sales order detail id:");
-            String sid = sc.next();
-            try {
-                id = Long.parseLong(sid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter sales order detail id:");
+//            String sid = sc.next();
+//            try {
+//                id = Long.parseLong(sid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (quantity == null) {
             System.out.println("Enter Quantity : ");
             quantity = sc.nextLong();

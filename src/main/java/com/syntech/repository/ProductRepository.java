@@ -32,7 +32,7 @@ public class ProductRepository extends AbstractRepository<Product> {
 
         } catch (SQLException e) {
 //            e.printStackTrace();
-            System.out.println("Insertion Failed!!!!");
+            System.out.println("***************Insertion Failed!!!!***************");
         }
     }
 
@@ -79,7 +79,7 @@ public class ProductRepository extends AbstractRepository<Product> {
             PreparedStatement stmt = connectDB().prepareStatement(delete);
             stmt.setLong(1, p.getId());
             int i = stmt.executeUpdate();
-            System.out.println(i + " Deleted Successfully!!!");
+            System.out.println(i + " ***************Deleted Successfully!!!***************");
         } catch (SQLException e) {
             System.out.println("Deletion Failed!!!");
         }
@@ -95,7 +95,7 @@ public class ProductRepository extends AbstractRepository<Product> {
             stmt.setString(3, p.getDescription());
             stmt.setLong(4, p.getId());
             int i = stmt.executeUpdate();
-            System.out.println("Edit Successfull!!");
+            System.out.println(i + " ***************Edit Successfull!!***************");
         } catch (SQLException e) {
             System.out.println("Update Failed!!");
             e.printStackTrace();

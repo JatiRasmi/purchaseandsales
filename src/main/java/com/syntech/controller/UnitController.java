@@ -58,16 +58,16 @@ public class UnitController {
         String name = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
-        while (id == null) {
-            System.out.println("Enter Unit id:");
-            String uid = sc.next();
-            try {
-                id = Long.parseLong(uid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter Unit id:");
+//            String uid = sc.next();
+//            try {
+//                id = Long.parseLong(uid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (name == null || name.isEmpty()) {
             System.out.println("Enter unit: ");
             name = sc.next();

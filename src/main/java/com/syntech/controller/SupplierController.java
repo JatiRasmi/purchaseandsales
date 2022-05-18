@@ -65,16 +65,16 @@ public class SupplierController {
         String description = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
-        while (id == null) {
-            System.out.println("Enter supplier id :");
-            String sid = sc.nextLine();
-            try {
-                id = Long.parseLong(sid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter supplier id :");
+//            String sid = sc.nextLine();
+//            try {
+//                id = Long.parseLong(sid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (name == null || name.isEmpty()) {
             System.out.println("Enter Supplier name: ");
             name = sc.next();

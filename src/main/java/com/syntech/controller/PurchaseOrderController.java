@@ -73,16 +73,16 @@ public class PurchaseOrderController {
         String expecteddeliverydate = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
-        while (id == null) {
-            System.out.println("Enter purchase id:");
-            String pid = sc.next();
-            try {
-                id = Long.parseLong(pid);
-            } catch (NumberFormatException e) {
-                System.out.println("Error");
-                id = null;
-            }
-        }
+//        while (id == null) {
+//            System.out.println("Enter purchase id:");
+//            String pid = sc.next();
+//            try {
+//                id = Long.parseLong(pid);
+//            } catch (NumberFormatException e) {
+//                System.out.println("Error");
+//                id = null;
+//            }
+//        }
         while (date == null || date.isEmpty()) {
             System.out.println("Enter date: ");
             date = sc.next();

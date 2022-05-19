@@ -11,7 +11,8 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class SalesOrderDetail implements IEntity{
+public class SalesOrderDetail implements IEntity {
+
     private Long id;
     private SalesOrder salesorder;
     private Product product;
@@ -73,8 +74,20 @@ public class SalesOrderDetail implements IEntity{
         return discount;
     }
 
+    public Long getDiscountamount() {
+        return discountamount;
+    }
+
+    public Long getSubtotalAfterDiscount() {
+        return subtotalafterdiscount;
+    }
+
     public Long getVat() {
         return vat;
+    }
+
+    public Long getVatamount() {
+        return vatamount;
     }
 
     public Long getTotalamount() {

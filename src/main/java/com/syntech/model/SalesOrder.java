@@ -26,6 +26,11 @@ public class SalesOrder implements IEntity{
         
     }
 
+    public SalesOrder(Long id) {
+        this.id = id;
+    }
+
+
     @Override
     public Long getId() {
         return id;

@@ -17,6 +17,7 @@ public class PurchaseOrder implements IEntity {
     private Supplier supplierid;
     private String date;
     private String expecteddeliverydate;
+    private PurchaseOrderDetail pod;
 
     public PurchaseOrder() {
 
@@ -26,16 +27,25 @@ public class PurchaseOrder implements IEntity {
         this.id = id;
     }
 
-    public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate) {
+    public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate,PurchaseOrderDetail pod) {
         this.id = id;
         this.supplierid = supplierid;
         this.date = date;
         this.expecteddeliverydate = expecteddeliverydate;
+        this.pod = pod;
     }
 
     @Override
     public Long getId() {
         return id;
+    }
+
+    public PurchaseOrderDetail getPod() {
+        return pod;
+    }
+
+    public void setPod(PurchaseOrderDetail pod) {
+        this.pod = pod;
     }
 
     public Supplier getSupplierid() {
@@ -70,16 +80,16 @@ public class PurchaseOrder implements IEntity {
     @Override
     public final int hashCode() {
         int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.id);
-        hash = 11 * hash + Objects.hashCode(this.supplierid);
-        hash = 11 * hash + Objects.hashCode(this.date);
-        hash = 11 * hash + Objects.hashCode(this.expecteddeliverydate);
+        hash = 17 * hash + Objects.hashCode(this.id);
+        hash = 17 * hash + Objects.hashCode(this.supplierid);
+        hash = 17 * hash + Objects.hashCode(this.date);
+        hash = 17 * hash + Objects.hashCode(this.expecteddeliverydate);
+        hash = 17 * hash + Objects.hashCode(this.pod);
         return hash;
     }
 
     @Override
     public final boolean equals(Object obj) {
-
         if (obj == null) {
             return false;
         }
@@ -99,12 +109,16 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.supplierid, other.supplierid)) {
             return false;
         }
+        if (!Objects.equals(this.pod, other.pod)) {
+            return false;
+        }
         return true;
     }
 
+    
     @Override
     public String toString() {
-        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate;
+        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate+ " \n totalsumamount = " + pod;
     }
 
 }

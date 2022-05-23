@@ -22,12 +22,13 @@ public class Calculation {
         discountAmount = (subtotal * discount) / 100;
         return discountAmount;
     }
-    
-    public static Long calculateSubtotalAfterDiscount(Long subtotal, Long discountAmount){
+
+    public static Long calculateSubtotalAfterDiscount(Long subtotal, Long discountAmount) {
         Long subtotalafterdiscount;
         subtotalafterdiscount = subtotal - discountAmount;
         return subtotalafterdiscount;
     }
+
     public static Long calculateVat(Long subtotalafterdiscount, Long vat) {
         Long vatAmount;
         vatAmount = (subtotalafterdiscount * vat) / 100;
@@ -39,4 +40,5 @@ public class Calculation {
         totalAmount = subtotalafterdiscount + vat;
         return totalAmount;
     }
+
 }

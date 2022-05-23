@@ -25,7 +25,6 @@ public abstract class AbstractRepository<T extends IEntity> {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/purchaseandsales", "root", "toor");
-            System.out.println("Connected Successfully!!!!!!!");
             return con;
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Connection failed!!");

@@ -157,7 +157,7 @@ public class PurchaseOrderDetailController {
         purchaseorderdetailRepository.create(purchaseorderdetail);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
-        list();
+//        list();
     }
 
     public static void list() {
@@ -180,7 +180,7 @@ public class PurchaseOrderDetailController {
             purchaseorderdetailRepository.delete(purchaseorderDetail);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
-            list();
+//            list();
 
         }
     }
@@ -275,7 +275,7 @@ public class PurchaseOrderDetailController {
             purchaseorderdetail.setProduct(product);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
-            list();
+//            list();
 
         }
     }

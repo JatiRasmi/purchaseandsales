@@ -45,6 +45,12 @@ public class PurchaseOrderDetail implements IEntity {
         this.totalamount = totalamount;
     }
 
+    
+    public PurchaseOrderDetail(Long id) {
+        this.id =id;
+    }
+
+
     @Override
     public Long getId() {
         return id;
@@ -133,7 +139,6 @@ public class PurchaseOrderDetail implements IEntity {
         hash = 89 * hash + Objects.hashCode(this.id);
         hash = 89 * hash + Objects.hashCode(this.purchaseorder);
         hash = 89 * hash + Objects.hashCode(this.product);
-//        hash = 89 * hash + Objects.hashCode(this.unit);
         hash = 89 * hash + Objects.hashCode(this.quantity);
         hash = 89 * hash + Objects.hashCode(this.rate);
         hash = 89 * hash + Objects.hashCode(this.subtotal);

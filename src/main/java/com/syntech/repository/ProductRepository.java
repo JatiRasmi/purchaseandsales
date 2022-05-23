@@ -22,7 +22,7 @@ public class ProductRepository extends AbstractRepository<Product> {
     @Override
     public void create(Product p) {
         try {
-            String insert = "insert into product (unit_id,name,productdescription) values(?,?,?)";
+            String insert = "insert into product (unit_id,name,product_description) values(?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setLong(1, p.getUnit().getId());
             stmt.setString(2, p.getName());
@@ -88,7 +88,7 @@ public class ProductRepository extends AbstractRepository<Product> {
     @Override
     public void edit(Product p) {
         try {
-            String edit = "update product set unit_id = ?, name =? , productdescription = ? where id =?";
+            String edit = "update product set unit_id = ?, name =? , product_description = ? where id =?";
             PreparedStatement stmt = connectDB().prepareStatement(edit);
             stmt.setLong(1, p.getUnit().getId());
             stmt.setString(2, p.getName());

@@ -6,6 +6,7 @@
 package com.syntech.controller;
 
 import com.syntech.model.PurchaseOrder;
+import com.syntech.model.PurchaseOrderDetail;
 import com.syntech.model.Supplier;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
@@ -71,6 +72,7 @@ public class PurchaseOrderController {
         Supplier supplier = null;
         String date = null;
         String expecteddeliverydate = null;
+        PurchaseOrderDetail pod = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
 //        while (id == null) {
@@ -105,12 +107,27 @@ public class PurchaseOrderController {
             }
             supplier = supplierRepository.findById(supplierId);
         }
-        PurchaseOrder purchaseOrder = new PurchaseOrder(id, supplier, date, expecteddeliverydate);
+
+//        List<PurchaseOrderDetail> podlist = purchaseorderdetailRepository.findAll();
+//        while (pod == null) {
+//            System.out.println("_________Supplier List___________ : ");
+//            System.out.println(podlist);
+//
+//            Long podid = null;
+//            while (podid == null) {
+//                System.out.println("Enter Id for purchase order detail from list : ");
+//                podid = sc.nextLong();
+//
+//            }
+//            pod = purchaseorderdetailRepository.findById(podid);
+//        }
+        PurchaseOrder purchaseOrder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, pod);
         purchaseOrder.setSupplierid(supplier);
+        purchaseOrder.setPod(pod);
         purchaseorderRepository.create(purchaseOrder);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
-        list();
+//        list();
     }
 
     public static void list() {
@@ -131,9 +148,9 @@ public class PurchaseOrderController {
             System.out.println("Purchase order ID " + id + " not found");
         } else {
             purchaseorderRepository.delete(purchaseOrder);
-            System.out.println("------------------------------------------------------------");
-            System.out.println("Operation completed successfully!!!");
-            list();
+//            System.out.println("------------------------------------------------------------");
+//            System.out.println("Operation completed successfully!!!");
+//            list();
         }
     }
 
@@ -142,6 +159,7 @@ public class PurchaseOrderController {
         Supplier supplier = null;
         String date = null;
         String expecteddeliverydate = null;
+        PurchaseOrderDetail pod = null;
         Scanner sc = new Scanner(System.in);
         List<Supplier> suppliers = supplierRepository.findAll();
         System.out.println("------------------Edit Operation-----------------------");
@@ -174,12 +192,26 @@ public class PurchaseOrderController {
                 supplier = supplierRepository.findById(supplierId);
             }
 
-            PurchaseOrder purchaseorder = new PurchaseOrder(id, supplier, date, expecteddeliverydate);
+//            List<PurchaseOrderDetail> podlist = purchaseorderdetailRepository.findAll();
+//            while (pod == null) {
+//                System.out.println("_________Supplier List___________ : ");
+//                System.out.println(podlist);
+//
+//                Long podid = null;
+//                while (podid == null) {
+//                    System.out.println("Enter Id for purchase order detail from list : ");
+//                    podid = sc.nextLong();
+//
+//                }
+//                pod = purchaseorderdetailRepository.findById(podid);
+//            }
+            PurchaseOrder purchaseorder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, pod);
             purchaseorderRepository.edit(purchaseorder);
             purchaseorder.setSupplierid(supplier);
+            purchaseorder.setPod(pod);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
-            list();
+//            list();
         }
     }
 

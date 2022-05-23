@@ -7,6 +7,7 @@ package com.syntech.controller;
 
 import com.syntech.model.Customer;
 import com.syntech.model.SalesOrder;
+import com.syntech.model.SalesOrderDetail;
 import com.syntech.repository.CustomerRepository;
 import com.syntech.repository.SalesOrderDetailRepository;
 import com.syntech.repository.SalesOrderRepository;
@@ -70,6 +71,7 @@ public class SalesOrderController {
         Long id = null;
         Customer customer = null;
         String date = null;
+        SalesOrderDetail sod = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
 //        while (id == null) {
@@ -100,8 +102,9 @@ public class SalesOrderController {
             }
             customer = customerRepository.findById(customerId);
         }
-        SalesOrder salesOrder = new SalesOrder(id, customer, date);
+        SalesOrder salesOrder = new SalesOrder(id, customer, date, sod);
         salesOrder.setCustomer(customer);
+        salesOrder.setSod(sod);
         salesorderRepository.create(salesOrder);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
@@ -136,6 +139,7 @@ public class SalesOrderController {
         Long id = null;
         Customer customer = null;
         String date = null;
+        SalesOrderDetail sod = null;
         Scanner sc = new Scanner(System.in);
         List<Customer> customers = customerRepository.findAll();
         System.out.println("------------------Edit Operation-----------------------");
@@ -163,7 +167,7 @@ public class SalesOrderController {
                 customer = customerRepository.findById(customerId);
             }
 
-            SalesOrder salesorder = new SalesOrder(id, customer, date);
+            SalesOrder salesorder = new SalesOrder(id, customer, date, sod);
             salesorderRepository.edit(salesorder);
             salesorder.setCustomer(customer);
             System.out.println("------------------------------------------------------------");

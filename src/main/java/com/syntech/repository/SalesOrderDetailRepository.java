@@ -20,10 +20,13 @@ import java.util.List;
  */
 public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDetail> {
 
+    private SalesOrderRepository sor;
+
     @Override
     public void create(SalesOrderDetail sod) {
+        sor = new SalesOrderRepository();
         try {
-            String insert = "insert into salesorderdetail(salesorder_id, product_id, quantity, rate, subtotal, discountpercent, discountamount, subtotalafterdiscount, vatpercent, vatamount, totalamount) values(?,?,?,?,?,?,?,?,?,?,?)";
+            String insert = "insert into salesorderdetail(salesorder_id, product_id, quantity, rate, sub_total, discount_percent, discount_amount, sub_total_after_discount, vat_percent, vat_amount, total_amount) values(?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setLong(1, sod.getSalesorder().getId());
             stmt.setLong(2, sod.getProduct().getId());
@@ -37,6 +40,8 @@ public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDet
             stmt.setLong(10, sod.getVatamount());
             stmt.setLong(11, sod.getTotalamount());
             int i = stmt.executeUpdate();
+            sor.updateSalesOrder(sod.getSalesorder());
+
             System.out.println(i + " Inserted Successfull!!!");
         } catch (SQLException e) {
             System.out.println("Insertion Failed!!!");
@@ -95,7 +100,7 @@ public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDet
     @Override
     public void edit(SalesOrderDetail sod) {
         try {
-            String edit = "update salesorderdetail set salesorder_id = ? , product_id = ? ,quantity = ? , rate = ? , subtotal = ? , discountpercent = ? , discountamount = ? ,subtotalafterdiscount = ? , vatpercent = ? , vatamount = ? , totalamount =? where id  =? ";
+            String edit = "update salesorderdetail set salesorder_id = ? , product_id = ? ,quantity = ? , rate = ? , sub_total = ? , discount_percent = ? , discount_amount = ? ,sub_total_after_discount = ? , vat_percent = ? , vat_amount = ? , total_amount =? where id  =? ";
             PreparedStatement stmt = connectDB().prepareStatement(edit);
             stmt.setLong(1, sod.getSalesorder().getId());
             stmt.setLong(2, sod.getProduct().getId());
@@ -110,6 +115,8 @@ public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDet
             stmt.setLong(11, sod.getTotalamount());
             stmt.setLong(12, sod.getId());
             int i = stmt.executeUpdate();
+            sor.updateSalesOrder(sod.getSalesorder());
+
             System.out.println(i + " Edited Successfully!!");
         } catch (SQLException e) {
             System.out.println("Edit Failed!!");

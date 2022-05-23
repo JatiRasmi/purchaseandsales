@@ -45,6 +45,10 @@ public class SalesOrderDetail implements IEntity {
         this.totalamount = totalamount;
     }
 
+    public SalesOrderDetail(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Long getId() {
         return id;

@@ -20,10 +20,13 @@ import java.util.List;
  */
 public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOrderDetail> {
 
+    private static PurchaseOrderRepository por;
+
     @Override
     public void create(PurchaseOrderDetail pod) {
+        por = new PurchaseOrderRepository();
         try {
-            String insert = "insert into purchaseorderdetail(purchaseorder_id, product_id, quantity, rate, subtotal, discountpercent, discountamount, subtotalafterdiscount, vatpercent, vatamount, totalamount) values(?,?,?,?,?,?,?,?,?,?,?)";
+            String insert = "insert into purchaseorderdetail(purchaseorder_id, product_id, quantity, rate, sub_total, discount_percent, discount_amount, sub_total_after_discount, vat_percent, vat_amount, total_amount) values(?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setLong(1, pod.getPurchaseorder().getId());
             stmt.setLong(2, pod.getProduct().getId());
@@ -39,8 +42,11 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
             stmt.setLong(10, pod.getVatamount());
             stmt.setLong(11, pod.getTotalamount());
             int i = stmt.executeUpdate();
+
+            por.updatePurchaseOrder(pod.getPurchaseorder());
+            //  porepo.updatepo(poid)
             System.out.println(i + " Inserted Successfull!!!");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Insertion Failed!!!");
             e.printStackTrace();
         }
@@ -80,7 +86,6 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
         }
         return pod;
     }
-//
 
     @Override
     public void delete(PurchaseOrderDetail pod) {
@@ -98,7 +103,7 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
     @Override
     public void edit(PurchaseOrderDetail pod) {
         try {
-            String edit = "update purchaseorderdetail set purchaseorder_id = ? , product_id = ? ,quantity = ? , rate = ? , subtotal = ? , discountpercent = ? , discountamount = ? ,subtotalafterdiscount = ? , vatpercent = ? , vatamount = ? , totalamount =? where id  =? ";
+            String edit = "update purchaseorderdetail set purchaseorder_id = ? , product_id = ? ,quantity = ? , rate = ? , sub_total = ? , discount_percent = ? , discount_amount = ? ,sub_total_after_discount = ? , vat_percent = ? , vat_amount = ? , total_amount =? where id  =? ";
             PreparedStatement stmt = connectDB().prepareStatement(edit);
             stmt.setLong(1, pod.getPurchaseorder().getId());
             stmt.setLong(2, pod.getProduct().getId());
@@ -113,6 +118,7 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
             stmt.setLong(11, pod.getTotalamount());
             stmt.setLong(12, pod.getId());
             int i = stmt.executeUpdate();
+            //    porepo.updatepo(poid)
             System.out.println(i + " Edited Successfully!!");
         } catch (SQLException e) {
             System.out.println("Edit Failed!!");

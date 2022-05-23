@@ -118,7 +118,7 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
             stmt.setLong(11, pod.getTotalamount());
             stmt.setLong(12, pod.getId());
             int i = stmt.executeUpdate();
-            //    porepo.updatepo(poid)
+            por.updatePurchaseOrder(pod.getPurchaseorder());
             System.out.println(i + " Edited Successfully!!");
         } catch (SQLException e) {
             System.out.println("Edit Failed!!");

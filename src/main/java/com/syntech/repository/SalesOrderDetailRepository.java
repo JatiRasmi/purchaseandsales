@@ -116,7 +116,6 @@ public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDet
             stmt.setLong(12, sod.getId());
             int i = stmt.executeUpdate();
             sor.updateSalesOrder(sod.getSalesorder());
-
             System.out.println(i + " Edited Successfully!!");
         } catch (SQLException e) {
             System.out.println("Edit Failed!!");

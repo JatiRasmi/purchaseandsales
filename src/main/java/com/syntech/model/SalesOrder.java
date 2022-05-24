@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -15,25 +16,28 @@ public class SalesOrder implements IEntity{
     private Long id;
     private Customer customer;
     private String date;
-    private SalesOrderDetail sod;
+    private BigDecimal totalamount;
 
-    public SalesOrder(Long id, Customer customer, String date, SalesOrderDetail sod) {
+    public SalesOrder(Long id, Customer customer, String date, BigDecimal totalamount) {
         this.id = id;
         this.customer = customer;
         this.date = date;
-        this.sod =sod;
+        this.totalamount =totalamount;
     }
 
-    public SalesOrderDetail getSod() {
-        return sod;
+    public void setCustomer(Long id) {
+        this.id =id;
+    }
+    public BigDecimal getTotalAmount() {
+        return totalamount;
     }
 
-    public void setSod(SalesOrderDetail sod) {
-        this.sod = sod;
+    public void setTotalAmount(BigDecimal totalamount) {
+        this.totalamount = totalamount;
     }
 
-    public SalesOrder(SalesOrderDetail sod) {
-        this.sod = sod;
+    public SalesOrder(BigDecimal totalamount) {
+        this.totalamount = totalamount;
     }
 
     public SalesOrder() {
@@ -77,7 +81,7 @@ public class SalesOrder implements IEntity{
         hash = 67 * hash + Objects.hashCode(this.id);
         hash = 67 * hash + Objects.hashCode(this.customer);
         hash = 67 * hash + Objects.hashCode(this.date);
-        hash = 67 * hash + Objects.hashCode(this.sod);
+        hash = 67 * hash + Objects.hashCode(this.totalamount);
         return hash;
     }
 
@@ -100,7 +104,7 @@ public class SalesOrder implements IEntity{
         if (!Objects.equals(this.customer, other.customer)) {
             return false;
         }
-        if (!Objects.equals(this.sod, other.sod)) {
+        if (!Objects.equals(this.totalamount, other.totalamount)) {
             return false;
         }
         return true;
@@ -109,12 +113,10 @@ public class SalesOrder implements IEntity{
     
     @Override
     public String toString() {
-        return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date + "\n totalamount=" + sod;
+        return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date + "\n totalamount=" + totalamount;
     }
 
-//    public Object getCustomerid() {
-////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
     
+  
     
 }

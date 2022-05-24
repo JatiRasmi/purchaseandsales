@@ -6,8 +6,10 @@
 package com.syntech.repository;
 
 import com.syntech.model.PurchaseOrder;
-import com.syntech.model.PurchaseOrderDetail;
+//import com.syntech.model.PurchaseOrderDetail;
+//import com.syntech.model.SalesOrder;
 import com.syntech.model.Supplier;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,13 +52,13 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             PreparedStatement stmt = connectDB().prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                PurchaseOrder purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), new PurchaseOrderDetail(rs.getLong(5)));
+                PurchaseOrder purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), rs.getBigDecimal(5));
                 list.add(purchaseorder);
             }
             System.out.println("Record Display Successfully!!");
         } catch (SQLException e) {
             System.out.println("Record Display Failed!!");
-//            e.printStackTrace();
+            e.printStackTrace();
         }
         return list;
     }
@@ -70,12 +72,33 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), new PurchaseOrderDetail(rs.getLong(5)));
+                purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), rs.getBigDecimal(5));
             }
         } catch (SQLException e) {
             System.out.println("Record Display Failed!!!");
         }
         return purchaseorder;
+    }
+
+    public List<PurchaseOrder> findByDate(String date) {
+        PurchaseOrder purchaseorder = new PurchaseOrder();
+        List<PurchaseOrder> purchaseOrders = new ArrayList<>();
+        try {
+            String query = "select supplierid, total_amount from purchaseorder where date =?";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            stmt.setString(1, date);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                BigDecimal totalamount = rs.getBigDecimal("total_amount");
+                purchaseorder.setSupplierid(id);
+                purchaseorder.setTotalAmount(totalamount);
+                purchaseOrders.add(purchaseorder);
+            }
+        } catch (SQLException e) {
+            System.out.println("Record Display Failed!!!");
+        }
+        return purchaseOrders;
     }
 
     @Override
@@ -127,14 +150,20 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             e.printStackTrace();
         }
     }
-}
 
-//    update po(po id)
-//            {
-//                update purchaseorder set total_amount = (select sum(total_amount) from purchaseorderdetail where purchaseorder_id = 1)where id = 1;
-//select sum(total_amount) from purchaseorderdetail where purchaseorder_id = 1;
-//                        /total amount  = find sum of amont of  po details of po id
-// set po total amount = total amt
-//  update po total amout query
-//            }
-//}
+    public BigDecimal CalculateTotalAmountBeforeDate(String date) {
+        BigDecimal moneyout = BigDecimal.ZERO;
+        try {
+            String query = "select sum(total_amount) from purchaseorder where date < ?";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            stmt.setString(1, date);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                moneyout = rs.getBigDecimal(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return moneyout == null ? BigDecimal.ZERO : moneyout;
+    }
+}

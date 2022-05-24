@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -17,7 +18,7 @@ public class PurchaseOrder implements IEntity {
     private Supplier supplierid;
     private String date;
     private String expecteddeliverydate;
-    private PurchaseOrderDetail pod;
+    private BigDecimal totalamount;
 
     public PurchaseOrder() {
 
@@ -27,25 +28,27 @@ public class PurchaseOrder implements IEntity {
         this.id = id;
     }
 
-    public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate,PurchaseOrderDetail pod) {
+    public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate, BigDecimal totalamount) {
         this.id = id;
         this.supplierid = supplierid;
         this.date = date;
         this.expecteddeliverydate = expecteddeliverydate;
-        this.pod = pod;
+        this.totalamount = totalamount;
     }
 
     @Override
     public Long getId() {
         return id;
     }
-
-    public PurchaseOrderDetail getPod() {
-        return pod;
+public void setSupplierid(Long id) {
+        this.id = id;
+    }
+    public BigDecimal getTotalAmount() {
+        return totalamount;
     }
 
-    public void setPod(PurchaseOrderDetail pod) {
-        this.pod = pod;
+    public void setTotalAmount(BigDecimal totalamount) {
+        this.totalamount = totalamount;
     }
 
     public Supplier getSupplierid() {
@@ -84,7 +87,7 @@ public class PurchaseOrder implements IEntity {
         hash = 17 * hash + Objects.hashCode(this.supplierid);
         hash = 17 * hash + Objects.hashCode(this.date);
         hash = 17 * hash + Objects.hashCode(this.expecteddeliverydate);
-        hash = 17 * hash + Objects.hashCode(this.pod);
+        hash = 17 * hash + Objects.hashCode(this.totalamount);
         return hash;
     }
 
@@ -109,7 +112,7 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.supplierid, other.supplierid)) {
             return false;
         }
-        if (!Objects.equals(this.pod, other.pod)) {
+        if (!Objects.equals(this.totalamount, other.totalamount)) {
             return false;
         }
         return true;
@@ -118,7 +121,9 @@ public class PurchaseOrder implements IEntity {
     
     @Override
     public String toString() {
-        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate+ " \n totalsumamount = " + pod;
+        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate+ " \n totalsumamount = " + totalamount;
     }
+
+    
 
 }

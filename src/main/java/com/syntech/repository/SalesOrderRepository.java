@@ -7,7 +7,7 @@ package com.syntech.repository;
 
 import com.syntech.model.Customer;
 import com.syntech.model.SalesOrder;
-import com.syntech.model.SalesOrderDetail;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,7 +49,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             PreparedStatement stmt = connectDB().prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                SalesOrder salesorder = new SalesOrder(rs.getLong(1), new Customer(rs.getLong(2)), rs.getString(3), new SalesOrderDetail(rs.getLong(4)));
+                SalesOrder salesorder = new SalesOrder(rs.getLong(1), new Customer(rs.getLong(2)), rs.getString(3), rs.getBigDecimal(4));
                 list.add(salesorder);
             }
             System.out.println("Record Display Successfully!!");
@@ -69,13 +69,34 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                salesorder = new SalesOrder(rs.getLong(1), new Customer(rs.getLong(2)), rs.getString(3), new SalesOrderDetail(rs.getLong(4)));
+                salesorder = new SalesOrder(rs.getLong(1), new Customer(rs.getLong(2)), rs.getString(3), rs.getBigDecimal(4));
             }
         } catch (SQLException e) {
             System.out.println("Record Display Failed!!!");
             e.printStackTrace();
         }
         return salesorder;
+    }
+
+    public List<SalesOrder> findByDate(String date) {
+        SalesOrder salesorder = new SalesOrder();
+        List<SalesOrder> salesOrders = new ArrayList<>();
+        try {
+            String query = "select customer_id, total_amount from salesorder where date =?";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            stmt.setString(1, date);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                BigDecimal totalamount = rs.getBigDecimal("totalamount");
+                salesorder.setCustomer(id);
+                salesorder.setTotalAmount(totalamount);
+                salesOrders.add(salesorder);
+            }
+        } catch (SQLException e) {
+            System.out.println("Record Display Failed!!!");
+        }
+        return salesOrders;
     }
 
     @Override
@@ -125,5 +146,21 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             System.out.println("Error");
             e.printStackTrace();
         }
+    }
+
+    public BigDecimal CalculateTotalAmountBeforeDate(String date) {
+        BigDecimal moneyIn = BigDecimal.ZERO;
+        try {
+            String query = "select sum(total_amount) from salesorder where date <?";
+            PreparedStatement stmt = connectDB().prepareStatement(query);
+            stmt.setString(1, date);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                moneyIn = rs.getBigDecimal(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return moneyIn == null ? BigDecimal.ZERO : moneyIn;
     }
 }

@@ -11,6 +11,7 @@ import com.syntech.model.Supplier;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SupplierRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -72,7 +73,7 @@ public class PurchaseOrderController {
         Supplier supplier = null;
         String date = null;
         String expecteddeliverydate = null;
-        PurchaseOrderDetail pod = null;
+        BigDecimal totalamount = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
 //        while (id == null) {
@@ -121,9 +122,9 @@ public class PurchaseOrderController {
 //            }
 //            pod = purchaseorderdetailRepository.findById(podid);
 //        }
-        PurchaseOrder purchaseOrder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, pod);
+        PurchaseOrder purchaseOrder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, totalamount);
         purchaseOrder.setSupplierid(supplier);
-        purchaseOrder.setPod(pod);
+        purchaseOrder.setTotalAmount(totalamount);
         purchaseorderRepository.create(purchaseOrder);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
@@ -159,7 +160,7 @@ public class PurchaseOrderController {
         Supplier supplier = null;
         String date = null;
         String expecteddeliverydate = null;
-        PurchaseOrderDetail pod = null;
+        BigDecimal totalamount = null;
         Scanner sc = new Scanner(System.in);
         List<Supplier> suppliers = supplierRepository.findAll();
         System.out.println("------------------Edit Operation-----------------------");
@@ -205,10 +206,10 @@ public class PurchaseOrderController {
 //                }
 //                pod = purchaseorderdetailRepository.findById(podid);
 //            }
-            PurchaseOrder purchaseorder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, pod);
+            PurchaseOrder purchaseorder = new PurchaseOrder(id, supplier, date, expecteddeliverydate, totalamount);
             purchaseorderRepository.edit(purchaseorder);
             purchaseorder.setSupplierid(supplier);
-            purchaseorder.setPod(pod);
+            purchaseorder.setTotalAmount(totalamount);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
 //            list();

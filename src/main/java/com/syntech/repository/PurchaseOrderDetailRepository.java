@@ -30,8 +30,6 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
             PreparedStatement stmt = connectDB().prepareStatement(insert);
             stmt.setLong(1, pod.getPurchaseorder().getId());
             stmt.setLong(2, pod.getProduct().getId());
-//            stmt.setLong(2, pod.getProduct().getUnit().getId());  // product --> unit --> unitid
-//            stmt.setString(3, pod.getProduct().getName());
             stmt.setLong(3, pod.getQuantity());
             stmt.setLong(4, pod.getRate());
             stmt.setLong(5, pod.getSubtotal());
@@ -44,7 +42,6 @@ public class PurchaseOrderDetailRepository extends AbstractRepository<PurchaseOr
             int i = stmt.executeUpdate();
 
             por.updatePurchaseOrder(pod.getPurchaseorder());
-            //  porepo.updatepo(poid)
             System.out.println(i + " Inserted Successfull!!!");
         } catch (Exception e) {
             System.out.println("Insertion Failed!!!");

@@ -11,6 +11,7 @@ import com.syntech.model.SalesOrderDetail;
 import com.syntech.repository.CustomerRepository;
 import com.syntech.repository.SalesOrderDetailRepository;
 import com.syntech.repository.SalesOrderRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,7 +25,7 @@ public class SalesOrderController {
     private static CustomerRepository customerRepository;
     private static SalesOrderDetailRepository salesorderdetailRepository;
 
-    public void salesorderOption(SalesOrderRepository salesorderRepository, CustomerRepository customerRepository,SalesOrderDetailRepository salesorderdetailRepository) {
+    public void salesorderOption(SalesOrderRepository salesorderRepository, CustomerRepository customerRepository, SalesOrderDetailRepository salesorderdetailRepository) {
         this.salesorderRepository = salesorderRepository;
         this.customerRepository = customerRepository;
         this.salesorderdetailRepository = salesorderdetailRepository;
@@ -54,7 +55,7 @@ public class SalesOrderController {
                 case "4":
                     edit();
                     break;
-                case "5" :
+                case "5":
                     listAll();
                 case "6":
                     return;
@@ -71,7 +72,7 @@ public class SalesOrderController {
         Long id = null;
         Customer customer = null;
         String date = null;
-        SalesOrderDetail sod = null;
+        BigDecimal totalamount = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Create Operation-----------------------");
 //        while (id == null) {
@@ -102,9 +103,9 @@ public class SalesOrderController {
             }
             customer = customerRepository.findById(customerId);
         }
-        SalesOrder salesOrder = new SalesOrder(id, customer, date, sod);
+        SalesOrder salesOrder = new SalesOrder(id, customer, date, totalamount);
         salesOrder.setCustomer(customer);
-        salesOrder.setSod(sod);
+        salesOrder.setTotalAmount(totalamount);
         salesorderRepository.create(salesOrder);
         System.out.println("------------------------------------------------------------");
         System.out.println("Operation completed successfully!!!");
@@ -139,7 +140,7 @@ public class SalesOrderController {
         Long id = null;
         Customer customer = null;
         String date = null;
-        SalesOrderDetail sod = null;
+        BigDecimal totalamount = null;
         Scanner sc = new Scanner(System.in);
         List<Customer> customers = customerRepository.findAll();
         System.out.println("------------------Edit Operation-----------------------");
@@ -167,14 +168,16 @@ public class SalesOrderController {
                 customer = customerRepository.findById(customerId);
             }
 
-            SalesOrder salesorder = new SalesOrder(id, customer, date, sod);
+            SalesOrder salesorder = new SalesOrder(id, customer, date, totalamount);
             salesorderRepository.edit(salesorder);
             salesorder.setCustomer(customer);
+            salesOrder.setTotalAmount(totalamount);
             System.out.println("------------------------------------------------------------");
             System.out.println("Operation completed successfully!!!");
             list();
         }
     }
+
     public static void listAll() {
         salesorderdetailRepository.findAll().forEach(x -> System.out.println(x));
     }

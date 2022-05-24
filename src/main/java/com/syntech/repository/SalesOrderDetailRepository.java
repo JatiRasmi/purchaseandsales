@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDetail> {
 
-    private SalesOrderRepository sor;
+    private static SalesOrderRepository sor;
 
     @Override
     public void create(SalesOrderDetail sod) {
@@ -82,7 +82,6 @@ public class SalesOrderDetailRepository extends AbstractRepository<SalesOrderDet
         }
         return sod;
     }
-//
 
     @Override
     public void delete(SalesOrderDetail sod) {

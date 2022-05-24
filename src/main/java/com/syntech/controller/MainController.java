@@ -30,8 +30,8 @@ public class MainController {
         PurchaseOrderDetailController podc = new PurchaseOrderDetailController();
         SalesOrderController soc = new SalesOrderController();
         SalesOrderDetailController sodc = new SalesOrderDetailController();
+        DayBookController dbc = new DayBookController();
         
-            
         CustomerRepository customerRepository = new CustomerRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
         UnitRepository unitRepository = new UnitRepository();
@@ -40,7 +40,7 @@ public class MainController {
         PurchaseOrderDetailRepository purchaseorderdetailRepository = new PurchaseOrderDetailRepository();
         SalesOrderRepository salesorderRepository = new SalesOrderRepository();
         SalesOrderDetailRepository salesorderdetailRepository = new SalesOrderDetailRepository();
-        
+
         Scanner sc = new Scanner(System.in);
         String choice;
         do {
@@ -53,7 +53,8 @@ public class MainController {
             System.out.println("Enter 6 for customer");
             System.out.println("Enter 7 for Sales Order");
             System.out.println("Enter 8 for Sales Order Detail");
-            System.out.println("Enter 9 to Exit");
+            System.out.println("Enter 9 for Report");
+            System.out.println("Enter 10 to exit");
             System.out.println("-------------------------------------------------------------------");
             choice = sc.next();
             switch (choice) {
@@ -75,13 +76,16 @@ public class MainController {
                 case "6":
                     cc.customerOption(customerRepository);
                     break;
-                case "7" : 
-                    soc.salesorderOption(salesorderRepository, customerRepository,salesorderdetailRepository);
+                case "7":
+                    soc.salesorderOption(salesorderRepository, customerRepository, salesorderdetailRepository);
                     break;
                 case "8":
                     sodc.salesOrderDetailOption(salesorderdetailRepository, salesorderRepository, productRepository);
                     break;
                 case "9":
+                    dbc.dayBookOption(purchaseorderRepository, salesorderRepository);
+                    break;
+                case "10":
                     return;
                 default:
                     System.out.println("Invalid option");

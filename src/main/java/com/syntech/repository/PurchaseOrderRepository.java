@@ -75,7 +75,7 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
                 purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), rs.getBigDecimal(5));
             }
         } catch (SQLException e) {
-            System.out.println("Record Display Failed!!!");
+        
         }
         return purchaseorder;
     }
@@ -84,19 +84,19 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         PurchaseOrder purchaseorder = new PurchaseOrder();
         List<PurchaseOrder> purchaseOrders = new ArrayList<>();
         try {
-            String query = "select supplierid, total_amount from purchaseorder where date =?";
+            String query = "select supplier_id, total_amount from purchaseorder where date =?";
             PreparedStatement stmt = connectDB().prepareStatement(query);
             stmt.setString(1, date);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Long id = rs.getLong("id");
+                Long id = rs.getLong("supplierid");
                 BigDecimal totalamount = rs.getBigDecimal("total_amount");
                 purchaseorder.setSupplierid(id);
                 purchaseorder.setTotalAmount(totalamount);
                 purchaseOrders.add(purchaseorder);
             }
         } catch (SQLException e) {
-            System.out.println("Record Display Failed!!!");
+
         }
         return purchaseOrders;
     }

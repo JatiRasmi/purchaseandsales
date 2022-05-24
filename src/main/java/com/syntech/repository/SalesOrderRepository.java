@@ -72,8 +72,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
                 salesorder = new SalesOrder(rs.getLong(1), new Customer(rs.getLong(2)), rs.getString(3), rs.getBigDecimal(4));
             }
         } catch (SQLException e) {
-            System.out.println("Record Display Failed!!!");
-            e.printStackTrace();
+
         }
         return salesorder;
     }
@@ -88,13 +87,13 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("id");
-                BigDecimal totalamount = rs.getBigDecimal("totalamount");
+                BigDecimal totalamount = rs.getBigDecimal("total_amount");
                 salesorder.setCustomer(id);
                 salesorder.setTotalAmount(totalamount);
                 salesOrders.add(salesorder);
             }
         } catch (SQLException e) {
-            System.out.println("Record Display Failed!!!");
+
         }
         return salesOrders;
     }

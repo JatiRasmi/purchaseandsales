@@ -28,9 +28,7 @@ public class DayBookController {
     private static PurchaseOrder purchaseorder;
     private static SalesOrder salesorder;
 
-    public void dayBookOption(PurchaseOrderRepository purchaseorderRepository, SalesOrderRepository salesorderRepository) {
-        this.purchaseorderRepository = purchaseorderRepository;
-        this.salesorderRepository = salesorderRepository;
+    public void dayBookOption() {
 
         Scanner sc = new Scanner(System.in);
         String choice;
@@ -46,13 +44,12 @@ public class DayBookController {
                 case "1":
                     System.out.println("Enter date:");
                     date = sc.next();
+                    System.out.println("_____________________");
                     DayBook db = preparedaybook(date);
-                    System.out.println("Daybook" + db);
+                    System.out.println(db);
                     break;
+
                 case "2":
-//                    
-                    break;
-                case "3":
                     return;
                 default:
                     System.out.println("Invalid Option!!");
@@ -82,8 +79,7 @@ public class DayBookController {
             todayBalance = todayBalance.add(so.getTotalAmount());
         }
 
-        System.out.println(dayBookDetails);
-
+//        System.out.println(dayBookDetails);
         BigDecimal openingBalancce = salesorderRepository.CalculateTotalAmountBeforeDate(date)
                 .subtract(purchaseorderRepository.CalculateTotalAmountBeforeDate(date));
         BigDecimal closingBalance = openingBalancce.add(todayBalance);

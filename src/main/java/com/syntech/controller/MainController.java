@@ -83,7 +83,7 @@ public class MainController {
                     sodc.salesOrderDetailOption(salesorderdetailRepository, salesorderRepository, productRepository);
                     break;
                 case "9":
-                    dbc.dayBookOption(purchaseorderRepository, salesorderRepository);
+                    dbc.dayBookOption();
                     break;
                 case "10":
                     return;

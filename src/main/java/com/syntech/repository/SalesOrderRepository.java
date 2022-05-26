@@ -93,7 +93,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
                 salesOrders.add(salesorder);
             }
         } catch (SQLException e) {
-
+            System.out.println("Error");
         }
         return salesOrders;
     }

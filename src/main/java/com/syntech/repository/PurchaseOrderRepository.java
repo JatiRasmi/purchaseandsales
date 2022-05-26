@@ -75,7 +75,7 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
                 purchaseorder = new PurchaseOrder(rs.getLong(1), new Supplier(rs.getLong(2)), rs.getString(3), rs.getString(4), rs.getBigDecimal(5));
             }
         } catch (SQLException e) {
-        
+            System.out.println("Error");
         }
         return purchaseorder;
     }

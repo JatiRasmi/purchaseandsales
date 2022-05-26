@@ -12,7 +12,8 @@ import java.util.Objects;
  *
  * @author rasmi
  */
-public class SalesOrder implements IEntity{
+public class SalesOrder implements IEntity {
+
     private Long id;
     private Customer customer;
     private String date;
@@ -22,12 +23,13 @@ public class SalesOrder implements IEntity{
         this.id = id;
         this.customer = customer;
         this.date = date;
-        this.totalamount =totalamount;
+        this.totalamount = totalamount;
     }
 
     public void setCustomer(Long id) {
-        this.id =id;
+        this.id = id;
     }
+
     public BigDecimal getTotalAmount() {
         return totalamount;
     }
@@ -41,13 +43,12 @@ public class SalesOrder implements IEntity{
     }
 
     public SalesOrder() {
-        
+
     }
 
     public SalesOrder(Long id) {
         this.id = id;
     }
-
 
     @Override
     public Long getId() {
@@ -90,7 +91,7 @@ public class SalesOrder implements IEntity{
         if (obj == null) {
             return false;
         }
-        
+
         if (!(obj instanceof SalesOrder)) {
             return false;
         }
@@ -110,13 +111,9 @@ public class SalesOrder implements IEntity{
         return true;
     }
 
-    
     @Override
     public String toString() {
         return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date + "\n totalamount=" + totalamount;
     }
 
-    
-  
-    
 }

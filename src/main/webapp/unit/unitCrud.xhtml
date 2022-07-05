@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Index Page</title>
+    </h:head>
+    <h:body>
+        <h:form id="form_unit">
+            <p:growl id="messages" showDetail="true"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton id="add-unit-button" value="New" icon="pi pi-plus" actionListener="#{unitController.beforeCreate()}"
+                                     oncomplete="PF('manageUnitDialog').show()" update="frm_create_unit"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+            <p:dataTable id="dt_units" widgetVar="dtUnits" var="unit" value="#{unitController.unitList}"
+                         reflow="true" styleClass="units-table" selectionMode="single"
+                         selection="#{unitController.unit}" rowKey="#{unit.id}" paginator="true"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                <f:facet name="header">
+                    <p:outputLabel value="UNITS" />
+                </f:facet>
+
+                <p:column headerText="Id" sortBy="#{unit.id}" filterBy="#{unit.id}">
+                    <h:outputText value="#{unit.id}"/>
+                </p:column>
+
+                <p:column headerText="Name" sortBy="#{unit.name}" filterBy="#{unit.name}">
+                    <h:outputText value="#{unit.name}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+                    
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{unitController.beforeEdit(unit)}" 
+                                     oncomplete="PF('manageUnitDialog').show()" process="@this"
+                                     update="@this frm_create_unit"/>
+                    
+                    <p:commandButton icon="pi pi-trash" action="#{unitController.delete(unit)}" 
+                                     process="@this" update=":form_unit:dt_units"><!--delete(unit) is the unit given in var property of data table -->
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+
+        <p:dialog header="Unit Details" showEffect="fade" modal="false"
+                  widgetVar="manageUnitDialog" responsive="true" id="dlg_manage">
+            
+            <h:form id="frm_create_unit">
+                <p:panelGrid columns="2">
+                    
+                    <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
+                    <p:inputText id="inptxt_name" value="#{unitController.unit.name}" required="true" label="Name"
+                                 title="Name">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:commandButton id="unit_create" value="Add" icon="pi pi-check" actionListener="#{unitController.create()}"
+                                     update=":form_unit:dt_units" process="@this" oncomplete="PF('manageUnitDialog').hide();" 
+                                     rendered="#{unitController.unit.id eq null}" />
+                   
+                    
+                    <p:commandButton id="unit_edit" value="Edit" icon="pi pi-check" actionListener="#{unitController.edit()}"
+                                     process="@this" oncomplete="PF('manageUnitDialog').hide();" update="@this :form_unit:dt_units"
+                                     rendered="#{unitController.unit.id ne null}" />
+                                  
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUnitDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+
+    </h:body>
+</html>         
+
+
+
+

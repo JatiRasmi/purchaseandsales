@@ -6,24 +6,61 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "purchaseorderdetail")
 public class PurchaseOrderDetail implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
-    private PurchaseOrder purchaseorder;
+
+    @ManyToOne
+    @JoinColumn(name = "purchase_order_id")
+    private PurchaseOrder purchaseOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "quantity", nullable = false)
     private Long quantity;
+
+    @Column(name = "rate", nullable = false)
     private Long rate;
+
+    @Column(name = "sub_total", nullable = false)
     private Long subtotal;
+
+    @Column(name = "discount", nullable = false)
     private Long discount;
+
+    @Column(name = "discount_amount", nullable = false)
     private Long discountamount;
+
+    @Column(name = "sub_total_after_discount", nullable = false)
     private Long subtotalafterdiscount;
+
+    @Column(name = "vat", nullable = false)
     private Long vat;
+
+    @Column(name = "vat_amount", nullable = false)
     private Long vatamount;
+
+    @Column(name = "total_amount", nullable = false)
     private Long totalamount;
 
     public PurchaseOrderDetail() {
@@ -32,7 +69,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     public PurchaseOrderDetail(Long id, PurchaseOrder purchaseorder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
         this.id = id;
-        this.purchaseorder = purchaseorder;
+        this.purchaseOrder = purchaseorder;
         this.product = product;
         this.quantity = quantity;
         this.rate = rate;
@@ -45,19 +82,13 @@ public class PurchaseOrderDetail implements IEntity {
         this.totalamount = totalamount;
     }
 
-    
     public PurchaseOrderDetail(Long id) {
-        this.id =id;
+        this.id = id;
     }
-
 
     @Override
     public Long getId() {
         return id;
-    }
-
-    public PurchaseOrder getPurchaseorder() {
-        return purchaseorder;
     }
 
     public Product getProduct() {
@@ -79,15 +110,19 @@ public class PurchaseOrderDetail implements IEntity {
     public Long getDiscount() {
         return discount;
     }
-    public Long getDiscountamount(){
+
+    public Long getDiscountamount() {
         return discountamount;
     }
+
     public Long getSubtotalAfterDiscount() {
         return subtotalafterdiscount;
     }
+
     public Long getVat() {
         return vat;
     }
+
     public Long getVatamount() {
         return vatamount;
     }
@@ -101,8 +136,20 @@ public class PurchaseOrderDetail implements IEntity {
         this.id = id;
     }
 
-    public void setPurchaseorder(PurchaseOrder purchaseorder) {
-        this.purchaseorder = purchaseorder;
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public Long getSubtotalafterdiscount() {
+        return subtotalafterdiscount;
+    }
+
+    public void setSubtotalafterdiscount(Long subtotalafterdiscount) {
+        this.subtotalafterdiscount = subtotalafterdiscount;
     }
 
     public void setProduct(Product product) {
@@ -137,7 +184,7 @@ public class PurchaseOrderDetail implements IEntity {
     public final int hashCode() {
         int hash = 5;
         hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.purchaseorder);
+        hash = 89 * hash + Objects.hashCode(this.purchaseOrder);
         hash = 89 * hash + Objects.hashCode(this.product);
         hash = 89 * hash + Objects.hashCode(this.quantity);
         hash = 89 * hash + Objects.hashCode(this.rate);
@@ -160,7 +207,7 @@ public class PurchaseOrderDetail implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.purchaseorder, other.purchaseorder)) {
+        if (!Objects.equals(this.purchaseOrder, other.purchaseOrder)) {
             return false;
         }
         if (!Objects.equals(this.product, other.product)) {
@@ -189,7 +236,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "\n Id = " + id + "\n" + "\n _____Purchase Order_______  \t" + purchaseorder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountamount + "\n subtotalafterdiscount = " + subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
+        return "\n Id = " + id + "\n" + "\n _____Purchase Order_______  \t" + purchaseOrder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountamount + "\n subtotalafterdiscount = " + subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
     }
 
 }

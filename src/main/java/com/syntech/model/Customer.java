@@ -6,17 +6,36 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "customer")
 public class Customer implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @Column(name = "address", nullable = false, length = 50)
     private String address;
+
+    @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
+
+    @Column(name = "contact", nullable = false, length = 10)
     private String contact;
 
     public Customer() {
@@ -77,7 +96,7 @@ public class Customer implements IEntity {
         this.contact = contact;
     }
 
-    
+   
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -115,6 +134,7 @@ public class Customer implements IEntity {
         }
         return true;
     }
+
     @Override
     public String toString() {
         return "Id=" + id + ", Name=" + name + ", Address=" + address + ", Email=" + email + ", Contact_Number=" + contact;

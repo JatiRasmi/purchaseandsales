@@ -27,6 +27,7 @@
                 <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath com.syntech.controller.MainController</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <skipTests>true</skipTests>
             </properties>
         </action>
     </actions>

@@ -6,16 +6,37 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "product")
 public class Product implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
+   
+    @Column(name = "name" , nullable = false , length = 50)
     private String name;
+    
+    @Column(name = "description", nullable = false, length = 50)
     private String description;
 
     public Product() {

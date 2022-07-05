@@ -6,56 +6,59 @@
 package com.syntech.repository;
 
 import com.syntech.model.IEntity;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.syntech.model.IRepository;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
  * @author rasmi
  * @param <T>
  */
-public abstract class AbstractRepository<T extends IEntity> {
+public abstract class AbstractRepository<T extends IEntity> implements IRepository<T> {
 
-    private List<T> list;
-
-    public Connection connectDB() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/purchaseandsales", "root", "toor");
-            return con;
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Connection failed!!");
-        }
-        return null;
-    }
-    public AbstractRepository() {
-        list = new ArrayList();
+    protected abstract EntityManager getEntityManager();
+    private Class<T> entityClass;
+    
+    public AbstractRepository(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
 
-    public void create(T list) {
-        this.list.add(list);
+    @Override
+    public void create(T t) {
+        getEntityManager().persist(t);
+        getEntityManager().flush();
     }
 
+    @Override
     public List<T> findAll() {
-        return list;
+        return getEntityManager().createQuery("Select t from " + entityClass.getName() + " t").getResultList();
     }
 
+    
+//    @Override
+//    public List<T> findAll() {
+//        return getEntityManager().createQuery("Select u from  Unit u" + entityClass.getName() + " u").getResultList();
+//    }
+    
+    @Override
     public T findById(Long id) {
-        for (T s : list) {
-            if (s.getId().equals(id)) {   // create an interface for getId and
-                return s;
-            }
-        }
-        return null;
+        return getEntityManager().find(entityClass, id);
+
+    }
+    
+    @Override
+    public void edit(T t) {
+        getEntityManager().merge(t);
+//        getEntityManager().merge(findById(t.getId()));
+        getEntityManager().flush();
     }
 
-    public void delete(T list) {
-        this.list.remove(list);
+    @Override
+    public void delete(T t) {
+//        getEntityManager().remove(t);
+        getEntityManager().remove(findById(t.getId()));
+        getEntityManager().flush();
+
     }
-
-    abstract void edit(T e);
-
 }

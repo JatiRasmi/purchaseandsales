@@ -6,24 +6,60 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "saesorderdetail")
 public class SalesOrderDetail implements IEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id" , nullable = false)
     private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "sales_order_id" , nullable = false)
     private SalesOrder salesorder;
+    
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable =false)
     private Product product;
+    
+    @Column(name = "quantity" , nullable = false)
     private Long quantity;
+    
+    @Column(name = "rate" , nullable = false)
     private Long rate;
+    
+    @Column(name = "sub_total" , nullable = false)
     private Long subtotal;
+    
+    @Column(name = "discount" , nullable = false)
     private Long discount;
+    
+    @Column(name = "discount_amount" , nullable = false)
     private Long discountamount;
+    
+    @Column(name = "sub_total_after_discount" , nullable = false)
     private Long subtotalafterdiscount;
+    
+    @Column(name = "vat" , nullable = false)
     private Long vat;
+    
+    @Column(name = "vat_amount" , nullable = false)
     private Long vatamount;
+    
+    @Column(name = "total_amount" , nullable = false)
     private Long totalamount;
 
     public SalesOrderDetail() {

@@ -6,19 +6,48 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "purchaseorder")
 public class PurchaseOrder implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)   //auto generate id
+    @Column(name = " id", nullable = false)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier_id" , nullable = false)
     private Supplier supplierid;
+
+    @Column(name = "date", nullable = false)
     private String date;
+
+    @Column(name = "expected_delivery_date", nullable = false)
     private String expecteddeliverydate;
+
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalamount;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
+    private List<PurchaseOrderDetail> purchaseOrderDetails;
 
     public PurchaseOrder() {
 
@@ -40,9 +69,11 @@ public class PurchaseOrder implements IEntity {
     public Long getId() {
         return id;
     }
-public void setSupplierid(Long id) {
+
+    public void setSupplierid(Long id) {
         this.id = id;
     }
+
     public BigDecimal getTotalAmount() {
         return totalamount;
     }
@@ -118,12 +149,9 @@ public void setSupplierid(Long id) {
         return true;
     }
 
-    
     @Override
     public String toString() {
-        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate+ " \n totalsumamount = " + totalamount;
+        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate + " \n totalsumamount = " + totalamount;
     }
-
-    
 
 }

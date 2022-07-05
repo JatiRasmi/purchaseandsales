@@ -7,16 +7,51 @@ package com.syntech.controller;
 
 import com.syntech.model.Unit;
 import com.syntech.repository.UnitRepository;
-import static com.syntech.util.Validator.isValidString;
+import java.io.Serializable;
+//import static com.syntech.util.Validator.isValidString;
+import java.util.List;
 import java.util.Scanner;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author rasmi
  */
-public class UnitController {
+@Named
+@ViewScoped
+public class UnitController implements Serializable {
 
-    private static UnitRepository unitRepository;
+    private Unit unit;
+    private List<Unit> unitList;
+
+    @Inject
+    private UnitRepository unitRepository;
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public List<Unit> getUnitList() {
+        return unitList;
+    }
+
+    public void setUnitList(List<Unit> unitList) {
+        this.unitList = unitList;
+    }
+
+    @PostConstruct
+    public void init() {
+        this.unit = new Unit();
+        this.unitList = unitRepository.findAll();
+        System.out.println(unitList.size());
+    }
 
     public void unitOption(UnitRepository unitRepository) {
         this.unitRepository = unitRepository;
@@ -36,15 +71,18 @@ public class UnitController {
                     create();
                     break;
                 case "2":
-                    list();
+                    findAll();
                     break;
                 case "3":
-                    delete();
+//                    delete();
                     break;
                 case "4":
                     edit();
                     break;
                 case "5":
+                    edit();
+                    break;
+                case "6":
                     return;
                 default:
                     System.out.println("Invalid Option!!");
@@ -53,87 +91,41 @@ public class UnitController {
         } while (!choice.equals("0"));
     }
 
-    public static void create() {
-        Long id = null;
-        String name = null;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("------------------Create Operation-----------------------");
-//        while (id == null) {
-//            System.out.println("Enter Unit id:");
-//            String uid = sc.next();
-//            try {
-//                id = Long.parseLong(uid);
-//            } catch (NumberFormatException e) {
-//                System.out.println("Error");
-//                id = null;
-//            }
-//        }
-        while (name == null || name.isEmpty()) {
-            System.out.println("Enter unit: ");
-            name = sc.next();
-            if (!isValidString(name)) {
-                System.out.println("Invaild Unit Name !!");
-                name = null;
-            }
-        }
-        Unit unit = new Unit(id, name);
+    public void beforeCreate() {
+        this.unit = new Unit();
+    }
+
+    public void create() {
         unitRepository.create(unit);
-        System.out.println("------------------------------------------------------------");
-        System.out.println("Operation completed successfully!!!");
-        list();
+        this.unitList = unitRepository.findAll();
+
     }
 
-    public static void list() {
-        System.out.println("__________________________________________________________________________________________________________________");
-        System.out.println("   Unit List");
-        System.out.println("----------------");
-        unitRepository.findAll().stream().forEach(x -> System.out.println(x));
-        System.out.println("___________________________________________________________________________________________________________________");
+    public void findAll() {
+        unitRepository.findAll();
     }
 
-    public static void delete() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("-------------------------Delete Operation--------------------");
-        System.out.println("Enter Unit Id: ");
-        Long id = sc.nextLong();
-        Unit unit = (Unit) unitRepository.findById(id);
-        if (unit == null) {
-            System.out.println("Unit ID " + id + " not found");
-        } else {
-            unitRepository.delete(unit);
-            System.out.println("------------------------------------------------------------");
-            System.out.println("Operation completed successfully!!!");
-            list();
-        }
+    public void findById(Long id) {
+        unitRepository.findById(id);
     }
 
-    public static void edit() {
-        Long id = null;
-        String unitname = null;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("-------------------------Edit Operation--------------------");
-        System.out.println("Enter unit id to edit: ");
-        id = sc.nextLong();
-        Unit unit = (Unit) unitRepository.findById(id);
-        if (unit == null) {
-            System.out.println("Unit id: " + id + " not found");
-
-        } else {
-            while (unitname == null || unitname.isEmpty()) {
-                System.out.println("Enter unit: ");
-                unitname = sc.next();
-                if (!isValidString(unitname)) {
-                    System.out.println("Invaild unit !!");
-                    unitname = null;
-                }
-            }
-
-            Unit un = new Unit(id, unitname);
-            unitRepository.edit(un);
-            System.out.println("------------------------------------------------------------");
-            System.out.println("Operation completed successfully!!!");
-            list();
-        }
+    public void beforeEdit(Unit unit) {
+        this.unit = unitRepository.findById(unit.getId());
     }
 
+    public void edit() {
+        unitRepository.edit(this.unit);
+        this.unitList = unitRepository.findAll();
+    }
+
+    public void delete(Unit unit) {
+        unitRepository.delete(unit);
+        unitList = unitRepository.findAll();
+
+    }
+
+//    public void delete() {
+//        unitRepository.delete(this.unit);
+//
+//    }
 }

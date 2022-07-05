@@ -6,27 +6,49 @@
 package com.syntech.model;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author rasmi
  */
+@Entity
+@Table(name = "supplier")
 public class Supplier implements IEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @Column(name = "address", nullable = false, length = 50)
     private String address;
+
+    @Column(name = "email", nullable = false, length = 25, unique = true)
     private String email;
+
+    @Column(name = "contact", nullable = false, length = 12, unique = true)
     private String contact;
+
+    @Column(name = "description", nullable = false, length = 100)
     private String description;
 
     public Supplier() {
 
     }
 
-    public Supplier(Long id){
+    public Supplier(Long id) {
         this.id = id;
     }
+
     public Supplier(Long id, String name, String address, String email, String contact, String description) {
         this.id = id;
         this.name = name;
@@ -35,7 +57,6 @@ public class Supplier implements IEntity {
         this.contact = contact;
         this.description = description;
     }
-
 
     @Override
     public Long getId() {
@@ -87,7 +108,6 @@ public class Supplier implements IEntity {
         this.description = description;
     }
 
-   
     @Override
     public final int hashCode() {
         int hash = 3;
@@ -130,7 +150,8 @@ public class Supplier implements IEntity {
         }
         return true;
     }
- @Override
+
+    @Override
     public String toString() {
         return "Id=" + id + "\t  name=" + name + " \t address=" + address + " \t email=" + email + " \t contact=" + contact + " \t description=" + description;
     }

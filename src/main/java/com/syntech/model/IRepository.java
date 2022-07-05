@@ -5,15 +5,17 @@
  */
 package com.syntech.model;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author rasmi
+ * @param <T>
  */
-public interface IEntity extends Serializable {
-
-    Long getId();
-
-    void setId(Long id);
+public interface IRepository<T> {
+    public void create(T e);
+    public List<T> findAll();
+    public T findById(Long id);
+    public void delete(T e);
+    public void edit(T e);
 }

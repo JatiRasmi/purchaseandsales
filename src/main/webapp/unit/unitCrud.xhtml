@@ -20,17 +20,21 @@
 
 
             <p:dataTable id="dt_units" widgetVar="dtUnits" var="unit" value="#{unitController.unitList}"
-                         reflow="true" styleClass="units-table" selectionMode="single"
+                         reflow="true" styleClass="units-table" rowIndexVar="rowIndex" selectionMode="single"
                          selection="#{unitController.unit}" rowKey="#{unit.id}" paginator="true"
                          rows="5" rowSelectMode="add" paginatorPosition="bottom">
 
                 <f:facet name="header">
-                    <p:outputLabel value="UNITS" />
+                    <p:outputLabel value="UNIT DETAILS" />
                 </f:facet>
 
-                <p:column headerText="Id" sortBy="#{unit.id}" filterBy="#{unit.id}">
-                    <h:outputText value="#{unit.id}"/>
+                <p:column headerText="S.No">
+                    <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
+                
+<!--                <p:column headerText="S.No." sortBy="{unit.id}" filterBy="{unit.id}">
+                    <h:outputText value="{unit.id}"/>
+                </p:column>-->
 
                 <p:column headerText="Name" sortBy="#{unit.name}" filterBy="#{unit.name}">
                     <h:outputText value="#{unit.name}"/>
@@ -38,11 +42,11 @@
 
                 <p:column headerText="Action">
 
-                    <p:commandButton id="edit" value="Edit" icon="pi pi-pencil" actionListener="#{unitController.beforeEdit(unit)}" 
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{unitController.beforeEdit(unit)}" 
                                      oncomplete="PF('manageUnitDialog').show()" process="@this"
                                      update="@this frm_create_unit"/>
 
-                    <p:commandButton icon="pi pi-trash" value="Delete" action="#{unitController.delete(unit)}" 
+                    <p:commandButton icon="pi pi-trash" action="#{unitController.delete(unit)}" 
                                      process="@this" update=":form_unit:dt_units"><!--delete(unit) is the unit given in var property of data table -->
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
@@ -52,7 +56,7 @@
         </h:form>
 
 
-        <p:dialog header="Unit Details" showEffect="fade" modal="false"
+        <p:dialog header="Unit" showEffect="fade" modal="false"
                   widgetVar="manageUnitDialog" responsive="true" id="dlg_manage">
 
             <h:form id="frm_create_unit">

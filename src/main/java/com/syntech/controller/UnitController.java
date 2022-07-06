@@ -10,7 +10,7 @@ import com.syntech.repository.UnitRepository;
 import java.io.Serializable;
 //import static com.syntech.util.Validator.isValidString;
 import java.util.List;
-import java.util.Scanner;
+//import java.util.Scanner;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,44 +53,6 @@ public class UnitController implements Serializable {
         System.out.println(unitList.size());
     }
 
-    public void unitOption(UnitRepository unitRepository) {
-        this.unitRepository = unitRepository;
-        Scanner sc = new Scanner(System.in);
-        String choice;
-        do {
-            System.out.println("-------------------------Unit Operations------------------------- ");
-            System.out.println("Enter 1 to create : ");
-            System.out.println("Enter 2 to list : ");
-            System.out.println("Enter 3 to delete : ");
-            System.out.println("Enter 4 to edit : ");
-            System.out.println("Enter 5 to exit: ");
-            System.out.println("-------------------------------------------------------------------");
-            choice = sc.next();
-            switch (choice) {
-                case "1":
-                    create();
-                    break;
-                case "2":
-                    findAll();
-                    break;
-                case "3":
-//                    delete();
-                    break;
-                case "4":
-                    edit();
-                    break;
-                case "5":
-                    edit();
-                    break;
-                case "6":
-                    return;
-                default:
-                    System.out.println("Invalid Option!!");
-                    break;
-            }
-        } while (!choice.equals("0"));
-    }
-
     public void beforeCreate() {
         this.unit = new Unit();
     }
@@ -123,9 +85,4 @@ public class UnitController implements Serializable {
         unitList = unitRepository.findAll();
 
     }
-
-//    public void delete() {
-//        unitRepository.delete(this.unit);
-//
-//    }
 }

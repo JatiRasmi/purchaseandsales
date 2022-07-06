@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+    <ui:define name="Center">       
+        <h:form id="form_customer">
+            <p:growl id="messages" showDetail="true"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton id="add-customer-button" value="New" icon="pi pi-plus" actionListener="#{customerController.beforeCreate()}"
+                                     oncomplete="PF('manageCustomerDialog').show()" update="form_create_customer"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt_customers" widgetVar="dtCustomers" var="customer" value="#{customerController.customerList}"
+                         reflow="true" styleClass="customers-table" rowIndexVar="rowIndex" selectionMode="single"
+                         selection="#{customerController.customer}" rowKey="#{customer.id}" paginator="true"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                <f:facet name="header">
+                    <p:outputLabel value="CUSTOMER DETAILS" />
+                </f:facet>
+
+                <p:column headerText="S.No.">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+                <p:column headerText="Name" sortBy="#{customer.name}" filterBy="#{customer.name}">
+                    <h:outputText value="#{customer.name}"/>
+                </p:column>
+
+                <p:column headerText="Address" sortBy="#{customer.address}" filterBy="#{customer.address}">
+                    <h:outputText value="#{customer.address}"/>
+                </p:column>
+
+                <p:column headerText="Email" sortBy="#{customer.email}" filterBy="#{customer.email}">
+                    <h:outputText value="#{customer.email}"/>
+                </p:column>
+
+                <p:column headerText="Contact" sortBy="#{customer.contact}" filterBy="#{customer.contact}">
+                    <h:outputText value="#{customer.contact}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{customerController.beforeEdit(customer)}" 
+                                     oncomplete="PF('manageCustomerDialog').show()" process="@this"
+                                     update="@this form_create_customer"/>
+
+                    <p:commandButton icon="pi pi-trash" action="#{customerController.delete(customer)}" 
+                                     process="@this" update=":form_customer:dt_customers">
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog header="Customer" showEffect="fade" modal="false"
+                  widgetVar="manageCustomerDialog" responsive="true" id="dlg_manage">
+
+            <h:form id="form_create_customer">
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
+                    <p:inputText id="inptxt_name" value="#{customerController.customer.name}" required="true" label="Name"
+                                 title="Name">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:outputLabel for="select_address" id="olbl_address" value="Address"/>
+                    <p:selectOneMenu id="select_address" value="#{customerController.customer.address}" filter="true" filterMatchMode="startsWith" required="true" label="Address">
+                        <f:selectItem itemLabel="Choose Address" itemValue=""/>
+                        <f:selectItem itemLabel="Kathmandu" itemValue="Kathmandu"/>
+                        <f:selectItem itemLabel="Bhaktapur" itemValue="Bhaktapur"/>
+                        <f:selectItem itemLabel="Lalitpur" itemValue="Lalitpur"/>
+                        <p:ajax update="@this" process="@this" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
+                    <p:inputText id="inptxt_email" value="#{customerController.customer.email}" required="true" label="Email"
+                                 title="Email">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
+                    <p:inputText id="inptxt_contact" value="#{customerController.customer.contact}" required="true" label="Contact"
+                                 title="Contact">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+
+                    <p:commandButton id="customer_create" value="Add" icon="pi pi-check" actionListener="#{customerController.create()}"
+                                     update=":form_customer:dt_customers" process="@this" oncomplete="PF('manageCustomerDialog').hide();" 
+                                     rendered="#{customerController.customer.id eq null}" />
+
+
+                    <p:commandButton id="customer_edit" value="Edit" icon="pi pi-check" actionListener="#{customerController.edit()}"
+                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update="@this :form_customer:dt_customers"
+                                     rendered="#{customerController.customer.id ne null}" />
+
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageCustomerDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

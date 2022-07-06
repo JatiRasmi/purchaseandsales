@@ -34,12 +34,6 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
     public List<T> findAll() {
         return getEntityManager().createQuery("Select t from " + entityClass.getName() + " t").getResultList();
     }
-
-    
-//    @Override
-//    public List<T> findAll() {
-//        return getEntityManager().createQuery("Select u from  Unit u" + entityClass.getName() + " u").getResultList();
-//    }
     
     @Override
     public T findById(Long id) {

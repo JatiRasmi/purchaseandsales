@@ -50,7 +50,7 @@ public class UnitController implements Serializable {
     public void init() {
         this.unit = new Unit();
         this.unitList = unitRepository.findAll();
-        System.out.println(unitList.size());
+//        System.out.println(unitList.size());
     }
 
     public void beforeCreate() {

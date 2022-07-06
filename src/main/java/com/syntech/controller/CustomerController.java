@@ -48,7 +48,6 @@ public class CustomerController implements Serializable {
     public void init() {
         this.customer = new Customer();
         this.customerList = customerRepository.findAll();
-
     }
 
     public void beforeCreate() {

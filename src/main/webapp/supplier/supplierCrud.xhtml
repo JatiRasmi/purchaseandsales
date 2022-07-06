@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+    <ui:define name="Center">       
+        <h:form id="form_supplier">
+            <p:growl id="messages" showDetail="true"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton id="add-supplier-button" value="New" icon="pi pi-plus" actionListener="#{supplierController.beforeCreate()}"
+                                     oncomplete="PF('manageSupplierDialog').show()" update="form_create_supplier"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt_suppliers" widgetVar="dtSuppliers" var="supplier" value="#{supplierController.supplierList}"
+                         reflow="true" styleClass="suppliers-table" rowIndexVar="rowIndex" selectionMode="single"
+                         selection="#{supplierController.supplier}" rowKey="#{supplier.id}" paginator="true"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                <f:facet name="header">
+                    <p:outputLabel value="SUPPLIER DETAILS" />
+                </f:facet>
+
+                <p:column headerText="S.No.">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+                <p:column headerText="Name" sortBy="#{supplier.name}" filterBy="#{supplier.name}">
+                    <h:outputText value="#{supplier.name}"/>
+                </p:column>
+
+                <p:column headerText="Address" sortBy="#{supplier.address}" filterBy="#{supplier.address}">
+                    <h:outputText value="#{supplier.address}"/>
+                </p:column>
+
+                <p:column headerText="Email" sortBy="#{supplier.email}" filterBy="#{supplier.email}">
+                    <h:outputText value="#{supplier.email}"/>
+                </p:column>
+
+                <p:column headerText="Contact" sortBy="#{supplier.contact}" filterBy="#{supplier.contact}">
+                    <h:outputText value="#{supplier.contact}"/>
+                </p:column>
+
+                <p:column headerText="Description" sortBy="#{supplier.description}" filterBy="#{supplier.description}">
+                    <h:outputText value="#{supplier.description}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{supplierController.beforeEdit(supplier)}" 
+                                     oncomplete="PF('manageSupplierDialog').show()" process="@this"
+                                     update="@this form_create_supplier"/>
+
+                    <p:commandButton icon="pi pi-trash" action="#{supplierController.delete(supplier)}" 
+                                     process="@this" update=":form_supplier:dt_suppliers">
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Supplier" showEffect="fade" modal="false"
+                  widgetVar="manageSupplierDialog" responsive="true" id="dlg_manage">
+
+            <h:form id="form_create_supplier">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
+                    <p:inputText id="inptxt_name" value="#{supplierController.supplier.name}" required="true" label="Name"
+                                 title="Name">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:outputLabel for="select_address" id="olbl_address" value="Address"/>
+                    <p:selectOneMenu id="select_address" value="#{supplierController.supplier.address}" filter="true" 
+                                     filterMatchMode="startsWith" required="true" style="width: 220px" label="Address">
+                        <f:selectItem itemLabel="Choose Address" itemValue=""/>
+                        <f:selectItem itemLabel="Kathmandu" itemValue="Kathmandu"/>
+                        <f:selectItem itemLabel="Bhaktapur" itemValue="Bhaktapur"/>
+                        <f:selectItem itemLabel="Lalitpur" itemValue="Lalitpur"/>
+                        <p:ajax update="@this" process="@this" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
+                    <p:inputText id="inptxt_email" value="#{supplierController.supplier.email}" required="true" label="Email"
+                                 title="Email">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
+                    <p:inputText id="inptxt_contact" value="#{supplierController.supplier.contact}" required="true" label="Contact"
+                                 title="Contact">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputText>
+
+                    <p:outputLabel for="inptxt_description" id="olbl_description" value="Description" />
+                    <p:inputTextarea id="inptxt_description" rows="1" cols="21" autoResize="false" value="#{supplierController.supplier.description}" label="Description"
+                                     title="Description">
+                        <p:ajax update="@this" process="@this" />
+                    </p:inputTextarea>
+
+
+                    <p:commandButton id="supplier_create" value="Add" icon="pi pi-check" actionListener="#{supplierController.create()}"
+                                     update=":form_supplier:dt_suppliers" process="@this" oncomplete="PF('manageSupplierDialog').hide();" 
+                                     rendered="#{supplierController.supplier.id eq null}" />
+
+
+                    <p:commandButton id="supplier_edit" value="Edit" icon="pi pi-check" actionListener="#{supplierController.edit()}"
+                                     process="@this" oncomplete="PF('manageSupplierDialog').hide();" update="@this :form_supplier:dt_suppliers"
+                                     rendered="#{supplierController.supplier.id ne null}" />
+
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageSupplierDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

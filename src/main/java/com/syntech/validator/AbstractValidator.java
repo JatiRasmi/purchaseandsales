@@ -3,31 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.syntech.util;
+package com.syntech.validator;
 
-import com.syntech.model.Unit;
-import com.syntech.repository.UnitRepository;
+import com.syntech.model.IEntity;
+import com.syntech.repository.AbstractRepository;
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
 
 /**
  *
  * @author rasmi
  */
-@RequestScoped
-@FacesValidator("uniqueColumnValidator")
-public class UniqueColumnValidator implements Validator, Serializable {
+public abstract class AbstractValidator<T extends IEntity> implements Validator, Serializable {
 
-    @Inject
-    private UnitRepository unitRepository;
-    
+    protected abstract AbstractRepository getRepository();
+
     /**
      * generic unique constraint validator for AbstractBaseEntity entities<br />
      * requires the following additional attributes on the form element
@@ -36,17 +30,20 @@ public class UniqueColumnValidator implements Validator, Serializable {
      * guid)<br />
      * - "uniqueColumn" the column where the new value will be checked for
      * uniqueness
+     *
+     * @param context
+     * @param comp
+     * @param newValue
      */
     @Override
     public void validate(final FacesContext context, final UIComponent comp, final Object newValue) throws ValidatorException {
 
-        Unit currentEntity = (Unit) comp.getAttributes().get("currentEntity");
+        T currentEntity = (T) comp.getAttributes().get("currentEntity");
         String uniqueColumn = (String) comp.getAttributes().get("uniqueColumn");
 
         boolean isValid = false;
-        
-        isValid = unitRepository.isUnique(currentEntity, uniqueColumn, newValue);
 
+        isValid = getRepository().isUnique(currentEntity, uniqueColumn, newValue);
         if (!isValid) {
             FacesMessage msg = new FacesMessage("must be unique: " + uniqueColumn);
             context.addMessage(comp.getClientId(context), msg);

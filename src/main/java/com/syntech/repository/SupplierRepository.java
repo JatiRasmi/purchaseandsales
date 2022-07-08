@@ -29,4 +29,9 @@ public class SupplierRepository extends AbstractRepository<Supplier> {
         return em;
     }
 
+    @Override
+    public Boolean isUnique(Supplier t, String uniqueColumn, Object newValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

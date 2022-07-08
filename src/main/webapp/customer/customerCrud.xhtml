@@ -92,9 +92,12 @@
                         <f:validateRegex
                             pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                         <p:ajax update="@this msg_email" process="@this" />
+                        <f:validator validatorId="customerValidator" />
+                        <f:attribute name="currentEntity" value="#{customerController.customer}" />
+                        <f:attribute name="uniqueColumn" value="email" />
                     </p:inputText>
                     <p:message id="msg_email" for="inptxt_email" />
-                    
+
                     <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
                     <p:inputText id="inptxt_contact" value="#{customerController.customer.contact}" required="true" label="Contact"
                                  title="Contact">

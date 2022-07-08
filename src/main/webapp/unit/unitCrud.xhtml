@@ -65,7 +65,7 @@
                                  requiredMessage="Unit Name is Mandatory" label="Name"  maxlength="20"
                                  title="Name">
                         <p:ajax update="@this msg_name" process="@this" />
-                        <f:validator validatorId="uniqueColumnValidator" />
+                        <f:validator validatorId="unitValidator" />
                         <f:attribute name="currentEntity" value="#{unitController.unit}" />
                         <f:attribute name="uniqueColumn" value="name" />
                     </p:inputText>

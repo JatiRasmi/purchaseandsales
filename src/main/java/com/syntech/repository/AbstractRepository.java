@@ -9,6 +9,7 @@ import com.syntech.model.IEntity;
 import com.syntech.model.IRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -19,7 +20,7 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 
     protected abstract EntityManager getEntityManager();
     private Class<T> entityClass;
-    
+
     public AbstractRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
@@ -34,13 +35,13 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
     public List<T> findAll() {
         return getEntityManager().createQuery("Select t from " + entityClass.getName() + " t").getResultList();
     }
-    
+
     @Override
     public T findById(Long id) {
         return getEntityManager().find(entityClass, id);
 
     }
-    
+
     @Override
     public void edit(T t) {
         getEntityManager().merge(t);
@@ -53,6 +54,22 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
 //        getEntityManager().remove(t);
         getEntityManager().remove(findById(t.getId()));
         getEntityManager().flush();
+
+    }
+
+    @Override
+    public Boolean isUnique(T t, String uniqueColumn, Object newValue) {
+        Long count = 0L;
+        try {
+            Query query = getEntityManager().createQuery("SELECT COUNT(e)"
+                    + " FROM " + t.getClass().getName() + " e"
+                    + " WHERE e. " + uniqueColumn + " =:value", Long.class);
+            query.setParameter("value", newValue);
+            count = (Long) query.getSingleResult();
+        } catch (Exception e) {
+            count = 1L;
+        }
+        return count != null && count == 0L ? Boolean.TRUE : Boolean.FALSE;
 
     }
 }

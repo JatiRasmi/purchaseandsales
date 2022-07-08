@@ -3,17 +3,19 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/layout.xhtml">
+                template="/layout.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="Center">       
         <h:form id="form_unit">
-            <p:growl id="messages" showDetail="true"/>
             <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton id="add-unit-button" value="New" icon="pi pi-plus" actionListener="#{unitController.beforeCreate()}"
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="UNIT DETAILS" />
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-unit-button" icon="pi pi-plus" actionListener="#{unitController.beforeCreate()}"
                                      oncomplete="PF('manageUnitDialog').show()" update="frm_create_unit"/>
                 </p:toolbarGroup>
             </p:toolbar>
@@ -22,19 +24,14 @@
             <p:dataTable id="dt_units" widgetVar="dtUnits" var="unit" value="#{unitController.unitList}"
                          reflow="true" styleClass="units-table" rowIndexVar="rowIndex" selectionMode="single"
                          selection="#{unitController.unit}" rowKey="#{unit.id}" paginator="true"
-                         rows="5" rowSelectMode="add" paginatorPosition="bottom">
+                         rows="5" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
 
-                <f:facet name="header">
-                    <p:outputLabel value="UNIT DETAILS" />
-                </f:facet>
 
-                <p:column headerText="S.No">
+                <p:column headerText="S.No" width="3%">
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
-                
-<!--                <p:column headerText="S.No." sortBy="{unit.id}" filterBy="{unit.id}">
-                    <h:outputText value="{unit.id}"/>
-                </p:column>-->
 
                 <p:column headerText="Name" sortBy="#{unit.name}" filterBy="#{unit.name}">
                     <h:outputText value="#{unit.name}"/>
@@ -47,7 +44,7 @@
                                      update="@this frm_create_unit"/>
 
                     <p:commandButton icon="pi pi-trash" action="#{unitController.delete(unit)}" 
-                                     process="@this" update=":form_unit:dt_units"><!--delete(unit) is the unit given in var property of data table -->
+                                     process="@this" update=":form_unit:dt_units msg"><!--delete(unit) is the unit given in var property of data table -->
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
                 </p:column>
@@ -56,26 +53,36 @@
         </h:form>
 
 
-        <p:dialog header="Unit" showEffect="fade" modal="false"
+        <p:dialog header="Unit" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="manageUnitDialog" responsive="true" id="dlg_manage">
 
             <h:form id="frm_create_unit">
-                <p:panelGrid columns="2">
+                <p:panelGrid id ="grid" columns="3">
 
                     <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
-                    <p:inputText id="inptxt_name" value="#{unitController.unit.name}" required="true" label="Name"
+
+                    <p:inputText id="inptxt_name" value="#{unitController.unit.name}" required="true"
+                                 requiredMessage="Unit Name is Mandatory" label="Name"  maxlength="20"
                                  title="Name">
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_name" process="@this" />
+                        <f:validator validatorId="uniqueColumnValidator" />
+                        <f:attribute name="currentEntity" value="#{unitController.unit}" />
+                        <f:attribute name="uniqueColumn" value="name" />
                     </p:inputText>
 
+                    <p:message id="msg_name" for="inptxt_name"/>
+
                     <p:commandButton id="unit_create" value="Add" icon="pi pi-check" actionListener="#{unitController.create()}"
-                                     update=":form_unit:dt_units" process="@this" oncomplete="PF('manageUnitDialog').hide();" 
+                                     update=":form_unit:dt_units grid @form" process="@this"
+                                     oncomplete="if (args !args.validationFailed) PF('manageUnitDialog').hide();" 
                                      rendered="#{unitController.unit.id eq null}" />
 
 
                     <p:commandButton id="unit_edit" value="Edit" icon="pi pi-check" actionListener="#{unitController.edit()}"
-                                     process="@this" oncomplete="PF('manageUnitDialog').hide();" update="@this :form_unit:dt_units"
-                                     rendered="#{unitController.unit.id ne null}" />
+                                     process="@this"
+                                     oncomplete="if (!args.validationFailed) PF('manageUnitDialog').hide();" 
+                                     update=":form_unit:dt_units msg"
+                                     rendered="#{unitController.unit.id ne null}"/>
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUnitDialog').hide()"
                                      class="ui-button-secondary"/>

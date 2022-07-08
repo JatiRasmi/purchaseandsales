@@ -11,8 +11,13 @@
         <h:form id="form_supplier">
             <p:growl id="messages" showDetail="true"/>
             <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton id="add-supplier-button" value="New" icon="pi pi-plus" actionListener="#{supplierController.beforeCreate()}"
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="SUPPLIER DETAILS" />
+                </p:toolbarGroup>
+
+
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-supplier-button" icon="pi pi-plus" actionListener="#{supplierController.beforeCreate()}"
                                      oncomplete="PF('manageSupplierDialog').show()" update="form_create_supplier"/>
                 </p:toolbarGroup>
             </p:toolbar>
@@ -20,13 +25,13 @@
             <p:dataTable id="dt_suppliers" widgetVar="dtSuppliers" var="supplier" value="#{supplierController.supplierList}"
                          reflow="true" styleClass="suppliers-table" rowIndexVar="rowIndex" selectionMode="single"
                          selection="#{supplierController.supplier}" rowKey="#{supplier.id}" paginator="true"
-                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
 
-                <f:facet name="header">
-                    <p:outputLabel value="SUPPLIER DETAILS" />
-                </f:facet>
 
-                <p:column headerText="S.No.">
+
+                <p:column headerText="S.No." width="3%">
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
                 <p:column headerText="Name" sortBy="#{supplier.name}" filterBy="#{supplier.name}">

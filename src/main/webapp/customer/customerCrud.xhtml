@@ -10,24 +10,26 @@
                 template="/layout.xhtml">
     <ui:define name="Center">       
         <h:form id="form_customer">
-            <p:growl id="messages" showDetail="true"/>
             <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton id="add-customer-button" value="New" icon="pi pi-plus" actionListener="#{customerController.beforeCreate()}"
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="CUSTOMER DETAILS" />
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-customer-button" icon="pi pi-plus" actionListener="#{customerController.beforeCreate()}"
                                      oncomplete="PF('manageCustomerDialog').show()" update="form_create_customer"/>
                 </p:toolbarGroup>
+
             </p:toolbar>
 
             <p:dataTable id="dt_customers" widgetVar="dtCustomers" var="customer" value="#{customerController.customerList}"
                          reflow="true" styleClass="customers-table" rowIndexVar="rowIndex" selectionMode="single"
                          selection="#{customerController.customer}" rowKey="#{customer.id}" paginator="true"
-                         rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
 
-                <f:facet name="header">
-                    <p:outputLabel value="CUSTOMER DETAILS" />
-                </f:facet>
-
-                <p:column headerText="S.No.">
+                <p:column headerText="S.No." width="3%">
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
                 <p:column headerText="Name" sortBy="#{customer.name}" filterBy="#{customer.name}">
@@ -46,30 +48,33 @@
                     <h:outputText value="#{customer.contact}"/>
                 </p:column>
 
-                <p:column headerText="Action">
+                <p:column headerText="Action" width="10%">
 
                     <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{customerController.beforeEdit(customer)}" 
                                      oncomplete="PF('manageCustomerDialog').show()" process="@this"
                                      update="@this form_create_customer"/>
 
                     <p:commandButton icon="pi pi-trash" action="#{customerController.delete(customer)}" 
-                                     process="@this" update=":form_customer:dt_customers">
+                                     process="@this" update=":form_customer:dt_customers msg">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
+
         <p:dialog header="Customer" showEffect="fade" modal="false"
                   widgetVar="manageCustomerDialog" responsive="true" id="dlg_manage">
 
             <h:form id="form_create_customer">
-                <p:panelGrid columns="2">
+                <p:panelGrid id ="grid" columns="3">
 
                     <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
                     <p:inputText id="inptxt_name" value="#{customerController.customer.name}" required="true" label="Name"
                                  title="Name">
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_name" process="@this" />
                     </p:inputText>
+                    <p:message id="msg_name" for="inptxt_name"/>
+
 
                     <p:outputLabel for="select_address" id="olbl_address" value="Address"/>
                     <p:selectOneMenu id="select_address" value="#{customerController.customer.address}" filter="true" filterMatchMode="startsWith" required="true" label="Address">
@@ -77,29 +82,34 @@
                         <f:selectItem itemLabel="Kathmandu" itemValue="Kathmandu"/>
                         <f:selectItem itemLabel="Bhaktapur" itemValue="Bhaktapur"/>
                         <f:selectItem itemLabel="Lalitpur" itemValue="Lalitpur"/>
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_address" process="@this" />
                     </p:selectOneMenu>
+                    <p:message id="msg_address" for="select_address"/>
 
                     <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
                     <p:inputText id="inptxt_email" value="#{customerController.customer.email}" required="true" label="Email"
                                  title="Email">
-                        <p:ajax update="@this" process="@this" />
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        <p:ajax update="@this msg_email" process="@this" />
                     </p:inputText>
-
+                    <p:message id="msg_email" for="inptxt_email" />
+                    
                     <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
                     <p:inputText id="inptxt_contact" value="#{customerController.customer.contact}" required="true" label="Contact"
                                  title="Contact">
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_contact" process="@this" />
+                        <f:validateRegex pattern="^[+]?[0-9]+$"/>
                     </p:inputText>
-
+                    <p:message id="msg_contact" for="inptxt_contact"/>
 
                     <p:commandButton id="customer_create" value="Add" icon="pi pi-check" actionListener="#{customerController.create()}"
-                                     update=":form_customer:dt_customers" process="@this" oncomplete="PF('manageCustomerDialog').hide();" 
+                                     update=":form_customer:dt_customers grid @form" process="@this" oncomplete="PF('manageCustomerDialog').hide();" 
                                      rendered="#{customerController.customer.id eq null}" />
 
 
                     <p:commandButton id="customer_edit" value="Edit" icon="pi pi-check" actionListener="#{customerController.edit()}"
-                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update="@this :form_customer:dt_customers"
+                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update="@this :form_customer:dt_customers msg"
                                      rendered="#{customerController.customer.id ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageCustomerDialog').hide()"

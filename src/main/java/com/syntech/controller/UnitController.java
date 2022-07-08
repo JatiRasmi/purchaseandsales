@@ -7,10 +7,9 @@ package com.syntech.controller;
 
 import com.syntech.model.Unit;
 import com.syntech.repository.UnitRepository;
+import com.syntech.util.MessageUtill;
 import java.io.Serializable;
-//import static com.syntech.util.Validator.isValidString;
 import java.util.List;
-//import java.util.Scanner;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -30,6 +29,9 @@ public class UnitController implements Serializable {
     @Inject
     private UnitRepository unitRepository;
 
+    @Inject
+    private MessageUtill messageUtill;
+    
     public Unit getUnit() {
         return unit;
     }
@@ -50,7 +52,6 @@ public class UnitController implements Serializable {
     public void init() {
         this.unit = new Unit();
         this.unitList = unitRepository.findAll();
-//        System.out.println(unitList.size());
     }
 
     public void beforeCreate() {
@@ -58,8 +59,10 @@ public class UnitController implements Serializable {
     }
 
     public void create() {
+        //check if name is unique
         unitRepository.create(unit);
         this.unitList = unitRepository.findAll();
+        messageUtill.showInfo("Unit Added Successfully", "Added Unit");
 
     }
 
@@ -78,11 +81,13 @@ public class UnitController implements Serializable {
     public void edit() {
         unitRepository.edit(this.unit);
         this.unitList = unitRepository.findAll();
+        messageUtill.showInfo("Unit Edited Successfully", "Edited Unit");
     }
 
+    
     public void delete(Unit unit) {
         unitRepository.delete(unit);
         unitList = unitRepository.findAll();
-
+        messageUtill.showInfo("Unit Deleted Successfully", "Deleted Unit");
     }
 }

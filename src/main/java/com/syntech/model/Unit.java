@@ -6,12 +6,15 @@
 package com.syntech.model;
 
 import java.util.Objects;
+//import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -20,14 +23,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "unit")
 public class Unit implements IEntity {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id" , nullable = false)
     private Long id;
     
-    @Column(name = "name", nullable = false)
+    @NotNull(message =  "Unit is mandatory")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Unit should be string")
+    @Column(name = "name", unique = true)
     private String name;
+    
+//    private static final Logger logger = Logger.getLogger(Unit.class.getName());
 
     public Unit() {
 

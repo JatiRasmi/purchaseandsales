@@ -12,6 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,16 +31,23 @@ public class Customer implements IEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
+    @Size
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @NotNull
     @Column(name = "address", nullable = false, length = 50)
     private String address;
 
+    @Email
+    @NotBlank
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(name = "contact", nullable = false, length = 10)
+    @Positive
+    @NotBlank
+    @Column(name = "contact", nullable = false, unique = true, length = 10)
     private String contact;
 
     public Customer() {

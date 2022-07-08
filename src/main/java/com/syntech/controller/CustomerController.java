@@ -7,6 +7,7 @@ package com.syntech.controller;
 
 import com.syntech.model.Customer;
 import com.syntech.repository.CustomerRepository;
+import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,9 @@ public class CustomerController implements Serializable {
 
     @Inject
     private CustomerRepository customerRepository;
+
+    @Inject
+    private MessageUtill messageUtill;
 
     public Customer getCustomer() {
         return customer;
@@ -57,16 +61,17 @@ public class CustomerController implements Serializable {
     public void create() {
         customerRepository.create(customer);
         this.customerList = customerRepository.findAll();
+        messageUtill.showInfo("Customer Added Successfully", "Added Customer");
     }
 
     public void findAll() {
         customerRepository.findAll();
     }
 
-    public void findById(Long id){
+    public void findById(Long id) {
         customerRepository.findById(id);
     }
-    
+
     public void beforeEdit(Customer customer) {
         this.customer = customerRepository.findById(customer.getId());
     }
@@ -74,12 +79,12 @@ public class CustomerController implements Serializable {
     public void edit() {
         customerRepository.edit(this.customer);
         this.customerList = customerRepository.findAll();
+        messageUtill.showInfo("Customer Edited Successfully", "Edited Customer");
     }
 
     public void delete(Customer customer) {
         customerRepository.delete(customer);
         customerList = customerRepository.findAll();
-
+        messageUtill.showInfo("Customer Deleted Successfully", "Deleted Customer");
     }
 }
-

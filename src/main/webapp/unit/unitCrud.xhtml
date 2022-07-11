@@ -64,6 +64,7 @@
                     <p:inputText id="inptxt_name" value="#{unitController.unit.name}" required="true"
                                  requiredMessage="Unit Name is Mandatory" label="Name"  maxlength="20"
                                  title="Name">
+                        <!--<f:validateRegex pattern="^[a-zA-Z]{1,}"/>-->
                         <p:ajax update="@this msg_name" process="@this" />
                         <f:validator validatorId="unitValidator" />
                         <f:attribute name="currentEntity" value="#{unitController.unit}" />

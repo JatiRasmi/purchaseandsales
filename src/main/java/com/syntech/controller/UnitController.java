@@ -59,8 +59,7 @@ public class UnitController implements Serializable {
     }
 
     public void create() {
-        //check if name is unique
-        try {
+       try {
             unitRepository.create(unit);
             this.unitList = unitRepository.findAll();
             messageUtill.showInfo("Unit Added Successfully", "Added Unit");

@@ -62,22 +62,23 @@
             </p:dataTable>
         </h:form>
 
-        <p:dialog header="Customer" showEffect="fade" modal="false"
+        <p:dialog header="Customer" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="manageCustomerDialog" responsive="true" id="dlg_manage">
 
             <h:form id="form_create_customer">
                 <p:panelGrid id ="grid" columns="3">
 
                     <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
-                    <p:inputText id="inptxt_name" value="#{customerController.customer.name}" required="true" label="Name"
+                    <p:inputText id="inptxt_name" value="#{customerController.customer.name}" requiredMessage="Name is required" required="true" label="Name"
                                  title="Name">
+                        <f:validateRegex pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"/>       
                         <p:ajax update="@this msg_name" process="@this" />
                     </p:inputText>
                     <p:message id="msg_name" for="inptxt_name"/>
 
 
                     <p:outputLabel for="select_address" id="olbl_address" value="Address"/>
-                    <p:selectOneMenu id="select_address" value="#{customerController.customer.address}" filter="true" filterMatchMode="startsWith" required="true" label="Address">
+                    <p:selectOneMenu id="select_address" requiredMessage="Address is required" value="#{customerController.customer.address}" filter="true" filterMatchMode="startsWith" required="true" label="Address">
                         <f:selectItem itemLabel="Choose Address" itemValue=""/>
                         <f:selectItem itemLabel="Kathmandu" itemValue="Kathmandu"/>
                         <f:selectItem itemLabel="Bhaktapur" itemValue="Bhaktapur"/>
@@ -87,7 +88,7 @@
                     <p:message id="msg_address" for="select_address"/>
 
                     <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
-                    <p:inputText id="inptxt_email" value="#{customerController.customer.email}" required="true" label="Email"
+                    <p:inputText id="inptxt_email" requiredMessage="Email is required" value="#{customerController.customer.email}" required="true" label="Email"
                                  title="Email">
                         <f:validateRegex
                             pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -99,15 +100,19 @@
                     <p:message id="msg_email" for="inptxt_email" />
 
                     <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
-                    <p:inputText id="inptxt_contact" value="#{customerController.customer.contact}" required="true" label="Contact"
+                    <p:inputText id="inptxt_contact" requiredMessage="Contact is required" value="#{customerController.customer.contact}" required="true" label="Contact"
                                  title="Contact">
+                        <f:validateRegex pattern="^[+]?[0-9]+$" />
                         <p:ajax update="@this msg_contact" process="@this" />
-                        <f:validateRegex pattern="^[+]?[0-9]+$"/>
+                        <f:validator validatorId="customerValidator" />
+                        <f:attribute name="currentEntity" value="#{customerController.customer}" />
+                        <f:attribute name="uniqueColumn" value="contact" />
+                        
                     </p:inputText>
                     <p:message id="msg_contact" for="inptxt_contact"/>
 
                     <p:commandButton id="customer_create" value="Add" icon="pi pi-check" actionListener="#{customerController.create()}"
-                                     update=":form_customer:dt_customers grid @form" process="@this" oncomplete="PF('manageCustomerDialog').hide();" 
+                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update=":form_customer:dt_customers grid @form msg" 
                                      rendered="#{customerController.customer.id eq null}" />
 
 

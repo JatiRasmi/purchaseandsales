@@ -18,5 +18,5 @@ public interface IRepository<T> {
     public T findById(Long id);
     public void delete(T e);
     public void edit(T e);
-    public Boolean isUnique(T t, String uniqueColumn, Object newValue);
+    public Boolean isUnique(T t, String uniqueColumn, Object newValue, Long id);
 }

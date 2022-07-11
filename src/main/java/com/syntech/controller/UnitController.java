@@ -31,7 +31,7 @@ public class UnitController implements Serializable {
 
     @Inject
     private MessageUtill messageUtill;
-    
+
     public Unit getUnit() {
         return unit;
     }
@@ -60,9 +60,14 @@ public class UnitController implements Serializable {
 
     public void create() {
         //check if name is unique
-        unitRepository.create(unit);
-        this.unitList = unitRepository.findAll();
-        messageUtill.showInfo("Unit Added Successfully", "Added Unit");
+        try {
+            unitRepository.create(unit);
+            this.unitList = unitRepository.findAll();
+            messageUtill.showInfo("Unit Added Successfully", "Added Unit");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageUtill.showError("Message", "Failed to create unit !!!");
+        }
 
     }
 
@@ -79,12 +84,16 @@ public class UnitController implements Serializable {
     }
 
     public void edit() {
-        unitRepository.edit(this.unit);
-        this.unitList = unitRepository.findAll();
-        messageUtill.showInfo("Unit Edited Successfully", "Edited Unit");
+        try {
+            unitRepository.edit(this.unit);
+            this.unitList = unitRepository.findAll();
+            messageUtill.showInfo("Unit Edited Successfully", "Edited Unit");
+        } catch (Exception e) {
+            e.printStackTrace();
+            messageUtill.showError("Message", "Failed to update unit !!!");
+        }
     }
 
-    
     public void delete(Unit unit) {
         unitRepository.delete(unit);
         unitList = unitRepository.findAll();

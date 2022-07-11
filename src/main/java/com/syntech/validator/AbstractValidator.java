@@ -17,6 +17,7 @@ import javax.faces.validator.ValidatorException;
 /**
  *
  * @author rasmi
+ * @param <T>
  */
 public abstract class AbstractValidator<T extends IEntity> implements Validator, Serializable {
 
@@ -40,12 +41,12 @@ public abstract class AbstractValidator<T extends IEntity> implements Validator,
 
         T currentEntity = (T) comp.getAttributes().get("currentEntity");
         String uniqueColumn = (String) comp.getAttributes().get("uniqueColumn");
-
+        Long id = currentEntity.getId();
         boolean isValid = false;
 
-        isValid = getRepository().isUnique(currentEntity, uniqueColumn, newValue);
+        isValid = getRepository().isUnique(currentEntity, uniqueColumn, newValue, id);
         if (!isValid) {
-            FacesMessage msg = new FacesMessage("must be unique: " + uniqueColumn);
+            FacesMessage msg = new FacesMessage(uniqueColumn + " must be unique! ");
             context.addMessage(comp.getClientId(context), msg);
             throw new ValidatorException(msg);
         }

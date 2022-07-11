@@ -58,13 +58,20 @@ public abstract class AbstractRepository<T extends IEntity> implements IReposito
     }
 
     @Override
-    public Boolean isUnique(T t, String uniqueColumn, Object newValue) {
+    public Boolean isUnique(T t, String uniqueColumn, Object newValue, Long id) {
         Long count = 0L;
         try {
-            Query query = getEntityManager().createQuery("SELECT COUNT(e)"
+            String sql = "SELECT COUNT(e)"
                     + " FROM " + t.getClass().getName() + " e"
-                    + " WHERE e. " + uniqueColumn + " =:value", Long.class);
+                    + " WHERE e. " + uniqueColumn + " =:value";
+            if (id != null) {
+                sql = sql + " and e.id != :id";
+            }
+            Query query = getEntityManager().createQuery(sql, Long.class);
             query.setParameter("value", newValue);
+            if (id != null) {
+                query.setParameter("id", id);
+            }
             count = (Long) query.getSingleResult();
         } catch (Exception e) {
             count = 1L;

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+    <ui:define name="Center">       
+        <h:form id="form_product">
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="PRODUCT DETAILS" />
+                </p:toolbarGroup>
+
+
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-product-button" icon="pi pi-plus" actionListener="#{productController.beforeCreate()}"
+                                     oncomplete="PF('manageProductDialog').show()" update="form_create_product"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt_products" widgetVar="dtProducts" var="product" value="#{productController.productList}"
+                         reflow="true" styleClass="products-table" rowIndexVar="rowIndex" selectionMode="single"
+                         selection="#{productController.product}" rowKey="#{product.id}" paginator="true"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+
+
+                <p:column headerText="S.No." width="3%">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column headerText="Unit" sortBy="#{product.unit}" filterBy="#{product.unit}">
+                    <h:outputText value="[#{product.unit.id}] #{product.unit.name}"/>
+                    
+<!--                    <p:column headerText="Unit (Id) | name)" sortBy="{product.unit.id}" filterBy="{product.unit.name}">
+                    <h:outputText value="({product.unit.id})  {product.unit.name}"/>
+                -->
+                </p:column> 
+                <p:column headerText="Name" sortBy="#{product.name}" filterBy="#{product.name}">
+                    <h:outputText value="#{product.name}"/>
+                </p:column>
+
+                <p:column headerText="Description" sortBy="#{product.description}" filterBy="#{product.description}">
+                    <h:outputText value="#{product.description}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{productController.beforeEdit(product)}" 
+                                     oncomplete="PF('manageProductDialog').show()" process="@this"
+                                     update="@this form_create_product"/>
+
+                    <p:commandButton icon="pi pi-trash" action="#{productController.delete(product)}" 
+                                     process="@this" update=":form_product:dt_products msg ">
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Product" showEffect="fade" modal="false" appendTo="@(body)"
+                  widgetVar="manageProductDialog" responsive="true" id="dlg_manage">
+
+            <h:form id="form_create_product">
+                <p:panelGrid id ="grid" columns="3">
+                    <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
+                    <p:inputText id="inptxt_name" value="#{productController.product.name}" requiredMessage="Name is Required" required="true" label="Name"
+                                 title="Name">
+                        <p:ajax update="@this msg_name" process="@this" />
+                    </p:inputText>
+                    <p:message id="msg_name" for="inptxt_name"/>
+
+                    <p:outputLabel for="select_unit" id="olbl_unit" value="Unit"/>
+                    <p:selectOneMenu id="select_unit" requiredMessage="Unit is required" converter="unitConverter" value="#{productController.product.unit}" filter="true" 
+                                     filterMatchMode="startsWith" required="true" style="width: 220px" label="Unit">
+                        <f:selectItem itemLabel="Choose Unit" itemValue=""/>
+                        <f:selectItems value="#{unitController.unitList}" var="unitlist" itemLabel="#{unitlist.name}" itemValue="#{unitlist}"/>
+                        <p:ajax update="@this msg_unit" process="@this" />
+                    </p:selectOneMenu>
+                    <p:message id="msg_unit" for="select_unit"/>
+
+                    <p:outputLabel for="inptxt_description" id="olbl_description" value="Description" />
+                    <p:inputTextarea id="inptxt_description" rows="1" cols="21" autoResize="false" value="#{productController.product.description}" label="Description"
+                                     required="true" title="Description">
+                        <p:ajax update="@this msg_description" process="@this" />
+                    </p:inputTextarea>
+                    <p:message id="msg_description" for="inptxt_description"/>
+
+
+                    <p:commandButton id="product_create" value="Add" icon="pi pi-check" actionListener="#{productController.create()}"
+                                     update=":form_product:dt_products msg" process="@this" oncomplete="PF('manageProductDialog').hide();" 
+                                     rendered="#{productController.product.id eq null}" />
+
+
+                    <p:commandButton id="product_edit" value="Edit" icon="pi pi-check" actionListener="#{productController.edit()}"
+                                     process="@this" oncomplete="PF('manageProductDialog').hide();" update="@this :form_product:dt_products msg"
+                                     rendered="#{productController.product.id ne null}" />
+
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

@@ -9,7 +9,6 @@
                 template="/layout.xhtml">
     <ui:define name="Center">       
         <h:form id="form_supplier">
-            <p:growl id="messages" showDetail="true"/>
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:outputLabel value="SUPPLIER DETAILS" />
@@ -61,60 +60,76 @@
                                      update="@this form_create_supplier"/>
 
                     <p:commandButton icon="pi pi-trash" action="#{supplierController.delete(supplier)}" 
-                                     process="@this" update=":form_supplier:dt_suppliers">
+                                     process="@this" update=":form_supplier:dt_suppliers msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
 
-        <p:dialog header="Supplier" showEffect="fade" modal="false"
+        <p:dialog header="Supplier" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="manageSupplierDialog" responsive="true" id="dlg_manage">
 
             <h:form id="form_create_supplier">
-                <p:panelGrid columns="2">
+                <p:panelGrid id ="grid" columns="3">
                     <p:outputLabel for="inptxt_name" id="olbl_name" value="Name" />
-                    <p:inputText id="inptxt_name" value="#{supplierController.supplier.name}" required="true" label="Name"
+                    <p:inputText id="inptxt_name" value="#{supplierController.supplier.name}" requiredMessage="Name is Required" required="true" label="Name"
                                  title="Name">
-                        <p:ajax update="@this" process="@this" />
+                        <f:validateRegex pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"/>       
+                        <p:ajax update="@this msg_name" process="@this" />
                     </p:inputText>
+                    <p:message id="msg_name" for="inptxt_name"/>
 
                     <p:outputLabel for="select_address" id="olbl_address" value="Address"/>
-                    <p:selectOneMenu id="select_address" value="#{supplierController.supplier.address}" filter="true" 
+                    <p:selectOneMenu id="select_address" requiredMessage="Address is required" value="#{supplierController.supplier.address}" filter="true" 
                                      filterMatchMode="startsWith" required="true" style="width: 220px" label="Address">
                         <f:selectItem itemLabel="Choose Address" itemValue=""/>
                         <f:selectItem itemLabel="Kathmandu" itemValue="Kathmandu"/>
                         <f:selectItem itemLabel="Bhaktapur" itemValue="Bhaktapur"/>
                         <f:selectItem itemLabel="Lalitpur" itemValue="Lalitpur"/>
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_address" process="@this" />
                     </p:selectOneMenu>
+                    <p:message id="msg_address" for="select_address"/>
 
                     <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
-                    <p:inputText id="inptxt_email" value="#{supplierController.supplier.email}" required="true" label="Email"
+                    <p:inputText id="inptxt_email" requiredMessage="Email is required" value="#{supplierController.supplier.email}" required="true" label="Email"
                                  title="Email">
-                        <p:ajax update="@this" process="@this" />
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+                        <p:ajax update="@this msg_email" process="@this" />
+                        <f:validator validatorId="supplierValidator" />
+                        <f:attribute name="currentEntity" value="#{supplierController.supplier}" />
+                        <f:attribute name="uniqueColumn" value="email" />
                     </p:inputText>
+                    <p:message id="msg_email" for="inptxt_email" />
 
                     <p:outputLabel for="inptxt_contact" id="olbl_contact" value="Contact" />
-                    <p:inputText id="inptxt_contact" value="#{supplierController.supplier.contact}" required="true" label="Contact"
+                    <p:inputText id="inptxt_contact" value="#{supplierController.supplier.contact}" requiredMessage="Contact is required" required="true" label="Contact"
                                  title="Contact">
-                        <p:ajax update="@this" process="@this" />
+                         <f:validateRegex pattern="^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" />
+                        <p:ajax update="@this msg_contact" process="@this" />
+                        <f:validator validatorId="supplierValidator" />
+                        <f:attribute name="currentEntity" value="#{supplierController.supplier}" />
+                        <f:attribute name="uniqueColumn" value="contact" />
                     </p:inputText>
+                    <p:message id="msg_contact" for="inptxt_contact"/>
 
                     <p:outputLabel for="inptxt_description" id="olbl_description" value="Description" />
                     <p:inputTextarea id="inptxt_description" rows="1" cols="21" autoResize="false" value="#{supplierController.supplier.description}" label="Description"
                                      title="Description">
-                        <p:ajax update="@this" process="@this" />
+                        <p:ajax update="@this msg_description" process="@this" />
                     </p:inputTextarea>
+                    <p:message id="msg_description" for="inptxt_contact"/>
 
 
                     <p:commandButton id="supplier_create" value="Add" icon="pi pi-check" actionListener="#{supplierController.create()}"
-                                     update=":form_supplier:dt_suppliers" process="@this" oncomplete="PF('manageSupplierDialog').hide();" 
+                                     update=":form_supplier:dt_suppliers msg" process="@this" oncomplete="PF('manageSupplierDialog').hide();" 
                                      rendered="#{supplierController.supplier.id eq null}" />
 
 
                     <p:commandButton id="supplier_edit" value="Edit" icon="pi pi-check" actionListener="#{supplierController.edit()}"
-                                     process="@this" oncomplete="PF('manageSupplierDialog').hide();" update="@this :form_supplier:dt_suppliers"
+                                     process="@this" oncomplete="PF('manageSupplierDialog').hide();" update="@this :form_supplier:dt_suppliers msg"
                                      rendered="#{supplierController.supplier.id ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageSupplierDialog').hide()"

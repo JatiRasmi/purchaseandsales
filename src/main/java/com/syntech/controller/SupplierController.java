@@ -7,6 +7,7 @@ package com.syntech.controller;
 
 import com.syntech.model.Supplier;
 import com.syntech.repository.SupplierRepository;
+import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,9 @@ public class SupplierController implements Serializable {
 
     @Inject
     private SupplierRepository supplierRepository;
+
+    @Inject
+    MessageUtill messageUtill;
 
     public Supplier getSupplier() {
         return supplier;
@@ -57,16 +61,17 @@ public class SupplierController implements Serializable {
     public void create() {
         supplierRepository.create(supplier);
         this.supplierList = supplierRepository.findAll();
+        messageUtill.showInfo("Supplier Added Successfully", "Supplier Added");
     }
 
     public void findAll() {
         supplierRepository.findAll();
     }
 
-    public void findById(Long id){
+    public void findById(Long id) {
         supplierRepository.findById(id);
     }
-    
+
     public void beforeEdit(Supplier supplier) {
         this.supplier = supplierRepository.findById(supplier.getId());
     }
@@ -74,12 +79,12 @@ public class SupplierController implements Serializable {
     public void edit() {
         supplierRepository.edit(this.supplier);
         this.supplierList = supplierRepository.findAll();
+        messageUtill.showInfo("Supplier Edited Successfully", "Supplier Edited");
     }
 
     public void delete(Supplier supplier) {
         supplierRepository.delete(supplier);
         supplierList = supplierRepository.findAll();
-
+        messageUtill.showInfo("Supplier Deleted Successfully", "Supplier Deleted" );
     }
 }
-

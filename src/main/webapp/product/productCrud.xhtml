@@ -37,10 +37,7 @@
 
                 <p:column headerText="Unit" sortBy="#{product.unit}" filterBy="#{product.unit}">
                     <h:outputText value="[#{product.unit.id}] #{product.unit.name}"/>
-                    
-<!--                    <p:column headerText="Unit (Id) | name)" sortBy="{product.unit.id}" filterBy="{product.unit.name}">
-                    <h:outputText value="({product.unit.id})  {product.unit.name}"/>
-                -->
+
                 </p:column> 
                 <p:column headerText="Name" sortBy="#{product.name}" filterBy="#{product.name}">
                     <h:outputText value="#{product.name}"/>
@@ -60,6 +57,7 @@
                                      process="@this" update=":form_product:dt_products msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
+
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -87,14 +85,14 @@
 
                     <p:outputLabel for="inptxt_description" id="olbl_description" value="Description" />
                     <p:inputTextarea id="inptxt_description" rows="1" cols="21" autoResize="false" value="#{productController.product.description}" label="Description"
-                                     required="true" title="Description">
+                                     required="true" requiredMessage="Description is required" title="Description">
                         <p:ajax update="@this msg_description" process="@this" />
                     </p:inputTextarea>
                     <p:message id="msg_description" for="inptxt_description"/>
 
 
                     <p:commandButton id="product_create" value="Add" icon="pi pi-check" actionListener="#{productController.create()}"
-                                     update=":form_product:dt_products msg" process="@this" oncomplete="PF('manageProductDialog').hide();" 
+                                     update=":form_product:dt_products grid msg" process="@this" oncomplete="PF('manageProductDialog').hide();" 
                                      rendered="#{productController.product.id eq null}" />
 
 

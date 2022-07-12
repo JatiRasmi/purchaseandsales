@@ -5,12 +5,15 @@
  */
 package com.syntech.model;
 
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -31,6 +34,10 @@ public class Supplier implements IEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "supplier")
+    private List<PurchaseOrder> purchaseOrder;
+    
+    
     @NotNull
     @Column(name = "name", nullable = false, length = 50)
     private String name;

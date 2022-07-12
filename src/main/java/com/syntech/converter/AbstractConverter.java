@@ -17,8 +17,6 @@ import javax.faces.convert.Converter;
  * @author rasmi
  * @param <T>
  */
-//@RequestScoped
-//@FacesConverter(value = "unitConverter", forClass = Unit.class)
 public abstract class AbstractConverter<T extends IEntity> implements Converter, Serializable{
 
     protected abstract AbstractRepository getRepository();

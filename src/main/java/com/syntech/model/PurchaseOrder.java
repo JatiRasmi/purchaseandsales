@@ -34,8 +34,8 @@ public class PurchaseOrder implements IEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id" , nullable = false)
-    private Supplier supplierid;
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
 
     @Column(name = "date", nullable = false)
     private String date;
@@ -57,9 +57,9 @@ public class PurchaseOrder implements IEntity {
         this.id = id;
     }
 
-    public PurchaseOrder(Long id, Supplier supplierid, String date, String expecteddeliverydate, BigDecimal totalamount) {
+    public PurchaseOrder(Long id, Supplier supplier, String date, String expecteddeliverydate, BigDecimal totalamount) {
         this.id = id;
-        this.supplierid = supplierid;
+        this.supplier = supplier;
         this.date = date;
         this.expecteddeliverydate = expecteddeliverydate;
         this.totalamount = totalamount;
@@ -70,7 +70,7 @@ public class PurchaseOrder implements IEntity {
         return id;
     }
 
-    public void setSupplierid(Long id) {
+    public void setSupplier(Long id) {
         this.id = id;
     }
 
@@ -82,8 +82,8 @@ public class PurchaseOrder implements IEntity {
         this.totalamount = totalamount;
     }
 
-    public Supplier getSupplierid() {
-        return supplierid;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
     public String getDate() {
@@ -99,8 +99,8 @@ public class PurchaseOrder implements IEntity {
         this.id = id;
     }
 
-    public void setSupplierid(Supplier supplierid) {
-        this.supplierid = supplierid;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public void setDate(String date) {
@@ -115,7 +115,7 @@ public class PurchaseOrder implements IEntity {
     public final int hashCode() {
         int hash = 7;
         hash = 17 * hash + Objects.hashCode(this.id);
-        hash = 17 * hash + Objects.hashCode(this.supplierid);
+        hash = 17 * hash + Objects.hashCode(this.supplier);
         hash = 17 * hash + Objects.hashCode(this.date);
         hash = 17 * hash + Objects.hashCode(this.expecteddeliverydate);
         hash = 17 * hash + Objects.hashCode(this.totalamount);
@@ -140,7 +140,7 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.supplierid, other.supplierid)) {
+        if (!Objects.equals(this.supplier, other.supplier)) {
             return false;
         }
         if (!Objects.equals(this.totalamount, other.totalamount)) {
@@ -151,7 +151,7 @@ public class PurchaseOrder implements IEntity {
 
     @Override
     public String toString() {
-        return "\n id = " + id + "\n supplier : \t " + supplierid + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate + " \n totalsumamount = " + totalamount;
+        return "\n id = " + id + "\n supplier : \t " + supplier + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate + " \n totalsumamount = " + totalamount;
     }
 
 }

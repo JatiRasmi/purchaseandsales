@@ -67,9 +67,9 @@ public class PurchaseOrderDetail implements IEntity {
 
     }
 
-    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseorder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
+    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseOrder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
         this.id = id;
-        this.purchaseOrder = purchaseorder;
+        this.purchaseOrder = purchaseOrder;
         this.product = product;
         this.quantity = quantity;
         this.rate = rate;
@@ -82,56 +82,10 @@ public class PurchaseOrderDetail implements IEntity {
         this.totalamount = totalamount;
     }
 
-    public PurchaseOrderDetail(Long id) {
-        this.id = id;
-    }
-
-    @Override
     public Long getId() {
         return id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public Long getRate() {
-        return rate;
-    }
-
-    public Long getSubtotal() {
-        return subtotal;
-    }
-
-    public Long getDiscount() {
-        return discount;
-    }
-
-    public Long getDiscountamount() {
-        return discountamount;
-    }
-
-    public Long getSubtotalAfterDiscount() {
-        return subtotalafterdiscount;
-    }
-
-    public Long getVat() {
-        return vat;
-    }
-
-    public Long getVatamount() {
-        return vatamount;
-    }
-
-    public Long getTotalamount() {
-        return totalamount;
-    }
-
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -144,6 +98,54 @@ public class PurchaseOrderDetail implements IEntity {
         this.purchaseOrder = purchaseOrder;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
+    public Long getRate() {
+        return rate;
+    }
+
+    public void setRate(Long rate) {
+        this.rate = rate;
+    }
+
+    public Long getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Long subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public Long getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Long discount) {
+        this.discount = discount;
+    }
+
+    public Long getDiscountamount() {
+        return discountamount;
+    }
+
+    public void setDiscountamount(Long discountamount) {
+        this.discountamount = discountamount;
+    }
+
     public Long getSubtotalafterdiscount() {
         return subtotalafterdiscount;
     }
@@ -152,33 +154,30 @@ public class PurchaseOrderDetail implements IEntity {
         this.subtotalafterdiscount = subtotalafterdiscount;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setRate(Long rate) {
-        this.rate = rate;
-    }
-
-    public void setSubtotal(Long subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public void setDiscount(Long discount) {
-        this.discount = discount;
+    public Long getVat() {
+        return vat;
     }
 
     public void setVat(Long vat) {
         this.vat = vat;
     }
 
+    public Long getVatamount() {
+        return vatamount;
+    }
+
+    public void setVatamount(Long vatamount) {
+        this.vatamount = vatamount;
+    }
+
+    public Long getTotalamount() {
+        return totalamount;
+    }
+
     public void setTotalamount(Long totalamount) {
         this.totalamount = totalamount;
     }
+    
 
     @Override
     public final int hashCode() {
@@ -236,7 +235,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "\n Id = " + id + "\n" + "\n _____Purchase Order_______  \t" + purchaseOrder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountamount + "\n subtotalafterdiscount = " + subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
+        return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subtotal + ", discount=" + discount + ", discountamount=" + discountamount + ", subtotalafterdiscount=" + subtotalafterdiscount + ", vat=" + vat + ", vatamount=" + vatamount + ", totalamount=" + totalamount + '}';
     }
 
 }

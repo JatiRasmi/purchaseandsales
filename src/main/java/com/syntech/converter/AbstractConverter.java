@@ -3,33 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.syntech.util;
+package com.syntech.converter;
 
-import com.syntech.model.Unit;
-import com.syntech.repository.UnitRepository;
-import javax.enterprise.context.RequestScoped;
+import com.syntech.model.IEntity;
+import com.syntech.repository.AbstractRepository;
+import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
 
 /**
  *
  * @author rasmi
+ * @param <T>
  */
-@RequestScoped
-@FacesConverter(value = "unitConverter", forClass = Unit.class)
-public class UnitConverter implements Converter{
+//@RequestScoped
+//@FacesConverter(value = "unitConverter", forClass = Unit.class)
+public abstract class AbstractConverter<T extends IEntity> implements Converter, Serializable{
 
-    @Inject
-    UnitRepository unitRepository;
+    protected abstract AbstractRepository getRepository();
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
          if (value == null || value.isEmpty() || value.length() == 0 || value.equals("")) {
             return null;
         }
-        return unitRepository.findById(Long.valueOf(value));
+        return getRepository().findById(Long.valueOf(value));
     }
 
     @Override
@@ -37,7 +35,7 @@ public class UnitConverter implements Converter{
             if (t == null || t.equals("")) {
             return "";
         }
-        return ((Unit) t).getId().toString();
+        return ((T) t).getId().toString();
     }
     
 }

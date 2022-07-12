@@ -88,7 +88,7 @@ public class UnitController implements Serializable {
             this.unitList = unitRepository.findAll();
             messageUtill.showInfo("Unit Edited Successfully", "Edited Unit");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             messageUtill.showError("Message", "Failed to update unit !!!");
         }
     }

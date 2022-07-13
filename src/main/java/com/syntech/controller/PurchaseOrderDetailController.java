@@ -5,10 +5,12 @@
  */
 package com.syntech.controller;
 
+import com.syntech.util.CalculationUtill;
 import com.syntech.model.PurchaseOrderDetail;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -32,11 +34,14 @@ public class PurchaseOrderDetailController implements Serializable {
     @Inject
     MessageUtill messageUtill;
 
-    public PurchaseOrderDetail getProductOrderDetail() {
+    @Inject
+    CalculationUtill calculationUtill;
+
+    public PurchaseOrderDetail getPurchaseOrderDetail() {
         return purchaseOrderDetail;
     }
 
-    public void setProductOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
+    public void setPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
         this.purchaseOrderDetail = purchaseOrderDetail;
     }
 
@@ -85,6 +90,27 @@ public class PurchaseOrderDetailController implements Serializable {
     public void delete(PurchaseOrderDetail purchaseOrderDetail) {
         purchaseOrderDetailRepository.delete(purchaseOrderDetail);
         purchaseOrderDetails = purchaseOrderDetailRepository.findAll();
-        messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted" );
+        messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
+    }
+
+    public void subtotalCalculate() {
+        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
+        this.purchaseOrderDetail.setSubtotal(subtotal);
+    }
+
+    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
+        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscount());
+        this.purchaseOrderDetail.setDiscountamount(discountAmount);
+
+        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscountamount());
+        this.purchaseOrderDetail.setSubtotalafterdiscount((subafterdiscount));
+    }
+
+    public void calculateVatAmountAndTotalAmount() {
+        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVat());
+        this.purchaseOrderDetail.setVatamount(vatAmount);
+
+        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVatamount());
+        this.purchaseOrderDetail.setTotalamount(totalAmount);
     }
 }

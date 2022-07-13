@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,37 +38,37 @@ public class PurchaseOrderDetail implements IEntity {
     private Product product;
 
     @Column(name = "quantity", nullable = false)
-    private Long quantity;
+    private BigDecimal quantity;
 
     @Column(name = "rate", nullable = false)
-    private Long rate;
+    private BigDecimal rate;
 
     @Column(name = "sub_total", nullable = false)
-    private Long subtotal;
+    private BigDecimal subtotal;
 
-    @Column(name = "discount", nullable = false)
-    private Long discount;
+    @Column(name = "discount")
+    private BigDecimal discount;
 
     @Column(name = "discount_amount", nullable = false)
-    private Long discountamount;
+    private BigDecimal discountamount;
 
     @Column(name = "sub_total_after_discount", nullable = false)
-    private Long subtotalafterdiscount;
+    private BigDecimal subtotalafterdiscount;
 
-    @Column(name = "vat", nullable = false)
-    private Long vat;
+    @Column(name = "vat")
+    private BigDecimal vat;
 
     @Column(name = "vat_amount", nullable = false)
-    private Long vatamount;
+    private BigDecimal vatamount;
 
     @Column(name = "total_amount", nullable = false)
-    private Long totalamount;
+    private BigDecimal totalamount;
 
     public PurchaseOrderDetail() {
 
     }
 
-    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseOrder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
+    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseOrder, Product product, BigDecimal quantity, BigDecimal rate, BigDecimal subtotal, BigDecimal discount, BigDecimal discountamount, BigDecimal subtotalafterdiscount, BigDecimal vat, BigDecimal vatamount, BigDecimal totalamount) {
         this.id = id;
         this.purchaseOrder = purchaseOrder;
         this.product = product;
@@ -82,10 +83,12 @@ public class PurchaseOrderDetail implements IEntity {
         this.totalamount = totalamount;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -106,79 +109,79 @@ public class PurchaseOrderDetail implements IEntity {
         this.product = product;
     }
 
-    public Long getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
-    public Long getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
-    public void setRate(Long rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 
-    public Long getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Long subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
-    public Long getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
-    public Long getDiscountamount() {
+    public BigDecimal getDiscountamount() {
         return discountamount;
     }
 
-    public void setDiscountamount(Long discountamount) {
+    public void setDiscountamount(BigDecimal discountamount) {
         this.discountamount = discountamount;
     }
 
-    public Long getSubtotalafterdiscount() {
+    public BigDecimal getSubtotalafterdiscount() {
         return subtotalafterdiscount;
     }
 
-    public void setSubtotalafterdiscount(Long subtotalafterdiscount) {
+    public void setSubtotalafterdiscount(BigDecimal subtotalafterdiscount) {
         this.subtotalafterdiscount = subtotalafterdiscount;
     }
 
-    public Long getVat() {
+    public BigDecimal getVat() {
         return vat;
     }
 
-    public void setVat(Long vat) {
+    public void setVat(BigDecimal vat) {
         this.vat = vat;
     }
 
-    public Long getVatamount() {
+    public BigDecimal getVatamount() {
         return vatamount;
     }
 
-    public void setVatamount(Long vatamount) {
+    public void setVatamount(BigDecimal vatamount) {
         this.vatamount = vatamount;
     }
 
-    public Long getTotalamount() {
+    public BigDecimal getTotalamount() {
         return totalamount;
     }
 
-    public void setTotalamount(Long totalamount) {
+    public void setTotalamount(BigDecimal totalamount) {
         this.totalamount = totalamount;
     }
-    
 
+    
     @Override
     public final int hashCode() {
         int hash = 5;
@@ -237,5 +240,7 @@ public class PurchaseOrderDetail implements IEntity {
     public String toString() {
         return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subtotal + ", discount=" + discount + ", discountamount=" + discountamount + ", subtotalafterdiscount=" + subtotalafterdiscount + ", vat=" + vat + ", vatamount=" + vatamount + ", totalamount=" + totalamount + '}';
     }
+
+    
 
 }

@@ -30,8 +30,6 @@ public class PurchaseOrderController implements Serializable {
 
     private PurchaseOrder purchaseOrder;
     private List<PurchaseOrder> purchaseOrderList;
-
-    private List<PurchaseOrderDetail> purchaseOrderDetailList;
     private PurchaseOrderDetail purchaseOrderDetail;
 
     @Inject
@@ -79,17 +77,6 @@ public class PurchaseOrderController implements Serializable {
     @PostConstruct
     public void init() {
         this.purchaseOrder = new PurchaseOrder();
-        purchaseOrderDetailList = new ArrayList<>();
-        purchaseOrderDetailList.add(purchaseOrderDetail);
-    }
-
-    public List<PurchaseOrderDetail> getPurchaseOrderDetailList() {
-        return new ArrayList<>(purchaseOrderDetailList);
-
-    }
-
-    public void setPurchaseOrderDetailList(List<PurchaseOrderDetail> purchaseOrderDetailList) {
-        this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
 
     public PurchaseOrderDetail getPurchaseOrderDetail() {
@@ -113,6 +100,14 @@ public class PurchaseOrderController implements Serializable {
         purchaseOrder.getPurchaseOrderDetailList().add(purchaseOrderDetail);
         messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
         purchaseOrderDetail = new PurchaseOrderDetail();
+        
+        
+    }
+
+    public void deleteFromList(PurchaseOrderDetail purchaseOrderDetail) {
+        purchaseOrder.getPurchaseOrderDetailList().remove(purchaseOrderDetail);
+//        this.purchaseOrderDetail = null;
+        messageUtill.showInfo("Order for purchase removed successfully", "Order Removed");
     }
 
     public void create() {

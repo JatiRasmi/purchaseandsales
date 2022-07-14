@@ -38,31 +38,31 @@ public class PurchaseOrderDetail implements IEntity {
     private Product product;
 
     @Column(name = "quantity", nullable = false)
-    private BigDecimal quantity;
+    private BigDecimal quantity = BigDecimal.ZERO;
 
     @Column(name = "rate", nullable = false)
-    private BigDecimal rate;
+    private BigDecimal rate = BigDecimal.ZERO;
 
     @Column(name = "sub_total", nullable = false)
-    private BigDecimal subtotal;
+    private BigDecimal subtotal = BigDecimal.ZERO;
 
     @Column(name = "discount", nullable = false)
-    private BigDecimal discount;
+    private BigDecimal discount = BigDecimal.ZERO;
 
     @Column(name = "discount_amount", nullable = false)
-    private BigDecimal discountamount;
+    private BigDecimal discountamount = BigDecimal.ZERO;
 
     @Column(name = "sub_total_after_discount", nullable = false)
-    private BigDecimal subtotalafterdiscount;
+    private BigDecimal subtotalafterdiscount = BigDecimal.ZERO;
 
     @Column(name = "vat", nullable = false)
-    private BigDecimal vat;
+    private BigDecimal vat = BigDecimal.ZERO;
 
     @Column(name = "vat_amount", nullable = false)
-    private BigDecimal vatamount;
+    private BigDecimal vatamount = BigDecimal.ZERO;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalamount;
+    private BigDecimal totalamount = BigDecimal.ZERO;
 
     public PurchaseOrderDetail() {
 

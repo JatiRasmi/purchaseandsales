@@ -44,7 +44,7 @@ public class PurchaseOrder implements IEntity {
     private String expecteddeliverydate;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalamount;
+    private BigDecimal totalamount = BigDecimal.ZERO;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
     private List<PurchaseOrderDetail> purchaseOrderDetailList;

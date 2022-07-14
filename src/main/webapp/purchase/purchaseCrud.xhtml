@@ -160,8 +160,8 @@
                           filterBy="#{purchaseorderdetail.product.name}">
                     <h:outputText value="#{purchaseorderdetail.product.name}"/>
                 </p:column> 
-                
-                
+
+
                 <p:column headerText="Quantity" sortBy="#{purchaseorderdetail.quantity}" 
                           filterBy="#{purchaseorderdetail.quantity}">
                     <h:outputText value="#{purchaseorderdetail.quantity}"/>
@@ -211,10 +211,10 @@
                     <p:commandButton id="edit" icon="pi pi-pencil" 
                                      actionListener="#{purchaseOrderDetailController.beforeEdit(purchaseOrderDetail)}" 
                                      oncomplete="PF('managePurchaseOrderDetailDialog').show()" process="@this"
-                                     update="@this form_create_purchaseorder"/>
-
+                                     update="@this dt_purchaseorderdetails"/>
+                    
                     <p:commandButton icon="pi pi-trash" 
-                                     action="#{purchaseOrderDetailController.delete(purchaseOrderDetail)}" 
+                                     action="#{purchaseOrderController.deleteFromList(purchaseorderdetail)}" 
                                      process="@this" update="dt_purchaseorderdetails msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
@@ -286,19 +286,12 @@
                                       value="#{purchaseOrderController.purchaseOrderDetail.discountamount}"/>
                         <p:message id="msg_discountAmount" for="outtxt_discountamount"/>
 
-
-
-
                         <p:outputLabel for="outtxt_subtotalafterdiscount" id="olbl_subtotalafterdiscount"
                                        value="Sub Total After Discount" />
                         <h:outputText id="outtxt_subtotalafterdiscount" 
                                       value="#{purchaseOrderController.purchaseOrderDetail.subtotalafterdiscount}">
                         </h:outputText>
                         <p:message id="msg_subtotalafterdiscount" for="outtxt_subtotalafterdiscount"/>
-
-
-
-
 
                         <p:outputLabel for="inptxt_vat" id="olbl_vat" value="Vat(%)" />
                         <p:inputText id="inptxt_vat" 
@@ -309,14 +302,11 @@
                         </p:inputText>
                         <p:message id="msg_vat" for="inptxt_vat"/>
 
-
-
                         <p:outputLabel for="outtxt_vatamount" id="olbl_vatamount" value="Vat Amount" />
                         <h:outputText id="outtxt_vatamount"
                                       value="#{purchaseOrderController.purchaseOrderDetail.vatamount}">
                         </h:outputText>
                         <p:message id="msg_vatAmount" for="outtxt_vatamount"/>
-
 
                         <p:outputLabel for="outtxt_totalamountdetail" id="olbl_totalamountdetail"
                                        value="Total Amount" />
@@ -333,7 +323,7 @@
                                          rendered="#{purchaseOrderDetailController.purchaseOrderDetail.id eq null}" />
 
                         <p:commandButton id="purchaseorderdetail_edit" value="Edit" icon="pi pi-check"
-                                         actionListener="#{purchaseorderdetailController.edit()}"
+                                         actionListener="#{purchaseOrderController.edit()}"
                                          process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();"
                                          update="@this dt_purchaseorderdetails msg"
                                          rendered="#{purchaseOrderDetailController.purchaseOrderDetail.id ne null}" />

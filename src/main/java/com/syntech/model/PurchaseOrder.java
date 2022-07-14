@@ -47,22 +47,18 @@ public class PurchaseOrder implements IEntity {
     private BigDecimal totalamount;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
-    private List<PurchaseOrderDetail> purchaseOrderDetails;
+    private List<PurchaseOrderDetail> purchaseOrderDetailList;
 
     public PurchaseOrder() {
-
     }
 
-    public PurchaseOrder(Long id) {
-        this.id = id;
-    }
-
-    public PurchaseOrder(Long id, Supplier supplier, String date, String expecteddeliverydate, BigDecimal totalamount) {
+    public PurchaseOrder(Long id, Supplier supplier, String date, String expecteddeliverydate, BigDecimal totalamount, List<PurchaseOrderDetail> purchaseOrderDetailList) {
         this.id = id;
         this.supplier = supplier;
         this.date = date;
         this.expecteddeliverydate = expecteddeliverydate;
         this.totalamount = totalamount;
+        this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
 
     @Override
@@ -70,62 +66,67 @@ public class PurchaseOrder implements IEntity {
         return id;
     }
 
-    public void setSupplier(Long id) {
+    @Override
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalamount;
-    }
-
-    public void setTotalAmount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
     }
 
     public Supplier getSupplier() {
         return supplier;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public String getExpecteddeliverydate() {
-        return expecteddeliverydate;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
+    public String getExpecteddeliverydate() {
+        return expecteddeliverydate;
+    }
+
     public void setExpecteddeliverydate(String expecteddeliverydate) {
         this.expecteddeliverydate = expecteddeliverydate;
     }
 
+    public BigDecimal getTotalamount() {
+        return totalamount;
+    }
+
+    public void setTotalamount(BigDecimal totalamount) {
+        this.totalamount = totalamount;
+    }
+
+    public List<PurchaseOrderDetail> getPurchaseOrderDetailList() {
+        return purchaseOrderDetailList;
+    }
+
+    public void setPurchaseOrderDetailList(List<PurchaseOrderDetail> purchaseOrderDetails) {
+        this.purchaseOrderDetailList = purchaseOrderDetails;
+    }
+
     @Override
     public final int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.id);
-        hash = 17 * hash + Objects.hashCode(this.supplier);
-        hash = 17 * hash + Objects.hashCode(this.date);
-        hash = 17 * hash + Objects.hashCode(this.expecteddeliverydate);
-        hash = 17 * hash + Objects.hashCode(this.totalamount);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.supplier);
+        hash = 83 * hash + Objects.hashCode(this.date);
+        hash = 83 * hash + Objects.hashCode(this.expecteddeliverydate);
+        hash = 83 * hash + Objects.hashCode(this.totalamount);
+        hash = 83 * hash + Objects.hashCode(this.purchaseOrderDetailList);
         return hash;
     }
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+        if (this == obj) {
+            return true;
         }
         if (!(obj instanceof PurchaseOrder)) {
             return false;
@@ -146,12 +147,16 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.totalamount, other.totalamount)) {
             return false;
         }
+        if (!Objects.equals(this.purchaseOrderDetailList, other.purchaseOrderDetailList)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "\n id = " + id + "\n supplier : \t " + supplier + " \n date = " + date + " \n expecteddeliverydate = " + expecteddeliverydate + " \n totalsumamount = " + totalamount;
+        return "PurchaseOrder{" + "id=" + id + ", supplier=" + supplier + ", date=" + date + ", expecteddeliverydate=" + expecteddeliverydate + ", totalamount=" + totalamount + ", purchaseOrderDetails=" + purchaseOrderDetailList + '}';
     }
 
+   
 }

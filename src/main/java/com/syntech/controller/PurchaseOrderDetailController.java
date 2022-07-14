@@ -5,12 +5,12 @@
  */
 package com.syntech.controller;
 
+import com.syntech.model.PurchaseOrder;
 import com.syntech.util.CalculationUtill;
 import com.syntech.model.PurchaseOrderDetail;
 import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -26,7 +26,11 @@ import javax.inject.Named;
 public class PurchaseOrderDetailController implements Serializable {
 
     private PurchaseOrderDetail purchaseOrderDetail;
-    private List<PurchaseOrderDetail> purchaseOrderDetails;
+    private List<PurchaseOrderDetail> purchaseOrderDetailList;
+    private PurchaseOrder purchaseOrder;
+
+    @Inject
+    private PurchaseOrderController purchaseOrderController;
 
     @Inject
     private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
@@ -46,28 +50,23 @@ public class PurchaseOrderDetailController implements Serializable {
     }
 
     public List<PurchaseOrderDetail> getPurchaseOrderDetailList() {
-        return purchaseOrderDetails;
+        return purchaseOrderDetailList;
     }
 
     public void setPurchaseOrderDetailList(List<PurchaseOrderDetail> purchaseOrderDetailList) {
-        this.purchaseOrderDetails = purchaseOrderDetailList;
+        this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
 
     @PostConstruct
     public void init() {
         this.purchaseOrderDetail = new PurchaseOrderDetail();
-        this.purchaseOrderDetails = purchaseOrderDetailRepository.findAll();
+        this.purchaseOrderDetailList = purchaseOrderDetailRepository.findAll();
     }
 
     public void beforeCreate() {
         this.purchaseOrderDetail = new PurchaseOrderDetail();
     }
 
-    public void create() {
-        purchaseOrderDetailRepository.create(purchaseOrderDetail);
-        this.purchaseOrderDetails = purchaseOrderDetailRepository.findAll();
-        messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
-    }
 
     public void findAll() {
         purchaseOrderDetailRepository.findAll();
@@ -83,34 +82,13 @@ public class PurchaseOrderDetailController implements Serializable {
 
     public void edit() {
         purchaseOrderDetailRepository.edit(this.purchaseOrderDetail);
-        this.purchaseOrderDetails = purchaseOrderDetailRepository.findAll();
+        this.purchaseOrderDetailList = purchaseOrderDetailRepository.findAll();
         messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
     }
 
     public void delete(PurchaseOrderDetail purchaseOrderDetail) {
         purchaseOrderDetailRepository.delete(purchaseOrderDetail);
-        purchaseOrderDetails = purchaseOrderDetailRepository.findAll();
+        purchaseOrderDetailList = purchaseOrderDetailRepository.findAll();
         messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
-    }
-
-    public void subtotalCalculate() {
-        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
-        this.purchaseOrderDetail.setSubtotal(subtotal);
-    }
-
-    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
-        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscount());
-        this.purchaseOrderDetail.setDiscountamount(discountAmount);
-
-        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscountamount());
-        this.purchaseOrderDetail.setSubtotalafterdiscount((subafterdiscount));
-    }
-
-    public void calculateVatAmountAndTotalAmount() {
-        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVat());
-        this.purchaseOrderDetail.setVatamount(vatAmount);
-
-        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVatamount());
-        this.purchaseOrderDetail.setTotalamount(totalAmount);
     }
 }

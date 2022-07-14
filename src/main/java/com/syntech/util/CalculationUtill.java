@@ -30,7 +30,9 @@ public class CalculationUtill {
     public BigDecimal calculateDiscount(BigDecimal subtotal, BigDecimal discount) {
         BigDecimal discountAmount;
         if (discount == null) {
-            return discountAmount = BigDecimal.ZERO;
+            return discount = BigDecimal.ZERO; 
+        } else if (discount == BigDecimal.ZERO) {
+           return discountAmount = BigDecimal.ZERO;    
         } else {
             discountAmount = (subtotal.multiply(discount)).divide(value);
             return discountAmount;
@@ -50,7 +52,11 @@ public class CalculationUtill {
     public BigDecimal calculateVat(BigDecimal subtotalafterdiscount, BigDecimal vat) {
         BigDecimal vatAmount;
         if (vat == null) {
-            return vatAmount = BigDecimal.ZERO;
+            vat = BigDecimal.ZERO;
+            return vat;
+        } else if (vat == BigDecimal.ZERO) {
+            vatAmount = BigDecimal.ZERO;
+            return vatAmount;
         } else {
             vatAmount = (subtotalafterdiscount.multiply(vat)).divide(value);
             return vatAmount;
@@ -67,4 +73,8 @@ public class CalculationUtill {
         }
     }
 
+//    public void finalSubTotalAmount(BigDecimal subtotal, BigDecimal sum){
+//        sum = BigDecimal.ZERO;
+//        
+//    }
 }

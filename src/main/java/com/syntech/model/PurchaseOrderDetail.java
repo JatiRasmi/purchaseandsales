@@ -30,11 +30,11 @@ public class PurchaseOrderDetail implements IEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_order_id")
+    @JoinColumn(name = "purchase_order_id", nullable = false) 
     private PurchaseOrder purchaseOrder;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name = "quantity", nullable = false)
@@ -46,7 +46,7 @@ public class PurchaseOrderDetail implements IEntity {
     @Column(name = "sub_total", nullable = false)
     private BigDecimal subtotal;
 
-    @Column(name = "discount")
+    @Column(name = "discount", nullable = false)
     private BigDecimal discount;
 
     @Column(name = "discount_amount", nullable = false)
@@ -55,7 +55,7 @@ public class PurchaseOrderDetail implements IEntity {
     @Column(name = "sub_total_after_discount", nullable = false)
     private BigDecimal subtotalafterdiscount;
 
-    @Column(name = "vat")
+    @Column(name = "vat", nullable = false)
     private BigDecimal vat;
 
     @Column(name = "vat_amount", nullable = false)
@@ -239,8 +239,5 @@ public class PurchaseOrderDetail implements IEntity {
     @Override
     public String toString() {
         return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subtotal + ", discount=" + discount + ", discountamount=" + discountamount + ", subtotalafterdiscount=" + subtotalafterdiscount + ", vat=" + vat + ", vatamount=" + vatamount + ", totalamount=" + totalamount + '}';
-    }
-
-    
-
+    }   
 }

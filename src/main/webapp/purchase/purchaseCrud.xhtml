@@ -55,9 +55,9 @@
                     <h:outputText value="#{purchaseorder.expecteddeliverydate}"/>
                 </p:column>
 
-                <p:column headerText="Total Amount" sortBy="#{purchaseorder.totalAmount}"
-                          filterBy="#{purchaseorder.totalAmount}">
-                    <h:outputText value="#{purchaseorder.totalAmount}"/>
+                <p:column headerText="Total Amount" sortBy="#{purchaseorder.totalamount}"
+                          filterBy="#{purchaseorder.totalamount}">
+                    <h:outputText value="#{purchaseorder.totalamount}"/>
                 </p:column>
 
                 <p:column headerText="Status" sortBy="#" filterBy="#">
@@ -137,14 +137,15 @@
                 <p:toolbarGroup align="right">
                     <p:commandButton id="add-purchaseorderdetail-button" icon="pi pi-plus" 
                                      actionListener="#{purchaseOrderDetailController.beforeCreate()}"
+                                     update="form_create_purchaseorderdetail"
                                      oncomplete="PF('managePurchaseOrderDetailDialog').show()" 
                                      />
                 </p:toolbarGroup>
             </p:toolbar>
             <p:dataTable id="dt_purchaseorderdetails" widgetVar="dtPurchaseorderdetails" 
-                         var="purchaseorderdetail" value="#{purchaseOrderDetailController.purchaseOrderDetailList}"
+                         var="purchaseorderdetail" value="#{purchaseOrderController.purchaseOrderDetailList}"
                          reflow="true" styleClass="purchaseorders-table" rowIndexVar="rowIndex" 
-                         selectionMode="single" selection="#{purchaseOrderDetailController.purchaseOrderDetail}" 
+                         selectionMode="single" selection="#{purchaseOrderController.purchaseOrderDetail}" 
                          rowKey="#{purchaseorderdetail.id}" paginator="true" rows="10" rowSelectMode="add" 
                          paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -158,14 +159,10 @@
 
                 <p:column headerText="Product" sortBy="#{purchaseorderdetail.product}"
                           filterBy="#{purchaseorderdetail.product}">
-                    <h:outputText value="#{purchaseorderdetail.product.id} , #{purchaseorderdetail.product.name}"/>
-                </p:column> >
-
-                <p:column headerText="PurchaseOrder" sortBy="#{purchaseorderdetail.purchaseOrder}"
-                          filterBy="#{purchaseorderdetail.purchaseOrder}">
-                    <h:outputText value="#{purchaseorderdetail.purchaseOrder.id}"/>
-                </p:column>
-
+                    <h:outputText value="#{purchaseorderdetail.product.name}"/>
+                </p:column> 
+                
+                
                 <p:column headerText="Quantity" sortBy="#{purchaseorderdetail.quantity}" 
                           filterBy="#{purchaseorderdetail.quantity}">
                     <h:outputText value="#{purchaseorderdetail.quantity}"/>
@@ -219,7 +216,7 @@
 
                     <p:commandButton icon="pi pi-trash" 
                                      action="#{purchaseOrderDetailController.delete(purchaseOrderDetail)}" 
-                                     process="@this" update=":form_purchaseorderdetail:dt_purchaseorderdetails msg ">
+                                     process="@this" update="dt_purchaseorderdetails msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
 
@@ -234,7 +231,7 @@
 
                         <p:outputLabel for="select_product" id="olbl_product" value="Product"/>
                         <p:selectOneMenu id="select_product" requiredMessage="Product is required" 
-                                         value="#{purchaseOrderDetailController.purchaseOrderDetail.product}" 
+                                         value="#{purchaseOrderController.purchaseOrderDetail.product}" 
                                          filter="true" converter="productConverter"
                                          filterMatchMode="startsWith"  required="true" label="Product">
                             <f:selectItem itemLabel="Choose Product" itemValue="" noSelectionOption="true"/>
@@ -246,27 +243,27 @@
 
 
                         <p:outputLabel for="inptxt_rate" id="olbl_rate" value="Rate" />
-                        <p:inputText id="inptxt_rate" value="#{purchaseOrderDetailController.purchaseOrderDetail.rate}"
+                        <p:inputText id="inptxt_rate" value="#{purchaseOrderController.purchaseOrderDetail.rate}"
                                      label="Rate"  title="Rate">
                             <p:ajax update="@this msg_rate outtxt_subtotalamount "  process="@this"                                
-                                    listener="#{purchaseOrderDetailController.subtotalCalculate()}"  />
+                                    listener="#{purchaseOrderController.subtotalCalculate()}"  />
                         </p:inputText>
                         <p:message id="msg_rate" for="inptxt_rate"/>
 
                         <p:outputLabel for="inptxt_quantity" id="olbl_quantity" value="Quantity" />
                         <p:inputText id="inptxt_quantity"
-                                     value="#{purchaseOrderDetailController.purchaseOrderDetail.quantity}" 
+                                     value="#{purchaseOrderController.purchaseOrderDetail.quantity}" 
                                      label="Quantity"  title="Quantity">
 
                             <p:ajax update="@this msg_quantity outtxt_subtotalamount" process="@this"  event="keyup"
-                                    listener="#{purchaseOrderDetailController.subtotalCalculate()}" />
+                                    listener="#{purchaseOrderController.subtotalCalculate()}" />
                         </p:inputText>
                         <p:message id="msg_quantity" for="inptxt_quantity"/>
 
 
                         <p:outputLabel for="outtxt_subtotalamount" id="olbl_subtotalamount" value="Sub Total Amount" />
                         <h:outputText id="outtxt_subtotalamount" 
-                                      value="#{purchaseOrderDetailController.purchaseOrderDetail.subtotal}"/>
+                                      value="#{purchaseOrderController.purchaseOrderDetail.subtotal}"/>
                         <p:message id="msg_subAmount" for="outtxt_subtotalamount"/>
 
 
@@ -274,11 +271,11 @@
 
                         <p:outputLabel for="inptxt_discount" id="olbl_discount" value="Discount(%)" />
                         <p:inputText id="inptxt_discount" 
-                                     value="#{purchaseOrderDetailController.purchaseOrderDetail.discount}"
+                                     value="#{purchaseOrderController.purchaseOrderDetail.discount}"
                                      label="Discount" title="Discount(%)">
                             <p:ajax update="@this msg_discount outtxt_discountamount outtxt_subtotalafterdiscount"
                                     process="@this" event="keyup"
-                                    listener="#{purchaseOrderDetailController.calculateDiscountAmountAndSubTotalAfterDiscount()}"/>
+                                    listener="#{purchaseOrderController.calculateDiscountAmountAndSubTotalAfterDiscount()}"/>
                         </p:inputText>
                         <p:message id="msg_discount" for="inptxt_discount"/>
 
@@ -287,7 +284,7 @@
 
                         <p:outputLabel for="outtxt_discountamount" id="olbl_discountamount" value="Discount Amount" />
                         <h:outputText id="outtxt_discountamount" 
-                                      value="#{purchaseOrderDetailController.purchaseOrderDetail.discountamount}"/>
+                                      value="#{purchaseOrderController.purchaseOrderDetail.discountamount}"/>
                         <p:message id="msg_discountAmount" for="outtxt_discountamount"/>
 
 
@@ -296,7 +293,7 @@
                         <p:outputLabel for="outtxt_subtotalafterdiscount" id="olbl_subtotalafterdiscount"
                                        value="Sub Total After Discount" />
                         <h:outputText id="outtxt_subtotalafterdiscount" 
-                                      value="#{purchaseOrderDetailController.purchaseOrderDetail.subtotalafterdiscount}">
+                                      value="#{purchaseOrderController.purchaseOrderDetail.subtotalafterdiscount}">
                         </h:outputText>
                         <p:message id="msg_subtotalafterdiscount" for="outtxt_subtotalafterdiscount"/>
 
@@ -306,10 +303,10 @@
 
                         <p:outputLabel for="inptxt_vat" id="olbl_vat" value="Vat(%)" />
                         <p:inputText id="inptxt_vat" 
-                                     value="#{purchaseOrderDetailController.purchaseOrderDetail.vat}"
+                                     value="#{purchaseOrderController.purchaseOrderDetail.vat}"
                                      label="Vat" title="VAT(%)">
                             <p:ajax update="@this msg_vat outtxt_vatamount outtxt_totalamountdetail" process="@this" event="keyup" 
-                                    listener="#{purchaseOrderDetailController.calculateVatAmountAndTotalAmount()}" />
+                                    listener="#{purchaseOrderController.calculateVatAmountAndTotalAmount()}" />
                         </p:inputText>
                         <p:message id="msg_vat" for="inptxt_vat"/>
 
@@ -317,7 +314,7 @@
 
                         <p:outputLabel for="outtxt_vatamount" id="olbl_vatamount" value="Vat Amount" />
                         <h:outputText id="outtxt_vatamount"
-                                      value="#{purchaseOrderDetailController.purchaseOrderDetail.vatamount}">
+                                      value="#{purchaseOrderController.purchaseOrderDetail.vatamount}">
                         </h:outputText>
                         <p:message id="msg_vatAmount" for="outtxt_vatamount"/>
 
@@ -325,17 +322,16 @@
                         <p:outputLabel for="outtxt_totalamountdetail" id="olbl_totalamountdetail"
                                        value="Total Amount" />
                         <h:outputText id="outtxt_totalamountdetail" 
-                                      value="#{purchaseOrderDetailController.purchaseOrderDetail.totalamount}">
+                                      value="#{purchaseOrderController.purchaseOrderDetail.totalamount}">
                         </h:outputText>
                         <p:message id="msg_totalamountdetail" for="outtxt_totalamountdetail"/>
 
 
                         <p:commandButton id="purchaseorderdetail_create" value="Add" icon="pi pi-check" 
-                                         actionListener="#{purchaseorderdetailController.create()}"
+                                         actionListener="#{purchaseOrderController.addToList()}"
                                          update="dt_purchaseorderdetails msg" 
                                          process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();" 
                                          rendered="#{purchaseOrderDetailController.purchaseOrderDetail.id eq null}" />
-
 
                         <p:commandButton id="purchaseorderdetail_edit" value="Edit" icon="pi pi-check"
                                          actionListener="#{purchaseorderdetailController.edit()}"
@@ -353,17 +349,18 @@
             <p:card style="width: 25em">
                 <p:panel>
                     <p:panelGrid columns="2">
-                        <p:outputLabel value =" Sub total Amount"/>
-                        <h:outputText value=""/>
+                        <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
+                                       id="olbl_finalsubtotalamount"/>
+                        <h:outputText id="outtxt_finalsubtotalamount"  value=""/>
 
-                        <p:outputLabel value =" Total Discount Amount"/>
-                        <h:outputText value=""/>
+                        <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
+                        <h:outputText id="outtxt_totaldiscountamount" value=""/>
 
-                        <p:outputLabel value =" Total Vat Amount"/>
-                        <h:outputText value=""/>
+                        <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
+                        <h:outputText id="outtxt_finaltotalvatamount" value=""/>
 
-                        <p:outputLabel value =" Total Amount"/>
-                        <h:outputText value=""/>
+                        <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
+                        <h:outputText id="outtxt_totalvatamount" value=""/>
 
                         <p:commandButton icon="pi pi-check" value="Save"/>
                         <p:commandButton icon="pi pi-times" value="Cancel"/>

@@ -30,6 +30,7 @@ public class PurchaseOrderController implements Serializable {
 
     private PurchaseOrder purchaseOrder;
     private List<PurchaseOrder> purchaseOrderList;
+
     private List<PurchaseOrderDetail> purchaseOrderDetailList;
     private PurchaseOrderDetail purchaseOrderDetail;
 
@@ -75,8 +76,16 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrder = purchaseOrder;
     }
 
+    @PostConstruct
+    public void init() {
+        this.purchaseOrder = new PurchaseOrder();
+        purchaseOrderDetailList = new ArrayList<>();
+        purchaseOrderDetailList.add(purchaseOrderDetail);
+    }
+
     public List<PurchaseOrderDetail> getPurchaseOrderDetailList() {
-        return purchaseOrderDetailList;
+        return new ArrayList<>(purchaseOrderDetailList);
+
     }
 
     public void setPurchaseOrderDetailList(List<PurchaseOrderDetail> purchaseOrderDetailList) {
@@ -89,13 +98,6 @@ public class PurchaseOrderController implements Serializable {
 
     public void setPurchaseOrderDetail(PurchaseOrderDetail purchaseOrderDetail) {
         this.purchaseOrderDetail = purchaseOrderDetail;
-    }
-
-    @PostConstruct
-    public void init() {
-        this.purchaseOrder = new PurchaseOrder();
-        this.purchaseOrderList = purchaseOrderRepository.findAll();
-
     }
 
     public void beforeCreate() {

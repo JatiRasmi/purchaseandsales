@@ -99,17 +99,62 @@ public class PurchaseOrderController implements Serializable {
         }
         purchaseOrder.getPurchaseOrderDetailList().add(purchaseOrderDetail);
         messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
+        calculateTotalAmount();
         purchaseOrderDetail = new PurchaseOrderDetail();
-        
-        
+
     }
 
     public void deleteFromList(PurchaseOrderDetail purchaseOrderDetail) {
         purchaseOrder.getPurchaseOrderDetailList().remove(purchaseOrderDetail);
-//        this.purchaseOrderDetail = null;
         messageUtill.showInfo("Order for purchase removed successfully", "Order Removed");
     }
+    public void subtotalCalculate() {
+        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
+        this.purchaseOrderDetail.setSubTotal(subtotal);
+    }
 
+    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
+        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscount());
+        this.purchaseOrderDetail.setDiscountAmount(discountAmount);
+
+        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscountAmount());
+        this.purchaseOrderDetail.setsubTotalAfterDiscount(subafterdiscount);
+    }
+
+    public void calculateVatAmountAndTotalAmount() {
+        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getsubTotalAfterDiscount(), purchaseOrderDetail.getVat());
+        this.purchaseOrderDetail.setVatAmount(vatAmount);
+
+        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getsubTotalAfterDiscount(), purchaseOrderDetail.getVatAmount());
+        this.purchaseOrderDetail.setTotalAmount(totalAmount);
+    }
+
+    
+    public void calculateTotalAmount() {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal subTotal = BigDecimal.ZERO;
+        BigDecimal discountAmount = BigDecimal.ZERO;
+        BigDecimal vatAmount = BigDecimal.ZERO;
+
+        if (purchaseOrder == null) {
+            return;
+        }
+        if (purchaseOrder.getPurchaseOrderDetailList() != null) {
+            for (PurchaseOrderDetail purchaseOrderDetailList : purchaseOrder.getPurchaseOrderDetailList()) {
+                subTotal = subTotal.add(purchaseOrderDetailList.getSubTotal());
+                discountAmount = discountAmount.add(purchaseOrderDetailList.getDiscountAmount());
+                vatAmount = vatAmount.add(purchaseOrderDetailList.getVatAmount());
+                totalAmount = totalAmount.add(purchaseOrderDetailList.getTotalAmount());
+            }
+            this.purchaseOrder.setSubTotal(subTotal);
+            this.purchaseOrder.setDiscountAmount(discountAmount);
+            this.purchaseOrder.setVatAmount(vatAmount);
+            this.purchaseOrder.setTotalAmount(totalAmount);
+        }
+    }
+
+
+    
     public void create() {
         purchaseOrderRepository.create(purchaseOrder);
         this.purchaseOrderList = purchaseOrderRepository.findAll();
@@ -138,27 +183,6 @@ public class PurchaseOrderController implements Serializable {
         purchaseOrderRepository.delete(purchaseOrder);
         purchaseOrderList = purchaseOrderRepository.findAll();
         messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
-    }
-
-    public void subtotalCalculate() {
-        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
-        this.purchaseOrderDetail.setSubtotal(subtotal);
-    }
-
-    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
-        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscount());
-        this.purchaseOrderDetail.setDiscountamount(discountAmount);
-
-        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubtotal(), purchaseOrderDetail.getDiscountamount());
-        this.purchaseOrderDetail.setSubtotalafterdiscount((subafterdiscount));
-    }
-
-    public void calculateVatAmountAndTotalAmount() {
-        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVat());
-        this.purchaseOrderDetail.setVatamount(vatAmount);
-
-        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubtotalafterdiscount(), purchaseOrderDetail.getVatamount());
-        this.purchaseOrderDetail.setTotalamount(totalAmount);
     }
 
 }

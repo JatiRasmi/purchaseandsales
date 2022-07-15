@@ -196,7 +196,7 @@
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-proc:none</compilerArgument>
                     <showDeprecation>false</showDeprecation>
-                    <debug>true</debug>
+                    <debug>false</debug>
                 </configuration>
             </plugin>
         </plugins>

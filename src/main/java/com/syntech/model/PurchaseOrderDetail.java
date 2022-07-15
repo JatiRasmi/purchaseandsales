@@ -30,7 +30,7 @@ public class PurchaseOrderDetail implements IEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_order_id", nullable = false) 
+    @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;
 
     @ManyToOne
@@ -44,43 +44,43 @@ public class PurchaseOrderDetail implements IEntity {
     private BigDecimal rate = BigDecimal.ZERO;
 
     @Column(name = "sub_total", nullable = false)
-    private BigDecimal subtotal = BigDecimal.ZERO;
+    private BigDecimal subTotal = BigDecimal.ZERO;
 
     @Column(name = "discount", nullable = false)
     private BigDecimal discount = BigDecimal.ZERO;
 
     @Column(name = "discount_amount", nullable = false)
-    private BigDecimal discountamount = BigDecimal.ZERO;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
 
     @Column(name = "sub_total_after_discount", nullable = false)
-    private BigDecimal subtotalafterdiscount = BigDecimal.ZERO;
+    private BigDecimal subTotalAfterDiscount = BigDecimal.ZERO;
 
     @Column(name = "vat", nullable = false)
     private BigDecimal vat = BigDecimal.ZERO;
 
     @Column(name = "vat_amount", nullable = false)
-    private BigDecimal vatamount = BigDecimal.ZERO;
+    private BigDecimal vatAmount = BigDecimal.ZERO;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalamount = BigDecimal.ZERO;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
     public PurchaseOrderDetail() {
 
     }
 
-    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseOrder, Product product, BigDecimal quantity, BigDecimal rate, BigDecimal subtotal, BigDecimal discount, BigDecimal discountamount, BigDecimal subtotalafterdiscount, BigDecimal vat, BigDecimal vatamount, BigDecimal totalamount) {
+    public PurchaseOrderDetail(Long id, PurchaseOrder purchaseOrder, Product product, BigDecimal quantity, BigDecimal rate, BigDecimal subTotal, BigDecimal discount, BigDecimal discountAmount, BigDecimal subTotalAfterDiscount, BigDecimal vat, BigDecimal vatAmount, BigDecimal totalAmount) {
         this.id = id;
         this.purchaseOrder = purchaseOrder;
         this.product = product;
         this.quantity = quantity;
         this.rate = rate;
-        this.subtotal = subtotal;
+        this.subTotal = subTotal;
         this.discount = discount;
-        this.discountamount = discountamount;
-        this.subtotalafterdiscount = subtotalafterdiscount;
+        this.discountAmount = discountAmount;
+        this.subTotalAfterDiscount = subTotalAfterDiscount;
         this.vat = vat;
-        this.vatamount = vatamount;
-        this.totalamount = totalamount;
+        this.vatAmount = vatAmount;
+        this.totalAmount = totalAmount;
     }
 
     @Override
@@ -125,12 +125,12 @@ public class PurchaseOrderDetail implements IEntity {
         this.rate = rate;
     }
 
-    public BigDecimal getSubtotal() {
-        return subtotal;
+    public BigDecimal getSubTotal() {
+        return subTotal;
     }
 
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
     }
 
     public BigDecimal getDiscount() {
@@ -141,20 +141,20 @@ public class PurchaseOrderDetail implements IEntity {
         this.discount = discount;
     }
 
-    public BigDecimal getDiscountamount() {
-        return discountamount;
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
     }
 
-    public void setDiscountamount(BigDecimal discountamount) {
-        this.discountamount = discountamount;
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
     }
 
-    public BigDecimal getSubtotalafterdiscount() {
-        return subtotalafterdiscount;
+    public BigDecimal getsubTotalAfterDiscount() {
+        return subTotalAfterDiscount;
     }
 
-    public void setSubtotalafterdiscount(BigDecimal subtotalafterdiscount) {
-        this.subtotalafterdiscount = subtotalafterdiscount;
+    public void setsubTotalAfterDiscount(BigDecimal subTotalAfterDiscount) {
+        this.subTotalAfterDiscount = subTotalAfterDiscount;
     }
 
     public BigDecimal getVat() {
@@ -165,23 +165,30 @@ public class PurchaseOrderDetail implements IEntity {
         this.vat = vat;
     }
 
-    public BigDecimal getVatamount() {
-        return vatamount;
+    public BigDecimal getVatAmount() {
+        return vatAmount;
     }
 
-    public void setVatamount(BigDecimal vatamount) {
-        this.vatamount = vatamount;
+    public void setVatAmount(BigDecimal vatAmount) {
+        this.vatAmount = vatAmount;
     }
 
-    public BigDecimal getTotalamount() {
-        return totalamount;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotalamount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    
+    public BigDecimal getSubTotalAfterDiscount() {
+        return subTotalAfterDiscount;
+    }
+
+    public void setSubTotalAfterDiscount(BigDecimal subTotalAfterDiscount) {
+        this.subTotalAfterDiscount = subTotalAfterDiscount;
+    }
+
     @Override
     public final int hashCode() {
         int hash = 5;
@@ -190,10 +197,10 @@ public class PurchaseOrderDetail implements IEntity {
         hash = 89 * hash + Objects.hashCode(this.product);
         hash = 89 * hash + Objects.hashCode(this.quantity);
         hash = 89 * hash + Objects.hashCode(this.rate);
-        hash = 89 * hash + Objects.hashCode(this.subtotal);
+        hash = 89 * hash + Objects.hashCode(this.subTotal);
         hash = 89 * hash + Objects.hashCode(this.discount);
         hash = 89 * hash + Objects.hashCode(this.vat);
-        hash = 89 * hash + Objects.hashCode(this.totalamount);
+        hash = 89 * hash + Objects.hashCode(this.totalAmount);
         return hash;
     }
 
@@ -221,7 +228,7 @@ public class PurchaseOrderDetail implements IEntity {
         if (!Objects.equals(this.rate, other.rate)) {
             return false;
         }
-        if (!Objects.equals(this.subtotal, other.subtotal)) {
+        if (!Objects.equals(this.subTotal, other.subTotal)) {
             return false;
         }
         if (!Objects.equals(this.discount, other.discount)) {
@@ -230,7 +237,7 @@ public class PurchaseOrderDetail implements IEntity {
         if (!Objects.equals(this.vat, other.vat)) {
             return false;
         }
-        if (!Objects.equals(this.totalamount, other.totalamount)) {
+        if (!Objects.equals(this.totalAmount, other.totalAmount)) {
             return false;
         }
         return true;
@@ -238,6 +245,6 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subtotal + ", discount=" + discount + ", discountamount=" + discountamount + ", subtotalafterdiscount=" + subtotalafterdiscount + ", vat=" + vat + ", vatamount=" + vatamount + ", totalamount=" + totalamount + '}';
-    }   
+        return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subTotal + ", discount=" + discount + ", discountamount=" + discountAmount + ", subtotalafterdiscount=" + subTotalAfterDiscount + ", vat=" + vat + ", vatamount=" + vatAmount + ", totalamount=" + totalAmount + '}';
+    }
 }

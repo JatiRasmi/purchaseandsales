@@ -41,10 +41,14 @@ public class PurchaseOrder implements IEntity {
     private String date;
 
     @Column(name = "expected_delivery_date", nullable = false)
-    private String expecteddeliverydate;
+    private String expectedDeliveryDate;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalamount = BigDecimal.ZERO;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
+
+    private BigDecimal subTotal = BigDecimal.ZERO;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+    private BigDecimal vatAmount = BigDecimal.ZERO;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
     private List<PurchaseOrderDetail> purchaseOrderDetailList;
@@ -52,12 +56,12 @@ public class PurchaseOrder implements IEntity {
     public PurchaseOrder() {
     }
 
-    public PurchaseOrder(Long id, Supplier supplier, String date, String expecteddeliverydate, BigDecimal totalamount, List<PurchaseOrderDetail> purchaseOrderDetailList) {
+    public PurchaseOrder(Long id, Supplier supplier, String date, String expectedDeliveryDate, BigDecimal totalAmount, List<PurchaseOrderDetail> purchaseOrderDetailList) {
         this.id = id;
         this.supplier = supplier;
         this.date = date;
-        this.expecteddeliverydate = expecteddeliverydate;
-        this.totalamount = totalamount;
+        this.expectedDeliveryDate = expectedDeliveryDate;
+        this.totalAmount = totalAmount;
         this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
 
@@ -87,20 +91,20 @@ public class PurchaseOrder implements IEntity {
         this.date = date;
     }
 
-    public String getExpecteddeliverydate() {
-        return expecteddeliverydate;
+    public String getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
     }
 
-    public void setExpecteddeliverydate(String expecteddeliverydate) {
-        this.expecteddeliverydate = expecteddeliverydate;
+    public void setExpectedDeliveryDate(String expectedDeliveryDate) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
-    public BigDecimal getTotalamount() {
-        return totalamount;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotalamount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public List<PurchaseOrderDetail> getPurchaseOrderDetailList() {
@@ -111,14 +115,39 @@ public class PurchaseOrder implements IEntity {
         this.purchaseOrderDetailList = purchaseOrderDetails;
     }
 
+    public BigDecimal getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getVatAmount() {
+        return vatAmount;
+    }
+
+    public void setVatAmount(BigDecimal vatAmount) {
+        this.vatAmount = vatAmount;
+    }
+    
+
     @Override
     public final int hashCode() {
         int hash = 5;
         hash = 83 * hash + Objects.hashCode(this.id);
         hash = 83 * hash + Objects.hashCode(this.supplier);
         hash = 83 * hash + Objects.hashCode(this.date);
-        hash = 83 * hash + Objects.hashCode(this.expecteddeliverydate);
-        hash = 83 * hash + Objects.hashCode(this.totalamount);
+        hash = 83 * hash + Objects.hashCode(this.expectedDeliveryDate);
+        hash = 83 * hash + Objects.hashCode(this.totalAmount);
         hash = 83 * hash + Objects.hashCode(this.purchaseOrderDetailList);
         return hash;
     }
@@ -135,7 +164,7 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.date, other.date)) {
             return false;
         }
-        if (!Objects.equals(this.expecteddeliverydate, other.expecteddeliverydate)) {
+        if (!Objects.equals(this.expectedDeliveryDate, other.expectedDeliveryDate)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -144,7 +173,7 @@ public class PurchaseOrder implements IEntity {
         if (!Objects.equals(this.supplier, other.supplier)) {
             return false;
         }
-        if (!Objects.equals(this.totalamount, other.totalamount)) {
+        if (!Objects.equals(this.totalAmount, other.totalAmount)) {
             return false;
         }
         if (!Objects.equals(this.purchaseOrderDetailList, other.purchaseOrderDetailList)) {
@@ -155,8 +184,7 @@ public class PurchaseOrder implements IEntity {
 
     @Override
     public String toString() {
-        return "PurchaseOrder{" + "id=" + id + ", supplier=" + supplier + ", date=" + date + ", expecteddeliverydate=" + expecteddeliverydate + ", totalamount=" + totalamount + ", purchaseOrderDetails=" + purchaseOrderDetailList + '}';
+        return "PurchaseOrder{" + "id=" + id + ", supplier=" + supplier + ", date=" + date + ", expecteddeliverydate=" + expectedDeliveryDate + ", totalamount=" + totalAmount + ", purchaseOrderDetails=" + purchaseOrderDetailList + '}';
     }
 
-   
 }

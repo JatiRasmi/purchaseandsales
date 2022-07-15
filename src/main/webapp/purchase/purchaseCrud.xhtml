@@ -207,7 +207,7 @@
 
                         <p:commandButton icon="pi pi-trash" 
                                          action="#{purchaseOrderController.deleteFromList(purchaseorderdetail)}" 
-                                         process="@this" update="dt_purchaseorderdetails msg ">
+                                         process="@this" update="dt_purchaseorderdetails form_create_purchaseorder msg ">
                             <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                         </p:commandButton>
 

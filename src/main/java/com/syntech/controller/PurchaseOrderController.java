@@ -107,7 +107,9 @@ public class PurchaseOrderController implements Serializable {
     public void deleteFromList(PurchaseOrderDetail purchaseOrderDetail) {
         purchaseOrder.getPurchaseOrderDetailList().remove(purchaseOrderDetail);
         messageUtill.showInfo("Order for purchase removed successfully", "Order Removed");
+        calculateTotalAmount();
     }
+
     public void subtotalCalculate() {
         BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
         this.purchaseOrderDetail.setSubTotal(subtotal);
@@ -129,7 +131,6 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrderDetail.setTotalAmount(totalAmount);
     }
 
-    
     public void calculateTotalAmount() {
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal subTotal = BigDecimal.ZERO;
@@ -153,8 +154,6 @@ public class PurchaseOrderController implements Serializable {
         }
     }
 
-
-    
     public void create() {
         purchaseOrderRepository.create(purchaseOrder);
         this.purchaseOrderList = purchaseOrderRepository.findAll();

@@ -245,6 +245,6 @@ public class PurchaseOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "PurchaseOrderDetail{" + "id=" + id + ", purchaseOrder=" + purchaseOrder + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subTotal + ", discount=" + discount + ", discountamount=" + discountAmount + ", subtotalafterdiscount=" + subTotalAfterDiscount + ", vat=" + vat + ", vatamount=" + vatAmount + ", totalamount=" + totalAmount + '}';
+        return "PurchaseOrderDetail{" + "id=" + id + ", product=" + product + ", quantity=" + quantity + ", rate=" + rate + ", subtotal=" + subTotal + ", discount=" + discount + ", discountamount=" + discountAmount + ", subtotalafterdiscount=" + subTotalAfterDiscount + ", vat=" + vat + ", vatamount=" + vatAmount + ", totalamount=" + totalAmount + '}';
     }
 }

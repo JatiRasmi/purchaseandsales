@@ -31,6 +31,7 @@ public class PurchaseOrderController implements Serializable {
     private PurchaseOrder purchaseOrder;
     private List<PurchaseOrder> purchaseOrderList;
     private PurchaseOrderDetail purchaseOrderDetail;
+    private Integer index;
 
     @Inject
     private PurchaseOrderRepository purchaseOrderRepository;
@@ -49,15 +50,7 @@ public class PurchaseOrderController implements Serializable {
 
     public PurchaseOrderController() {
     }
-
-    public PurchaseOrder getProductOrder() {
-        return purchaseOrder;
-    }
-
-    public void setProductOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
-    }
-
+    
     public List<PurchaseOrder> getPurchaseOrderList() {
         return purchaseOrderList;
     }
@@ -74,9 +67,18 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrder = purchaseOrder;
     }
 
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
     @PostConstruct
     public void init() {
         this.purchaseOrder = new PurchaseOrder();
+        this.purchaseOrderList = purchaseOrderRepository.findAll();
     }
 
     public PurchaseOrderDetail getPurchaseOrderDetail() {
@@ -92,13 +94,18 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrderDetail = new PurchaseOrderDetail();
     }
 
+    public void beforeCreatePod() {
+        this.purchaseOrderDetail = new PurchaseOrderDetail();
+    }
+
+    //purchase order details
     public void addToList() {
         purchaseOrderDetail.setPurchaseOrder(purchaseOrder);
         if (purchaseOrder.getPurchaseOrderDetailList() == null || purchaseOrder.getPurchaseOrderDetailList().isEmpty()) {
             purchaseOrder.setPurchaseOrderDetailList(new ArrayList<>());
         }
         purchaseOrder.getPurchaseOrderDetailList().add(purchaseOrderDetail);
-        messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
+        messageUtill.showInfo("Order Details for purchase Added Successfully", "Order Added");
         calculateTotalAmount();
         purchaseOrderDetail = new PurchaseOrderDetail();
 
@@ -106,8 +113,25 @@ public class PurchaseOrderController implements Serializable {
 
     public void deleteFromList(PurchaseOrderDetail purchaseOrderDetail) {
         purchaseOrder.getPurchaseOrderDetailList().remove(purchaseOrderDetail);
-        messageUtill.showInfo("Order for purchase removed successfully", "Order Removed");
+        messageUtill.showInfo("Order Details for purchase removed successfully", "Order Removed");
         calculateTotalAmount();
+    }
+
+    public void beforeEditList(int index) {
+        this.index = index;
+        for (int i = 0; i < purchaseOrder.getPurchaseOrderDetailList().size(); i++) {
+            if (i == index) {
+                this.purchaseOrderDetail = purchaseOrder.getPurchaseOrderDetailList().get(index);
+            }
+        }
+        System.out.println("index " + index);
+    }
+
+    public void editFromList() {
+        purchaseOrder.getPurchaseOrderDetailList().set(index, purchaseOrderDetail);
+        messageUtill.showInfo("Order Detail for purchase Edited Successfully", "Order Edited");
+        calculateTotalAmount();
+        index = null;
     }
 
     public void subtotalCalculate() {
@@ -131,6 +155,38 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrderDetail.setTotalAmount(totalAmount);
     }
 
+    public void create() {
+        purchaseOrderRepository.create(purchaseOrder);
+        this.purchaseOrderList = purchaseOrderRepository.findAll();
+        messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
+    }
+
+    public void findAll() {
+        purchaseOrderRepository.findAll();
+    }
+
+    public void findById(Long id) {
+        purchaseOrderRepository.findById(id);
+    }
+
+    public void delete(PurchaseOrder purchaseOrder) {
+//        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder);
+        purchaseOrderRepository.delete(purchaseOrder);
+     //   purchaseOrderDetailRepository.delete(purchaseOrderDetail);
+        purchaseOrderList = purchaseOrderRepository.findAll();
+        messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
+    }
+
+    public void beforeEdit(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrderRepository.findById(purchaseOrder.getId());
+    }
+
+    public void edit() {
+        purchaseOrderRepository.edit(this.purchaseOrder);
+        this.purchaseOrderList = purchaseOrderRepository.findAll();
+        messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
+    }
+
     public void calculateTotalAmount() {
         BigDecimal totalAmount = BigDecimal.ZERO;
         BigDecimal subTotal = BigDecimal.ZERO;
@@ -152,36 +208,6 @@ public class PurchaseOrderController implements Serializable {
             this.purchaseOrder.setVatAmount(vatAmount);
             this.purchaseOrder.setTotalAmount(totalAmount);
         }
-    }
-
-    public void create() {
-        purchaseOrderRepository.create(purchaseOrder);
-        this.purchaseOrderList = purchaseOrderRepository.findAll();
-        messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
-    }
-
-    public void findAll() {
-        purchaseOrderRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        purchaseOrderRepository.findById(id);
-    }
-
-    public void beforeEdit(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrderRepository.findById(purchaseOrder.getId());
-    }
-
-    public void edit() {
-        purchaseOrderRepository.edit(this.purchaseOrder);
-        this.purchaseOrderList = purchaseOrderRepository.findAll();
-        messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
-    }
-
-    public void delete(PurchaseOrder purchaseOrder) {
-        purchaseOrderRepository.delete(purchaseOrder);
-        purchaseOrderList = purchaseOrderRepository.findAll();
-        messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
     }
 
 }

@@ -14,7 +14,6 @@
                     <p:outputLabel value="PURCHASE ORDER " />
                 </p:toolbarGroup>
 
-
                 <p:toolbarGroup align="right">
                     <p:commandButton id="add-purchaseorder-button" icon="pi pi-plus"
                                      actionListener="#{purchaseOrderController.beforeCreate()}"
@@ -25,9 +24,9 @@
 
             <p:dataTable id="dt_purchaseorders" widgetVar="dtPurchaseorders" var="purchaseorder"
                          value="#{purchaseOrderController.purchaseOrderList}"
-                         reflow="true" styleClass="purchaseorders-table" rowIndexVar="rowIndex" 
+                         reflow="true" rowIndexVar="rowIndex" 
                          selectionMode="single"
-                         selection="#{purchaseOrderController.productOrder}" rowKey="#{purchaseorder.id}" 
+                         selection="#{purchaseOrderController.purchaseOrder}" rowKey="#{purchaseorder.id}" 
                          paginator="true"
                          rows="10" rowSelectMode="add" paginatorPosition="bottom"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
@@ -42,27 +41,27 @@
                 </p:column>
 
 
-                <p:column headerText="Supplier" sortBy="#{purchaseorder.supplier}" filterBy="#{purchaseorder.supplier}">
-                    <h:outputText value="#{purchaseorder.supplier}"/>
+                <p:column headerText="Supplier" sortBy="#{purchaseorder.supplier.name}" filterBy="#{purchaseorder.supplier.name}">
+                    <h:outputText value="#{purchaseorder.supplier.name}"/>
                 </p:column> >
 
                 <p:column headerText="Ordered Date" sortBy="#{purchaseorder.date}" filterBy="#{purchaseorder.date}">
                     <h:outputText value="#{purchaseorder.date}"/>
                 </p:column>
 
-                <p:column headerText="Expected Delivery Date" sortBy="#{purchaseorder.expecteddeliverydate}"
-                          filterBy="#{purchaseorder.expecteddeliverydate}">
-                    <h:outputText value="#{purchaseorder.expecteddeliverydate}"/>
+                <p:column headerText="Expected Delivery Date" sortBy="#{purchaseorder.expectedDeliveryDate}"
+                          filterBy="#{purchaseorder.expectedDeliveryDate}">
+                    <h:outputText value="#{purchaseorder.expectedDeliveryDate}"/>
                 </p:column>
 
-                <p:column headerText="Total Amount" sortBy="#{purchaseorder.totalamount}"
-                          filterBy="#{purchaseorder.totalamount}">
-                    <h:outputText value="#{purchaseorder.totalamount}"/>
+                <p:column headerText="Total Amount" sortBy="#{purchaseorderdetail.totalAmount}"
+                          filterBy="#{purchaseorderdetail.totalAmount}">
+                    <h:outputText value="#{purchaseorder.totalAmount}"/>
                 </p:column>
 
-                <p:column headerText="Status" sortBy="#" filterBy="#">
+<!--                <p:column headerText="Status" sortBy="#" filterBy="#">
                     <h:outputText value="#"/>
-                </p:column>
+                </p:column>-->
 
                 <p:column headerText="Action">
 
@@ -76,6 +75,9 @@
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
 
+                    <p:commandButton id="view" icon="pi pi-external-link"/>
+
+
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -88,7 +90,7 @@
 
                     <p:outputLabel for="select_supplier" id="olbl_supplier" value="Supplier"/>
                     <p:selectOneMenu id="select_supplier" requiredMessage="Supplier is required" 
-                                     value="#{purchaseOrderController.productOrder.supplier}" filter="true" 
+                                     value="#{purchaseOrderController.purchaseOrder.supplier}" filter="true" 
                                      filterMatchMode="startsWith"  required="true" label="Supplier">
                         <f:selectItem itemLabel="Choose Supplier" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{supplierController.supplierList}" var="s" 
@@ -99,9 +101,8 @@
                     <p:message id="msg_supplier" for="select_supplier"/>
 
                     <p:outputLabel for="inptxt_date" id="olbl_date" value="Ordered Date" />
-                    <p:datePicker id="inptxt_date" value="#{purchaseOrderController.productOrder.date}" 
-                                  requiredMessage="Date is Required" converter="dateConverter"
-                                  required="true" label="Date"
+                    <p:datePicker id="inptxt_date" value="#{purchaseOrderController.purchaseOrder.date}" 
+                                  requiredMessage="Date is Required" required="true" label="Date"
                                   title="Date" pattern="MM/dd/yyyy" 
                                   monthNavigator="true" yearNavigator="true" showWeek="true">
                         <p:ajax update="@this msg_date" process="@this" />
@@ -111,8 +112,7 @@
                     <p:outputLabel for="inptxt_expecteddeliverydate" id="olbl_expecteddeliverydate" 
                                    value="Expected Delivery Date" />
                     <p:datePicker id="inptxt_expecteddeliverydate" pattern="MM/dd/yyyy" 
-                                  value="#{purchaseOrderController.productOrder.expectedDeliveryDate}" 
-                                  converter="dateConverter" 
+                                  value="#{purchaseOrderController.purchaseOrder.expectedDeliveryDate}" 
                                   requiredMessage="Expected delivery date required" required="true"  
                                   label="ExpecetdDeliveryDate" title="Expeceted Delivery Date"  monthNavigator="true"
                                   yearNavigator="true" showWeek="true">
@@ -128,7 +128,7 @@
 
                     <p:toolbarGroup align="right">
                         <p:commandButton id="add-purchaseorderdetail-button" icon="pi pi-plus" 
-                                         actionListener="#{purchaseOrderDetailController.beforeCreate()}"
+                                         actionListener="#{purchaseOrderController.beforeCreatePod()}"
                                          update="form_create_purchaseorderdetail"
                                          oncomplete="PF('managePurchaseOrderDetailDialog').show()" 
                                          />
@@ -136,7 +136,7 @@
                 </p:toolbar>
                 <p:dataTable id="dt_purchaseorderdetails" widgetVar="dtPurchaseorderdetails" 
                              var="purchaseorderdetail" value="#{purchaseOrderController.purchaseOrder.purchaseOrderDetailList}"
-                             reflow="true" styleClass="purchaseorders-table" rowIndexVar="rowIndex" rowHover="true"
+                             reflow="true" rowIndexVar="rowIndex" rowHover="true"
                              rowKey="#{purchaseorderdetail.id}" paginator="true" rows="10" rowSelectMode="add" 
                              paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -199,15 +199,14 @@
                         <h:outputText value="#{purchaseorderdetail.totalAmount}"/>
                     </p:column>
                     <p:column headerText="Action">
-
                         <p:commandButton id="edit" icon="pi pi-pencil" 
-                                         actionListener="#{purchaseOrderDetailController.beforeEdit(purchaseOrderDetail)}" 
+                                         actionListener="#{purchaseOrderController.beforeEditList(rowIndex)}" 
                                          oncomplete="PF('managePurchaseOrderDetailDialog').show()" process="@this"
-                                         update="@this dt_purchaseorderdetails"/>
+                                         update="@this form_create_purchaseorderdetail"/>
 
                         <p:commandButton icon="pi pi-trash" 
                                          action="#{purchaseOrderController.deleteFromList(purchaseorderdetail)}" 
-                                         process="@this" update="dt_purchaseorderdetails form_create_purchaseorder msg ">
+                                         process="@this" update="form_create_purchaseorder msg ">
                             <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                         </p:commandButton>
 
@@ -220,19 +219,23 @@
                         <p:panelGrid columns="2">
                             <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
                                            id="olbl_finalsubtotalamount"/>
-                            <h:outputText id="outtxt_finalsubtotalamount"  value="#{purchaseOrderController.productOrder.subTotal}"/>
+                            <h:outputText id="outtxt_finalsubtotalamount"  value="#{purchaseOrderController.purchaseOrder.subTotal}"/>
 
                             <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
-                            <h:outputText id="outtxt_totaldiscountamount" value="#{purchaseOrderController.productOrder.discountAmount}"/>
+                            <h:outputText id="outtxt_totaldiscountamount" value="#{purchaseOrderController.purchaseOrder.discountAmount}"/>
 
                             <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
-                            <h:outputText id="outtxt_finaltotalvatamount" value="#{purchaseOrderController.productOrder.vatAmount}"/>
+                            <h:outputText id="outtxt_finaltotalvatamount" value="#{purchaseOrderController.purchaseOrder.vatAmount}"/>
 
                             <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
                             <h:outputText id="outtxt_totalvatamount" value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
 
-                            <p:commandButton icon="pi pi-check" value="Save"/>
-                            <p:commandButton icon="pi pi-times" value="Cancel"/>
+                            <p:commandButton icon="pi pi-check" value="Save" actionListener="#{purchaseOrderController.create()}" 
+                                             update=":form_purchaseorder:dt_purchaseorders  msg" process="@this" 
+                                             oncomplete="PF('managePurchaseOrderDialog').hide();" />
+                            <p:commandButton icon="pi pi-times" value="Cancel" 
+                                             oncomplete="PF('managePurchaseOrderDialog').hide();" />
+
 
                         </p:panelGrid>
                     </p:panel>
@@ -335,13 +338,13 @@
                                      actionListener="#{purchaseOrderController.addToList()}"
                                      update="form_create_purchaseorder  msg" 
                                      process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();" 
-                                     rendered="#{purchaseOrderDetailController.purchaseOrderDetail.id eq null}" />
+                                     rendered="#{purchaseOrderController.index eq null}" />
 
                     <p:commandButton id="purchaseorderdetail_edit" value="Edit" icon="pi pi-check"
-                                     actionListener="#{purchaseOrderController.edit()}"
+                                     actionListener="#{purchaseOrderController.editFromList()}"
                                      process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();"
                                      update="@this form_create_purchaseorder msg"
-                                     rendered="#{purchaseOrderDetailController.purchaseOrderDetail.id ne null}" />
+                                     rendered="#{purchaseOrderController.index ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" 
                                      onclick="PF('managePurchaseOrderDetailDialog').hide()"

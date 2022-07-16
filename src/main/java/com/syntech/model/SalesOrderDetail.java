@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,57 +30,59 @@ public class SalesOrderDetail implements IEntity {
     
     @ManyToOne
     @JoinColumn(name = "sales_order_id" , nullable = false)
-    private SalesOrder salesorder;
+    private SalesOrder salesOrder;
     
     @ManyToOne
     @JoinColumn(name = "product_id", nullable =false)
     private Product product;
     
     @Column(name = "quantity" , nullable = false)
-    private Long quantity;
+    private BigDecimal quantity = BigDecimal.ZERO;
     
     @Column(name = "rate" , nullable = false)
-    private Long rate;
+    private BigDecimal rate = BigDecimal.ZERO;
     
     @Column(name = "sub_total" , nullable = false)
-    private Long subtotal;
+    private BigDecimal subTotal = BigDecimal.ZERO;
     
     @Column(name = "discount" , nullable = false)
-    private Long discount;
+    private BigDecimal discount = BigDecimal.ZERO;
     
     @Column(name = "discount_amount" , nullable = false)
-    private Long discountamount;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
     
     @Column(name = "sub_total_after_discount" , nullable = false)
-    private Long subtotalafterdiscount;
+    private BigDecimal subTotalAfterDiscount = BigDecimal.ZERO;
     
     @Column(name = "vat" , nullable = false)
-    private Long vat;
+    private BigDecimal vat = BigDecimal.ZERO;
     
     @Column(name = "vat_amount" , nullable = false)
-    private Long vatamount;
+    private BigDecimal vatAmount = BigDecimal.ZERO;
     
     @Column(name = "total_amount" , nullable = false)
-    private Long totalamount;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
     public SalesOrderDetail() {
 
     }
 
-    public SalesOrderDetail(Long id, SalesOrder salesorder, Product product, Long quantity, Long rate, Long subtotal, Long discount, Long discountamount, Long subtotalafterdiscount, Long vat, Long vatamount, Long totalamount) {
+    public SalesOrderDetail(Long id, SalesOrder salesOrder, Product product, BigDecimal quantity, BigDecimal rate, BigDecimal subtotal, BigDecimal discount, BigDecimal discountAmount, BigDecimal subTotalAfterDiscount, BigDecimal vat, BigDecimal vatAmount, BigDecimal totalAmount) {
         this.id = id;
-        this.salesorder = salesorder;
+        this.salesOrder = salesOrder;
         this.product = product;
         this.quantity = quantity;
         this.rate = rate;
-        this.subtotal = subtotal;
+        this.subTotal = subtotal;
         this.discount = discount;
-        this.discountamount = discountamount;
-        this.subtotalafterdiscount = subtotalafterdiscount;
+        this.discountAmount = discountAmount;
+        this.subTotalAfterDiscount = subTotalAfterDiscount;
         this.vat = vat;
-        this.vatamount = vatamount;
-        this.totalamount = totalamount;
+        this.vatAmount = vatAmount;
+        this.totalAmount = totalAmount;
     }
+
+   
 
     public SalesOrderDetail(Long id) {
         this.id = id;
@@ -90,99 +93,113 @@ public class SalesOrderDetail implements IEntity {
         return id;
     }
 
-    public SalesOrder getSalesorder() {
-        return salesorder;
+    public SalesOrder getSalesOrder() {
+        return salesOrder;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public Long getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public Long getRate() {
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getRate() {
         return rate;
     }
 
-    public Long getSubtotal() {
-        return subtotal;
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
-    public Long getDiscount() {
+    public BigDecimal getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigDecimal subtotal) {
+        this.subTotal = subtotal;
+    }
+
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public Long getDiscountamount() {
-        return discountamount;
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
     }
 
-    public Long getSubtotalAfterDiscount() {
-        return subtotalafterdiscount;
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
     }
 
-    public Long getVat() {
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getSubTotalAfterDiscount() {
+        return subTotalAfterDiscount;
+    }
+
+    public void setSubTotalAfterDiscount(BigDecimal subTotalAfterDiscount) {
+        this.subTotalAfterDiscount = subTotalAfterDiscount;
+    }
+
+   
+    public BigDecimal getVat() {
         return vat;
     }
 
-    public Long getVatamount() {
-        return vatamount;
+    public void setVat(BigDecimal vat) {
+        this.vat = vat;
     }
 
-    public Long getTotalamount() {
-        return totalamount;
+    public BigDecimal getVatAmount() {
+        return vatAmount;
     }
 
+    public void setVatAmount(BigDecimal vatAmount) {
+        this.vatAmount = vatAmount;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+   
     @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setSalesorder(SalesOrder salesorder) {
-        this.salesorder = salesorder;
+    public void setSalesOrder(SalesOrder salesorder) {
+        this.salesOrder = salesorder;
     }
 
     public void setProduct(Product product) {
         this.product = product;
     }
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setRate(Long rate) {
-        this.rate = rate;
-    }
-
-    public void setSubtotal(Long subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public void setDiscount(Long discount) {
-        this.discount = discount;
-    }
-
-    public void setVat(Long vat) {
-        this.vat = vat;
-    }
-
-    public void setTotalamount(Long totalamount) {
-        this.totalamount = totalamount;
-    }
-
     @Override
     public final int hashCode() {
         int hash = 5;
         hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.salesorder);
+        hash = 89 * hash + Objects.hashCode(this.salesOrder);
         hash = 89 * hash + Objects.hashCode(this.product);
         hash = 89 * hash + Objects.hashCode(this.quantity);
         hash = 89 * hash + Objects.hashCode(this.rate);
-        hash = 89 * hash + Objects.hashCode(this.subtotal);
+        hash = 89 * hash + Objects.hashCode(this.subTotal);
         hash = 89 * hash + Objects.hashCode(this.discount);
         hash = 89 * hash + Objects.hashCode(this.vat);
-        hash = 89 * hash + Objects.hashCode(this.totalamount);
+        hash = 89 * hash + Objects.hashCode(this.totalAmount);
         return hash;
     }
 
@@ -198,7 +215,7 @@ public class SalesOrderDetail implements IEntity {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.salesorder, other.salesorder)) {
+        if (!Objects.equals(this.salesOrder, other.salesOrder)) {
             return false;
         }
         if (!Objects.equals(this.product, other.product)) {
@@ -210,7 +227,7 @@ public class SalesOrderDetail implements IEntity {
         if (!Objects.equals(this.rate, other.rate)) {
             return false;
         }
-        if (!Objects.equals(this.subtotal, other.subtotal)) {
+        if (!Objects.equals(this.subTotal, other.subTotal)) {
             return false;
         }
         if (!Objects.equals(this.discount, other.discount)) {
@@ -219,7 +236,7 @@ public class SalesOrderDetail implements IEntity {
         if (!Objects.equals(this.vat, other.vat)) {
             return false;
         }
-        if (!Objects.equals(this.totalamount, other.totalamount)) {
+        if (!Objects.equals(this.totalAmount, other.totalAmount)) {
             return false;
         }
         return true;
@@ -227,7 +244,7 @@ public class SalesOrderDetail implements IEntity {
 
     @Override
     public String toString() {
-        return "\n Id = " + id + "\n" + "\n _____Sales Order_______  \t" + salesorder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subtotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountamount + "\n subtotalafterdiscount = " + subtotalafterdiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatamount + "\n Total Amount = " + totalamount;
+        return "\n Id = " + id + "\n" + "\n _____Sales Order_______  \t" + salesOrder + "\n _______Product_______  \t" + product + "\n" + "\n Quantity = " + quantity + "\n Rate = " + rate + "\n Sub Total = " + subTotal + "\n Discount(%) = " + discount + "\t Discount Amount = " + discountAmount + "\n subtotalafterdiscount = " + subTotalAfterDiscount + "\n Vat (%) = " + vat + "\t Vat Amount = " + vatAmount + "\n Total Amount = " + totalAmount;
     }
 
 }

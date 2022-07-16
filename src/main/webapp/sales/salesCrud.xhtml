@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+    <ui:define name="Center">       
+        <h:form id="form_salesorder">
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="SALES ORDER " />
+                </p:toolbarGroup>
+                
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-salesorder-button" icon="pi pi-plus"
+                                     actionListener="#{salesOrderController.beforeCreate()}"
+                                     oncomplete="PF('manageSalesOrderDialog').show()" 
+                                     update="form_create_salesorder"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+            
+            <p:dataTable id="dt_salesorders" widgetVar="dtSalesorders" var="salesorder"
+                         value="#{salesOrderController.salesOrderList}"
+                         reflow="true" styleClass="salesorders-table" rowIndexVar="rowIndex" 
+                         selectionMode="single"
+                         selection="#{salesOrderController.salesOrder}" rowKey="#{salesOrder.id}" 
+                         paginator="true"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+                         {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+                <p:column headerText="S.No." width="3%">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+                <p:column headerText="Customer" sortBy="#{salesorder.customer.name}" filterBy="#{salesorder.customer.name}">
+                    <h:outputText value="#{salesorder.customer.name}"/>
+                </p:column> >
+                <p:column headerText="Ordered Date" sortBy="#{salesorder.date}" filterBy="#{salesorder.date}">
+                    <h:outputText value="#{salesorder.date}"/>
+                </p:column>
+                <p:column headerText="Total Amount" sortBy="#{salesorder.totalAmount}"
+                          filterBy="#{salesorder.totalAmount}">
+                    <h:outputText value="#{salesorder.totalAmount}"/>
+                </p:column>
+                
+                <p:column headerText="Action">
+                    <p:commandButton id="edit" icon="pi pi-pencil"
+                                     actionListener="#{salesOrderController.beforeEdit(salesOrder)}" 
+                                     oncomplete="PF('manageSalesOrderDialog').show()" process="@this"
+                                     update="@this form_create_salesorder"/>
+                    <p:commandButton icon="pi pi-trash" action="#{salesOrderController.delete(salesOrder)}" 
+                                     process="@this" update=":form_salesorder:dt_salesorders msg ">
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                    <p:commandButton id="view" icon="pi pi-external-link"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog header="SalesOrder" showEffect="fade" modal="false" appendTo="@(body)"
+                  widgetVar="manageSalesOrderDialog" responsive="true" height="700"  width="1700" id="dlg_manage">
+            <h:form id="form_create_salesorder">
+                <p:panelGrid id ="grid" columns="3">
+                    <p:outputLabel for="select_customer" id="olbl_customer" value="Customer"/>
+                    <p:selectOneMenu id="select_customer" requiredMessage="Customer is required" 
+                                     value="#{salesOrderController.salesOrder.customer}" filter="true" 
+                                     filterMatchMode="startsWith"  required="true" label="Customer">
+                        <f:selectItem itemLabel="Choose Customer" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{customerController.customerList}" var="c" 
+                                       itemLabel="#{c.name}" itemValue="#{c}"/>
+                        <f:converter converterId="customerConverter" />
+                        <p:ajax update="@this msg_customer olbl_customer" process="@this" />
+                    </p:selectOneMenu>
+                    <p:message id="msg_customer" for="select_customer"/>
+                    
+                    <p:outputLabel for="inptxt_date" id="olbl_date" value="Ordered Date" />
+                    <p:datePicker id="inptxt_date" value="#{salesOrderController.salesOrder.date}" 
+                                  requiredMessage="Date is Required"
+                                  required="true" label="Date" title="Date" pattern="MM/dd/yyyy" 
+                                  monthNavigator="true" yearNavigator="true" showWeek="true">
+                        <p:ajax update="@this msg_date" process="@this" />
+                    </p:datePicker>
+                    <p:message id="msg_date" for="inptxt_date"/>
+                </p:panelGrid>
+                    <p:toolbar>
+                        <p:toolbarGroup align="left">
+                            <p:outputLabel value="SALES ORDER DETAILS" />
+                        </p:toolbarGroup>
+
+                        <p:toolbarGroup align="right">
+                            <p:commandButton id="add-salesorderdetail-button" icon="pi pi-plus" 
+                                             actionListener="#{salesOrderDetailController.beforeCreate()}"
+                                             update="form_create_salesorderdetail"
+                                             oncomplete="PF('manageSalesOrderDetailDialog').show()" 
+                                             />
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                    <p:dataTable id="dt_salesorderdetails" widgetVar="dtSalesorderdetails" 
+                                 var="salesorderdetail" value="#{salesOrderController.salesOrder.salesOrderDetailList}"
+                                 reflow="true" rowIndexVar="rowIndex" rowHover="true"
+                                 rowKey="#{salesorderdetail.id}" paginator="true" rows="10" rowSelectMode="add" 
+                                 paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                                 {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+                        <p:column headerText="S.No." width="3%">
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Product" sortBy="#{salesorderdetail.product.name}"
+                                  filterBy="#{salesorderdetail.product.name}">
+                            <h:outputText value="#{salesorderdetail.product.name}"/>
+                        </p:column> 
+
+
+                        <p:column headerText="Quantity" sortBy="#{salesorderdetail.quantity}" 
+                                  filterBy="#{salesorderdetail.quantity}">
+                            <h:outputText value="#{salesorderdetail.quantity}"/>
+                        </p:column>
+
+                        <p:column headerText="Rate" sortBy="#{salesorderdetail.rate}" 
+                                  filterBy="#{salesorderdetail.rate}">
+                            <h:outputText value="#{salesorderdetail.rate}"/>
+                        </p:column>
+
+                        <p:column headerText="SubTotalAmount" sortBy="#{salesorderdetail.subTotal}" 
+                                  filterBy="#{salesorderdetail.subTotal}">
+                            <h:outputText value="#{salesorderdetail.subTotal}"/>
+                        </p:column>
+
+                        <p:column headerText="Discount(%)" sortBy="#{salesorderdetail.discount}" 
+                                  filterBy="#{salesorderdetail.discount}">
+                            <h:outputText value="#{salesorderdetail.discount}"/>
+                        </p:column>
+
+                        <p:column headerText="DiscountAmount" sortBy="#{salesorderdetail.discountAmount}" 
+                                  filterBy="#{salesorderdetail.discountAmount}">
+                            <h:outputText value="#{salesorderdetail.discountAmount}"/>
+                        </p:column>
+
+                        <p:column headerText="SubTotalAfterDiscount" sortBy="#{salesorderdetail.subTotalAfterDiscount}"
+                                  filterBy="#{salesorderdetail.subTotalAfterDiscount}">
+                            <h:outputText value="#{salesorderdetail.subTotalAfterDiscount}"/>
+                        </p:column>
+
+                        <p:column headerText="VAT(%)" sortBy="#{salesorderdetail.vat}"
+                                  filterBy="#{salesorderdetail.vat}">
+                            <h:outputText value="#{salesorderdetail.vat}"/>
+                        </p:column>
+
+                        <p:column headerText="VatAmount" sortBy="#{salesorderdetail.vatAmount}" 
+                                  filterBy="#{salesorderdetail.vatAmount}">
+                            <h:outputText value="#{salesorderdetail.vatAmount}"/>
+                        </p:column>
+
+                        <p:column headerText="TotalAmount" sortBy="#{salesorderdetail.totalAmount}" 
+                                  filterBy="#{salesorderdetail.totalAmount}">
+                            <h:outputText value="#{salesorderdetail.totalAmount}"/>
+                        </p:column>
+                        <p:column headerText="Action">
+
+                            <p:commandButton id="edit" icon="pi pi-pencil" 
+                                             actionListener="#{salesOrderDetailController.beforeEdit(salesOrderDetail)}" 
+                                             oncomplete="PF('manageSalesOrderDetailDialog').show()" process="@this"
+                                             update="@this dt_salesorderdetails"/>
+
+                            <p:commandButton icon="pi pi-trash" 
+                                             action="#{salesOrderController.deleteFromList(salesorderdetail)}" 
+                                             process="@this" update="form_create_salesorder msg ">
+                                <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+
+
+                    <p:card style="width: 25em">
+                        <p:panel>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
+                                               id="olbl_finalsubtotalamount"/>
+                                <h:outputText id="outtxt_finalsubtotalamount"  value="#{salesOrderController.salesOrder.subTotal}"/>
+
+                                <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
+                                <h:outputText id="outtxt_totaldiscountamount" value="#{salesOrderController.salesOrder.discountAmount}"/>
+
+                                <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
+                                <h:outputText id="outtxt_finaltotalvatamount" value="#{salesOrderController.salesOrder.vatAmount}"/>
+
+                                <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
+                                <h:outputText id="outtxt_totalvatamount" value="#{salesOrderController.salesOrder.totalAmount}"/>
+
+                                 <p:commandButton icon="pi pi-check" value="Save" actionListener="#{salesOrderController.create()}" 
+                                             update=":form_salesorder:dt_salesorders  msg" process="@this" 
+                                             oncomplete="PF('manageSalesOrderDialog').hide();" />
+                            <p:commandButton icon="pi pi-times" value="Cancel" 
+                                             oncomplete="PF('manageSalesOrderDialog').hide();" />
+
+
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:card>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="SalesOrderDetail" showEffect="fade" modal="false" appendTo="@(body)"
+                  widgetVar="manageSalesOrderDetailDialog" responsive="true" id="dialog_manage">
+            <h:form id="form_create_salesorderdetail">
+                <p:panelGrid id ="grid" columns="6">
+
+                    <p:outputLabel for="select_product" id="olbl_product" value="Product"/>
+                    <p:selectOneMenu id="select_product" requiredMessage="Product is required" 
+                                     value="#{salesOrderController.salesOrderDetail.product}" 
+                                     filter="true" converter="productConverter"
+                                     filterMatchMode="startsWith"  required="true" label="Product">
+                        <f:selectItem itemLabel="Choose Product" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{productController.productList}" var="s" 
+                                       itemLabel="#{s.name}" itemValue="#{s}"/>
+                        <p:ajax update="@this msg_product olbl_product" process="@this" />
+                    </p:selectOneMenu>          
+                    <p:message id="msg_product" for="select_product"/>
+
+
+                    <p:outputLabel for="inptxt_rate" id="olbl_rate" value="Rate" />
+                    <p:inputText id="inptxt_rate" value="#{salesOrderController.salesOrderDetail.rate}"
+                                 label="Rate"  title="Rate">
+                        <p:ajax update="@this msg_rate outtxt_subtotalamount "  process="@this"                                
+                                listener="#{salesOrderController.subtotalCalculate()}"  />
+                    </p:inputText>
+                    <p:message id="msg_rate" for="inptxt_rate"/>
+
+                    <p:outputLabel for="inptxt_quantity" id="olbl_quantity" value="Quantity" />
+                    <p:inputText id="inptxt_quantity"
+                                 value="#{salesOrderController.salesOrderDetail.quantity}" 
+                                 label="Quantity"  title="Quantity">
+
+                        <p:ajax update="@this msg_quantity outtxt_subtotalamount" process="@this"  event="keyup"
+                                listener="#{salesOrderController.subtotalCalculate()}" />
+                    </p:inputText>
+                    <p:message id="msg_quantity" for="inptxt_quantity"/>
+
+
+                    <p:outputLabel for="outtxt_subtotalamount" id="olbl_subtotalamount" value="Sub Total Amount" />
+                    <h:outputText id="outtxt_subtotalamount" 
+                                  value="#{salesOrderController.salesOrderDetail.subTotal}"/>
+                    <p:message id="msg_subAmount" for="outtxt_subtotalamount"/>
+
+                    <p:outputLabel for="inptxt_discount" id="olbl_discount" value="Discount(%)" />
+                    <p:inputText id="inptxt_discount" 
+                                 value="#{salesOrderController.salesOrderDetail.discount}"
+                                 label="Discount" title="Discount(%)">
+                        <p:ajax update="@this msg_discount outtxt_discountamount outtxt_subtotalafterdiscount"
+                                process="@this" event="keyup"
+                                listener="#{salesOrderController.calculateDiscountAmountAndSubTotalAfterDiscount()}"/>
+                    </p:inputText>
+                    <p:message id="msg_discount" for="inptxt_discount"/>
+
+
+
+
+                    <p:outputLabel for="outtxt_discountamount" id="olbl_discountamount" value="Discount Amount" />
+                    <h:outputText id="outtxt_discountamount" 
+                                  value="#{salesOrderController.salesOrderDetail.discountAmount}"/>
+                    <p:message id="msg_discountAmount" for="outtxt_discountamount"/>
+
+                    <p:outputLabel for="outtxt_subtotalafterdiscount" id="olbl_subtotalafterdiscount"
+                                   value="Sub Total After Discount" />
+                    <h:outputText id="outtxt_subtotalafterdiscount" 
+                                  value="#{salesOrderController.salesOrderDetail.subTotalAfterDiscount}">
+                    </h:outputText>
+                    <p:message id="msg_subtotalafterdiscount" for="outtxt_subtotalafterdiscount"/>
+
+                    <p:outputLabel for="inptxt_vat" id="olbl_vat" value="Vat(%)" />
+                    <p:inputText id="inptxt_vat" 
+                                 value="#{salesOrderController.salesOrderDetail.vat}"
+                                 label="Vat" title="VAT(%)">
+                        <p:ajax update="@this msg_vat outtxt_vatamount outtxt_totalamountdetail" process="@this" event="keyup" 
+                                listener="#{salesOrderController.calculateVatAmountAndTotalAmount()}" />
+                    </p:inputText>
+                    <p:message id="msg_vat" for="inptxt_vat"/>
+
+                    <p:outputLabel for="outtxt_vatamount" id="olbl_vatamount" value="Vat Amount" />
+                    <h:outputText id="outtxt_vatamount"
+                                  value="#{salesOrderController.salesOrderDetail.vatAmount}">
+                    </h:outputText>
+                    <p:message id="msg_vatAmount" for="outtxt_vatamount"/>
+
+                    <p:outputLabel for="outtxt_totalamountdetail" id="olbl_totalamountdetail"
+                                   value="Total Amount" />
+                    <h:outputText id="outtxt_totalamountdetail" 
+                                  value="#{salesOrderController.salesOrderDetail.totalAmount}">
+                    </h:outputText>
+                    <p:message id="msg_totalamountdetail" for="outtxt_totalamountdetail"/>
+
+
+                    <p:commandButton id="salesorderdetail_create" value="Add" icon="pi pi-check" 
+                                     actionListener="#{salesOrderController.addToList()}"
+                                     update="form_create_salesorder  msg" 
+                                     process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();" 
+                                     rendered="#{salesOrderDetailController.salesOrderDetail.id eq null}" />
+
+                    <p:commandButton id="salesorderdetail_edit" value="Edit" icon="pi pi-check"
+                                     actionListener="#{salesOrderController.edit()}"
+                                     process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();"
+                                     update="@this form_create_salesorder msg"
+                                     rendered="#{salesOrderDetailController.salesOrderDetail.id ne null}" />
+
+                    <p:commandButton value="Cancel" icon="pi pi-times" 
+                                     onclick="PF('manageSalesOrderDetailDialog').hide()"
+                                     class="ui-button-secondary"/>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" 
+                             icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
+                             icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>

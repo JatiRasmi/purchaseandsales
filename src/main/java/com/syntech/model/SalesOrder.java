@@ -6,6 +6,7 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,35 +39,40 @@ public class SalesOrder implements IEntity {
     private Customer customer;
 
     @Column(name = "date", nullable = false, length = 20)
-    private String date;
+    private LocalDate date;
 
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalamount;
+    private BigDecimal totalAmount = BigDecimal.ZERO;;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "salesorder")
-    private List<SalesOrderDetail> salesOrderDetails;
+    private BigDecimal subTotal = BigDecimal.ZERO;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+    private BigDecimal vatAmount = BigDecimal.ZERO;
 
-    public SalesOrder(Long id, Customer customer, String date, BigDecimal totalamount) {
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "salesOrder")
+    private List<SalesOrderDetail> salesOrderDetailList;
+
+    public SalesOrder(Long id, Customer customer, LocalDate date, BigDecimal totalamount) {
         this.id = id;
         this.customer = customer;
         this.date = date;
-        this.totalamount = totalamount;
+        this.totalAmount = totalamount;
+    }
+    public Customer getCustomer() {
+        return customer;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
     public void setCustomer(Long id) {
         this.id = id;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalamount;
-    }
-
-    public void setTotalAmount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
-    }
-
+    
     public SalesOrder(BigDecimal totalamount) {
-        this.totalamount = totalamount;
+        this.totalAmount = totalamount;
     }
 
     public SalesOrder() {
@@ -82,11 +88,9 @@ public class SalesOrder implements IEntity {
         return id;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
+    
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -95,37 +99,60 @@ public class SalesOrder implements IEntity {
         this.id = id;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+    
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
-
-    public BigDecimal getTotalamount() {
-        return totalamount;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotalamount(BigDecimal totalamount) {
-        this.totalamount = totalamount;
+    public void setTotalAmount(BigDecimal totalamount) {
+        this.totalAmount = totalamount;
     }
 
-    public List<SalesOrderDetail> getSalesOrderDetails() {
-        return salesOrderDetails;
+
+    public List<SalesOrderDetail> getSalesOrderDetailList() {
+        return salesOrderDetailList;
     }
 
-    public void setSalesOrderDetails(List<SalesOrderDetail> salesOrderDetails) {
-        this.salesOrderDetails = salesOrderDetails;
+    public void setSalesOrderDetailList(List<SalesOrderDetail> salesOrderDetailList) {
+        this.salesOrderDetailList = salesOrderDetailList;
     }
 
+    public BigDecimal getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(BigDecimal subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getVatAmount() {
+        return vatAmount;
+    }
+
+    public void setVatAmount(BigDecimal vatAmount) {
+        this.vatAmount = vatAmount;
+    }
+
+    
     @Override
     public final int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.id);
         hash = 67 * hash + Objects.hashCode(this.customer);
         hash = 67 * hash + Objects.hashCode(this.date);
-        hash = 67 * hash + Objects.hashCode(this.totalamount);
+        hash = 67 * hash + Objects.hashCode(this.totalAmount);
         return hash;
     }
 
@@ -148,7 +175,7 @@ public class SalesOrder implements IEntity {
         if (!Objects.equals(this.customer, other.customer)) {
             return false;
         }
-        if (!Objects.equals(this.totalamount, other.totalamount)) {
+        if (!Objects.equals(this.totalAmount, other.totalAmount)) {
             return false;
         }
         return true;
@@ -156,7 +183,7 @@ public class SalesOrder implements IEntity {
 
     @Override
     public String toString() {
-        return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date + "\n totalamount=" + totalamount;
+        return "\n id = " + id + "\ncustomer : \t" + customer + "\n date=" + date + "\n totalamount=" + totalAmount;
     }
 
 }

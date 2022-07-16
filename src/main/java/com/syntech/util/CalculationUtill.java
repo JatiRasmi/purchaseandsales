@@ -19,7 +19,7 @@ public class CalculationUtill {
 
     public BigDecimal calculateSubtotal(BigDecimal rate, BigDecimal quantity) {
         BigDecimal subtotal;
-        if (rate == null || quantity == null) {
+        if (rate == null || quantity == null || rate == BigDecimal.ZERO || quantity == BigDecimal.ZERO) {
             return subtotal = BigDecimal.ZERO;
         } else {
             subtotal = quantity.multiply(rate);
@@ -72,9 +72,4 @@ public class CalculationUtill {
             return totalAmount;
         }
     }
-
-//    public void finalSubTotalAmount(BigDecimal subtotal, BigDecimal sum){
-//        sum = BigDecimal.ZERO;
-//        
-//    }
 }

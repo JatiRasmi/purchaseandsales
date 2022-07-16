@@ -6,6 +6,7 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,10 +39,10 @@ public class PurchaseOrder implements IEntity {
     private Supplier supplier;
 
     @Column(name = "date", nullable = false)
-    private String date;
+    private LocalDate date;
 
     @Column(name = "expected_delivery_date", nullable = false)
-    private String expectedDeliveryDate;
+    private LocalDate expectedDeliveryDate;
 
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
@@ -56,14 +57,15 @@ public class PurchaseOrder implements IEntity {
     public PurchaseOrder() {
     }
 
-    public PurchaseOrder(Long id, Supplier supplier, String date, String expectedDeliveryDate, BigDecimal totalAmount, List<PurchaseOrderDetail> purchaseOrderDetailList) {
+    public PurchaseOrder(Long id, Supplier supplier, LocalDate date, LocalDate expectedDeliveryDate, List<PurchaseOrderDetail> purchaseOrderDetailList) {
         this.id = id;
         this.supplier = supplier;
         this.date = date;
         this.expectedDeliveryDate = expectedDeliveryDate;
-        this.totalAmount = totalAmount;
         this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
+
+    
 
     @Override
     public Long getId() {
@@ -83,21 +85,22 @@ public class PurchaseOrder implements IEntity {
         this.supplier = supplier;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getExpectedDeliveryDate() {
+    public LocalDate getExpectedDeliveryDate() {
         return expectedDeliveryDate;
     }
 
-    public void setExpectedDeliveryDate(String expectedDeliveryDate) {
+    public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
+
 
     public BigDecimal getTotalAmount() {
         return totalAmount;
@@ -138,7 +141,6 @@ public class PurchaseOrder implements IEntity {
     public void setVatAmount(BigDecimal vatAmount) {
         this.vatAmount = vatAmount;
     }
-    
 
     @Override
     public final int hashCode() {

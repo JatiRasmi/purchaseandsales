@@ -50,7 +50,7 @@ public class PurchaseOrderController implements Serializable {
 
     public PurchaseOrderController() {
     }
-    
+
     public List<PurchaseOrder> getPurchaseOrderList() {
         return purchaseOrderList;
     }
@@ -92,6 +92,7 @@ public class PurchaseOrderController implements Serializable {
     public void beforeCreate() {
         this.purchaseOrder = new PurchaseOrder();
         this.purchaseOrderDetail = new PurchaseOrderDetail();
+          this.index =null;
     }
 
     public void beforeCreatePod() {
@@ -170,9 +171,9 @@ public class PurchaseOrderController implements Serializable {
     }
 
     public void delete(PurchaseOrder purchaseOrder) {
-        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder);
-        if(purchaseOrder ==null){
-            messageUtill.showError("Message", "PO delete failed !!");
+        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
+        if (purchaseOrder == null) {
+            messageUtill.showError("Message", "Purchase Order delete failed !!");
             return;
         }
         purchaseOrderRepository.delete(purchaseOrder);
@@ -181,13 +182,39 @@ public class PurchaseOrderController implements Serializable {
     }
 
     public void beforeEdit(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrderRepository.findById(purchaseOrder.getId());
+        this.purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
     }
 
     public void edit() {
+        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
+        if (purchaseOrder == null) {
+            messageUtill.showError("Message", "Purchase Order edit failed !!");
+            return;
+        }
         purchaseOrderRepository.edit(this.purchaseOrder);
+        purchaseOrderDetailRepository.edit(this.purchaseOrderDetail);
         this.purchaseOrderList = purchaseOrderRepository.findAll();
         messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
+    }
+
+    
+
+    public String beforeView(PurchaseOrder purchaseOrder) {
+        return "/purchase/purchaseView.xhtml?faces-redirect=true&id=" + purchaseOrder.getId();
+    }
+
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public void view() {
+        purchaseOrder = purchaseOrderRepository.eagerload(id);
     }
 
     public void calculateTotalAmount() {

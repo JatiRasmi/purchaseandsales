@@ -33,12 +33,12 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return em;
     }
 
-    public PurchaseOrder eagerload(PurchaseOrder purchaseOrder) {
+    public PurchaseOrder eagerload(Long poid) {
         PurchaseOrder po = null;
         try {
             Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
                     + "INNER JOIN FETCH e.purchaseOrderDetailList t WHERE e.id=:poId", PurchaseOrder.class);
-            query.setParameter("poId", purchaseOrder.getId());
+            query.setParameter("poId", poid);
             po = (PurchaseOrder) query.getSingleResult();
         } catch (Exception e) {
             Logger.getLogger(PurchaseOrderRepository.class.getName())

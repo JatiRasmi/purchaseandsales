@@ -7,6 +7,12 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/layout.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{purchaseOrderController.id}"/>
+        <f:viewAction action="#{purchaseOrderController.view()}" />
+    </f:metadata>
+
     <ui:define name="Center">      
 
         <h:form id="form_display">
@@ -15,21 +21,18 @@
                 <p:toolbarGroup align="left">
                     <p:outputLabel value="PURCHASE DETAILS" />
                 </p:toolbarGroup>
-                
+
                 <p:toolbarGroup align="right">
-                    <p:panelGrid id ="grid" columns="8">
+                    <p:panelGrid id ="grid" columns="2">
                         <p:outputLabel for="outtxt_supplier" id="olbl_supplier" value="Supplier"/>
-                        <h:outputText id="outtxt_supplier"  value=""/>
+                        <h:outputText id="outtxt_supplier"  value="#{purchaseOrderController.purchaseOrder.supplier.name}"/>
 
                         <p:outputLabel for="outtxt_date" id="olbl_date" value="Ordered Date" />
-                        <h:outputText id="outtxt_date"  value=""/>
+                        <h:outputText id="outtxt_date"  value="#{purchaseOrderController.purchaseOrder.date}"/>
 
                         <p:outputLabel for="outtxt_expecteddeliverydate" id="olbl_expecetddeliverydate"
                                        value="Expected Delivery Date" />
-                         <h:outputText id="outtxt_expecteddeliverydate"  value=""/>                    
-                        
-                        <p:outputLabel for="outtxt_total" id="olbl_total" value="Total Amount"/>
-                        <h:outputText id="outtxt_total"  value=""/>
+                        <h:outputText id="outtxt_expecteddeliverydate"  value="#{purchaseOrderController.purchaseOrder.expectedDeliveryDate}"/>                    
                     </p:panelGrid>
                 </p:toolbarGroup>
             </p:toolbar>
@@ -88,6 +91,21 @@
                     <h:outputText value="#{viewdata.totalAmount}"/>
                 </p:column>
             </p:dataTable>
+
+            <p:panelGrid id ="grids" columns="2">
+
+                <p:outputLabel for="outtxt_subtotal" id="olbl_subtotal" value="Sub Total Amount"/>
+                <h:outputText id="outtxt_subtotal"  value="#{purchaseOrderController.purchaseOrder.subTotal}"/>
+
+                <p:outputLabel for="outtxt_discount" id="olbl_discount" value="Total Discount Amount"/>
+                <h:outputText id="outtxt_discount"  value="#{purchaseOrderController.purchaseOrder.discountAmount}"/>
+
+                <p:outputLabel for="outtxt_vat" id="olbl_vat" value="Vat Amount"/>
+                <h:outputText id="outtxt_vat"  value="#{purchaseOrderController.purchaseOrder.vatAmount}"/>
+
+                <p:outputLabel for="outtxt_total" id="olbl_total" value="Total Amount"/>
+                <h:outputText id="outtxt_total"  value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
+            </p:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -43,7 +43,7 @@
 
                 <p:column headerText="Supplier" sortBy="#{purchaseorder.supplier.name}" filterBy="#{purchaseorder.supplier.name}">
                     <h:outputText value="#{purchaseorder.supplier.name}"/>
-                </p:column> >
+                </p:column> 
 
                 <p:column headerText="Ordered Date" sortBy="#{purchaseorder.date}" filterBy="#{purchaseorder.date}">
                     <h:outputText value="#{purchaseorder.date}"/>
@@ -75,8 +75,9 @@
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
 
-                    <p:commandButton id="view" action ="purchaseView.xhtml?faces-redirect=true" icon="pi pi-external-link"/>
-
+                    <p:commandButton ajax="false"
+                                     action="#{purchaseOrderController.beforeView(purchaseorder)}" 
+                                     icon="pi pi-external-link"/>
                 </p:column>
             </p:dataTable>
         </h:form>
@@ -361,3 +362,6 @@
         </p:confirmDialog>
     </ui:define>
 </ui:composition>
+
+
+<!--<ui:include>-->

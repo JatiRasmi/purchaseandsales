@@ -6,9 +6,12 @@
 package com.syntech.repository;
 
 import com.syntech.model.SalesOrder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,5 +29,20 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+     public SalesOrder eagerload(SalesOrder salesOrder) {
+        SalesOrder so = null;
+        try {
+            Query query = em.createQuery("SELECT e FROM SalesOrder e "
+                    + "INNER JOIN FETCH e.salesOrderDetailList t WHERE e.id=:soId", SalesOrder.class);
+            query.setParameter("soId", salesOrder.getId());
+            so = (SalesOrder) query.getSingleResult();
+        } catch (Exception e) {
+            Logger.getLogger(SalesOrderRepository.class.getName())
+                    .log(Level.SEVERE, " Error while eager loading:", e);
+            so = null;
+        }
+        return so;
     }
 }

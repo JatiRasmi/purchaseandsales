@@ -49,14 +49,14 @@
                 
                 <p:column headerText="Action">
                     <p:commandButton id="edit" icon="pi pi-pencil"
-                                     actionListener="#{salesOrderController.beforeEdit(salesOrder)}" 
+                                     actionListener="#{salesOrderController.beforeEdit(salesorder)}" 
                                      oncomplete="PF('manageSalesOrderDialog').show()" process="@this"
                                      update="@this form_create_salesorder"/>
-                    <p:commandButton icon="pi pi-trash" action="#{salesOrderController.delete(salesOrder)}" 
+                    <p:commandButton icon="pi pi-trash" action="#{salesOrderController.delete(salesorder)}" 
                                      process="@this" update=":form_salesorder:dt_salesorders msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
-                    <p:commandButton id="view" icon="pi pi-external-link"/>
+                    <p:commandButton id="view" action ="salesView.xhtml?faces-redirect=true" icon="pi pi-external-link"/>
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+    <ui:define name="Center">      
+
+        <h:form id="form_display">
+
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="PURCHASE DETAILS" />
+                </p:toolbarGroup>
+                
+                <p:toolbarGroup align="right">
+                    <p:panelGrid id ="grid" columns="8">
+                        <p:outputLabel for="outtxt_supplier" id="olbl_supplier" value="Supplier"/>
+                        <h:outputText id="outtxt_supplier"  value=""/>
+
+                        <p:outputLabel for="outtxt_date" id="olbl_date" value="Ordered Date" />
+                        <h:outputText id="outtxt_date"  value=""/>
+
+                        <p:outputLabel for="outtxt_expecteddeliverydate" id="olbl_expecetddeliverydate"
+                                       value="Expected Delivery Date" />
+                         <h:outputText id="outtxt_expecteddeliverydate"  value=""/>                    
+                        
+                        <p:outputLabel for="outtxt_total" id="olbl_total" value="Total Amount"/>
+                        <h:outputText id="outtxt_total"  value=""/>
+                    </p:panelGrid>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p:dataTable id="dt_view" widgetVar="dtView" 
+                         var="viewdata" value="#{purchaseOrderController.purchaseOrder.purchaseOrderDetailList}"
+                         reflow="true" rowIndexVar="rowIndex" rowHover="true"
+                         rowKey="#{viewdata.id}" paginator="true" rows="10" rowSelectMode="add" 
+                         paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+                <p:column headerText="S.No." width="3%">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+
+                <p:column headerText="Product" sortBy="#{viewdata.product.name}">
+                    <h:outputText value="#{viewdata.product.name}"/>
+                </p:column> 
+
+
+                <p:column headerText="Quantity" sortBy="#{viewdata.quantity}">
+                    <h:outputText value="#{viewdata.quantity}"/>
+                </p:column>
+
+                <p:column headerText="Rate" sortBy="#{viewdata.rate}">
+                    <h:outputText value="#{viewdata.rate}"/>
+                </p:column>
+
+                <p:column headerText="SubTotalAmount" sortBy="#{viewdata.subTotal}"> 
+                    <h:outputText value="#{viewdata.subTotal}"/>
+                </p:column>
+
+                <p:column headerText="Discount(%)" sortBy="#{viewdata.discount}">
+                    <h:outputText value="#{viewdata.discount}"/>
+                </p:column>
+
+                <p:column headerText="DiscountAmount" sortBy="#{viewdata.discountAmount}">
+                    <h:outputText value="#{viewdata.discountAmount}"/>
+                </p:column>
+
+                <p:column headerText="SubTotalAfterDiscount" sortBy="#{viewdata.subTotalAfterDiscount}">
+                    <h:outputText value="#{viewdata.subTotalAfterDiscount}"/>
+                </p:column>
+
+                <p:column headerText="VAT(%)" sortBy="#{viewdata.vat}">
+                    <h:outputText value="#{viewdata.vat}"/>
+                </p:column>
+
+                <p:column headerText="VatAmount" sortBy="#{viewdata.vatAmount}">
+                    <h:outputText value="#{viewdata.vatAmount}"/>
+                </p:column>
+
+                <p:column headerText="TotalAmount" sortBy="#{viewdata.totalAmount}">
+                    <h:outputText value="#{viewdata.totalAmount}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

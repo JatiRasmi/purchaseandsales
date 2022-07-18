@@ -170,6 +170,11 @@ public class SalesOrderController implements Serializable {
     }
 
     public void delete(SalesOrder salesOrder) {
+        salesOrder = salesOrderRepository.eagerload(salesOrder);
+        if (salesOrder == null) {
+            messageUtill.showError("Message", "Sales Order delete failed !!");
+            return;
+        }
         salesOrderRepository.delete(salesOrder);
         salesOrderList = salesOrderRepository.findAll();
         messageUtill.showInfo("Order for sales Deleted Successfully", "Order Deleted");

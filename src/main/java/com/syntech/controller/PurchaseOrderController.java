@@ -170,9 +170,8 @@ public class PurchaseOrderController implements Serializable {
     }
 
     public void delete(PurchaseOrder purchaseOrder) {
-//        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder);
+        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder);
         purchaseOrderRepository.delete(purchaseOrder);
-     //   purchaseOrderDetailRepository.delete(purchaseOrderDetail);
         purchaseOrderList = purchaseOrderRepository.findAll();
         messageUtill.showInfo("Order for purchase Deleted Successfully", "Order Deleted");
     }

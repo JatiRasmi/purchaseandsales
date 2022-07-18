@@ -6,18 +6,22 @@
 package com.syntech.repository;
 
 import com.syntech.model.PurchaseOrder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 //
 ///**
 // *
 // * @author rasmi
 // */
+
 @Stateless
 public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
 
-     @PersistenceContext(name = "psDS")
+    @PersistenceContext(name = "psDS")
     private EntityManager em;
 
     public PurchaseOrderRepository() {
@@ -27,5 +31,20 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    public PurchaseOrder eagerload(PurchaseOrder purchaseOrder) {
+        PurchaseOrder po = null;
+        try {
+            Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
+                    + "INNER JOIN FETCH e.purchaseOrderDetailList t WHERE e.id=:poId", PurchaseOrder.class);
+            query.setParameter("poId", purchaseOrder.getId());
+            po = (PurchaseOrder) query.getSingleResult();
+        } catch (Exception e) {
+            Logger.getLogger(PurchaseOrderRepository.class.getName())
+                    .log(Level.SEVERE, " Error while eager loading:", e);
+            po = null;
+        }
+        return po;
     }
 }

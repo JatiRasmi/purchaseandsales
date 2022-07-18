@@ -59,24 +59,23 @@
                     <h:outputText value="#{purchaseorder.totalAmount}"/>
                 </p:column>
 
-<!--                <p:column headerText="Status" sortBy="#" filterBy="#">
-                    <h:outputText value="#"/>
-                </p:column>-->
+                <!--                <p:column headerText="Status" sortBy="#" filterBy="#">
+                                    <h:outputText value="#"/>
+                                </p:column>-->
 
                 <p:column headerText="Action">
 
                     <p:commandButton id="edit" icon="pi pi-pencil"
-                                     actionListener="#{purchaseOrderController.beforeEdit(purchaseOrder)}" 
+                                     actionListener="#{purchaseOrderController.beforeEdit(purchaseorder)}" 
                                      oncomplete="PF('managePurchaseOrderDialog').show()" process="@this"
                                      update="@this form_create_purchaseorder"/>
 
-                    <p:commandButton icon="pi pi-trash" action="#{purchaseOrderController.delete(purchaseOrder)}" 
+                    <p:commandButton icon="pi pi-trash" actionListener="#{purchaseOrderController.delete(purchaseorder)}" 
                                      process="@this" update=":form_purchaseorder:dt_purchaseorders msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
 
-                    <p:commandButton id="view" icon="pi pi-external-link"/>
-
+                    <p:commandButton id="view" action ="purchaseView.xhtml?faces-redirect=true" icon="pi pi-external-link"/>
 
                 </p:column>
             </p:dataTable>

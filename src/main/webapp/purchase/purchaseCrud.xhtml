@@ -237,7 +237,7 @@
 
                             <p:commandButton id="purchaseOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{purchaseOrderController.edit()}"
                                              process="@this" oncomplete="PF('managePurchaseOrderDialog').hide();" 
-                                             update="@this form_create_purchaseorder  msg"
+                                             update="@this :form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg"
                                              rendered="#{purchaseOrderController.purchaseOrder.id ne null}" />
 
                             <p:commandButton icon="pi pi-times" value="Cancel" 

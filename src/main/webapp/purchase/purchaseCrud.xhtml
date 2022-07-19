@@ -231,7 +231,7 @@
                             <h:outputText id="outtxt_totalvatamount" value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
 
                             <p:commandButton id="purchaseOrder_create" icon="pi pi-check" value="Add" actionListener="#{purchaseOrderController.create()}" 
-                                             update="form_create_purchaseorder  msg" process="@this" 
+                                             update=":form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg" process="@this" 
                                              oncomplete="PF('managePurchaseOrderDialog').hide();"  
                                              rendered="#{purchaseOrderController.purchaseOrder.id eq null}" />
 

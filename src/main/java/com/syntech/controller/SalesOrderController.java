@@ -31,14 +31,19 @@ public class SalesOrderController implements Serializable {
     private SalesOrder salesOrder;
     private List<SalesOrder> salesOrderList;
     private SalesOrderDetail salesOrderDetail;
+    private Integer index;
+
     @Inject
     private SalesOrderRepository salesOrderRepository;
-    @Inject
-    private SalesOrderDetailController salesOrderDetailController;
+
+//    @Inject
+//    private SalesOrderDetailController salesOrderDetailController;
     @Inject
     private SalesOrderDetailRepository salesOrderDetailRepository;
+
     @Inject
     MessageUtill messageUtill;
+
     @Inject
     CalculationUtill calculationUtill;
 
@@ -78,6 +83,7 @@ public class SalesOrderController implements Serializable {
     public void beforeCreate() {
         this.salesOrder = new SalesOrder();
         this.salesOrderDetail = new SalesOrderDetail();
+        this.index = null;
     }
 
     public void beforeCreateSod() {
@@ -99,6 +105,31 @@ public class SalesOrderController implements Serializable {
         salesOrder.getSalesOrderDetailList().remove(salesOrderDetail);
         messageUtill.showInfo("Order for sales removed successfully", "Order Removed");
         calculateTotalAmount();
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public void beforeEditList(int index) {
+        this.index = index;
+        for (int i = 0; i < salesOrder.getSalesOrderDetailList().size(); i++) {
+            if (i == index) {
+                this.salesOrderDetail = salesOrder.getSalesOrderDetailList().get(index);
+            }
+        }
+        System.out.println("index " + index);
+    }
+
+    public void editFromList() {
+        salesOrder.getSalesOrderDetailList().set(index, salesOrderDetail);
+        messageUtill.showInfo("Order Detail for Sales Edited Successfully", "Order Edited");
+        calculateTotalAmount();
+        index = null;
     }
 
     public void subtotalCalculate() {
@@ -160,17 +191,23 @@ public class SalesOrderController implements Serializable {
     }
 
     public void beforeEdit(SalesOrder salesOrder) {
-        this.salesOrder = salesOrderRepository.findById(salesOrder.getId());
+//        this.salesOrder = salesOrderRepository.findById(salesOrder.getId());
+        this.salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
+
     }
 
     public void edit() {
+        if (salesOrder == null) {
+            messageUtill.showError("Message", "Sales Order edit failed !!");
+            return;
+        }
         salesOrderRepository.edit(this.salesOrder);
         this.salesOrderList = salesOrderRepository.findAll();
-        messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
+        messageUtill.showInfo("Order for Sales Edited Successfully", "Order Edited");
     }
 
     public void delete(SalesOrder salesOrder) {
-        salesOrder = salesOrderRepository.eagerload(salesOrder);
+        salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
         if (salesOrder == null) {
             messageUtill.showError("Message", "Sales Order delete failed !!");
             return;
@@ -191,6 +228,6 @@ public class SalesOrderController implements Serializable {
     }
 
     public void view(SalesOrder salesOrder) {
-         this.salesOrder = salesOrderRepository.eagerload(salesOrder);
+        this.salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
     }
 }

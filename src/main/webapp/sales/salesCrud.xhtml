@@ -169,9 +169,9 @@
                     <p:column headerText="Action">
 
                         <p:commandButton id="edit" icon="pi pi-pencil" 
-                                         actionListener="#{salesOrderDetailController.beforeEdit(salesOrderDetail)}" 
+                                         actionListener="#{salesOrderController.beforeEditList(rowIndex)}" 
                                          oncomplete="PF('manageSalesOrderDetailDialog').show()" process="@this"
-                                         update="@this dt_salesorderdetails"/>
+                                         update="@this form_create_salesorderdetail"/>
 
                         <p:commandButton icon="pi pi-trash" 
                                          action="#{salesOrderController.deleteFromList(salesorderdetail)}" 
@@ -199,9 +199,17 @@
                             <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
                             <h:outputText id="outtxt_totalvatamount" value="#{salesOrderController.salesOrder.totalAmount}"/>
 
-                            <p:commandButton icon="pi pi-check" value="Save" actionListener="#{salesOrderController.create()}" 
-                                             update=":form_salesorder:dt_salesorders  msg" process="@this" 
-                                             oncomplete="PF('manageSalesOrderDialog').hide();" />
+
+                            <p:commandButton id="salesOrder_create" icon="pi pi-check" value="Add" actionListener="#{salesOrderController.create()}" 
+                                             update=":form_salesorder:dt_salesorders form_create_salesorder  msg" process="@this" 
+                                             oncomplete="PF('manageSalesOrderDialog').hide();"  
+                                             rendered="#{salesOrderController.salesOrder.id eq null}" />
+
+                            <p:commandButton id="salesOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{salesOrderController.edit()}"
+                                             process="@this" oncomplete="PF('manageSalesOrderDialog').hide();" 
+                                             update="@this :form_salesorder:dt_salesorders form_create_salesorder  msg"
+                                             rendered="#{salesOrderController.salesOrder.id ne null}" />
+
                             <p:commandButton icon="pi pi-times" value="Cancel" 
                                              oncomplete="PF('manageSalesOrderDialog').hide();" />
 
@@ -306,13 +314,13 @@
                                      actionListener="#{salesOrderController.addToList()}"
                                      update="form_create_salesorder  msg" 
                                      process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();" 
-                                     rendered="#{salesOrderDetailController.salesOrderDetail.id eq null}" />
+                                     rendered="#{salesOrderController.index eq null}" />
 
                     <p:commandButton id="salesorderdetail_edit" value="Edit" icon="pi pi-check"
-                                     actionListener="#{salesOrderController.edit()}"
+                                     actionListener="#{salesOrderController.editFromList()}"
                                      process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();"
                                      update="@this form_create_salesorder msg"
-                                     rendered="#{salesOrderDetailController.salesOrderDetail.id ne null}" />
+                                     rendered="#{salesOrderController.index ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" 
                                      onclick="PF('manageSalesOrderDetailDialog').hide()"
@@ -348,7 +356,7 @@
                             <p:outputLabel for="outtxt_discount" id="olbl_discount" value="Total Discount Amount"/>
                             <p:outputLabel for="outtxt_vat" id="olbl_vat" value="Total VAT Amount"/>
                             <p:outputLabel for="outtxt_total" id="olbl_total" value="Total Amount"/>
-                            
+
                             <h:outputText style="font-weight: bold;" id="outtxt_customer"  value="#{salesOrderController.salesOrder.customer.name}"/>
                             <h:outputText style="font-weight: bold;" id="outtxt_date"  value="#{salesOrderController.salesOrder.date}"/>
                             <h:outputText style="font-weight: bold;" id="outtxt_subtotal"  value="#{salesOrderController.salesOrder.subTotal}"/>

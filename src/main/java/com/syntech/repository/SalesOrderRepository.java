@@ -31,12 +31,12 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return em;
     }
     
-     public SalesOrder eagerload(SalesOrder salesOrder) {
+     public SalesOrder eagerload(Long soid) {
         SalesOrder so = null;
         try {
             Query query = em.createQuery("SELECT e FROM SalesOrder e "
                     + "INNER JOIN FETCH e.salesOrderDetailList t WHERE e.id=:soId", SalesOrder.class);
-            query.setParameter("soId", salesOrder.getId());
+            query.setParameter("soId", soid);
             so = (SalesOrder) query.getSingleResult();
         } catch (Exception e) {
             Logger.getLogger(SalesOrderRepository.class.getName())

@@ -179,4 +179,18 @@ public class SalesOrderController implements Serializable {
         salesOrderList = salesOrderRepository.findAll();
         messageUtill.showInfo("Order for sales Deleted Successfully", "Order Deleted");
     }
+
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void view(SalesOrder salesOrder) {
+         this.salesOrder = salesOrderRepository.eagerload(salesOrder);
+    }
 }

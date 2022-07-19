@@ -230,13 +230,18 @@
                             <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
                             <h:outputText id="outtxt_totalvatamount" value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
 
-                            <p:commandButton icon="pi pi-check" value="Save" actionListener="#{purchaseOrderController.create()}" 
-                                             update=":form_purchaseorder:dt_purchaseorders  msg" process="@this" 
-                                             oncomplete="PF('managePurchaseOrderDialog').hide();" />
+                            <p:commandButton id="purchaseOrder_create" icon="pi pi-check" value="Add" actionListener="#{purchaseOrderController.create()}" 
+                                             update="form_create_purchaseorder  msg" process="@this" 
+                                             oncomplete="PF('managePurchaseOrderDialog').hide();"  
+                                             rendered="#{purchaseOrderController.purchaseOrder.id eq null}" />
+
+                            <p:commandButton id="purchaseOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{purchaseOrderController.edit()}"
+                                             process="@this" oncomplete="PF('managePurchaseOrderDialog').hide();" 
+                                             update="@this form_create_purchaseorder  msg"
+                                             rendered="#{purchaseOrderController.purchaseOrder.id ne null}" />
+
                             <p:commandButton icon="pi pi-times" value="Cancel" 
                                              oncomplete="PF('managePurchaseOrderDialog').hide();" />
-
-
                         </p:panelGrid>
                     </p:panel>
                 </p:card>

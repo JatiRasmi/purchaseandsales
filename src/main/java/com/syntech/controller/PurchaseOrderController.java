@@ -92,7 +92,7 @@ public class PurchaseOrderController implements Serializable {
     public void beforeCreate() {
         this.purchaseOrder = new PurchaseOrder();
         this.purchaseOrderDetail = new PurchaseOrderDetail();
-          this.index =null;
+        this.index = null;
     }
 
     public void beforeCreatePod() {
@@ -186,18 +186,14 @@ public class PurchaseOrderController implements Serializable {
     }
 
     public void edit() {
-        purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
         if (purchaseOrder == null) {
             messageUtill.showError("Message", "Purchase Order edit failed !!");
             return;
         }
         purchaseOrderRepository.edit(this.purchaseOrder);
-        purchaseOrderDetailRepository.edit(this.purchaseOrderDetail);
         this.purchaseOrderList = purchaseOrderRepository.findAll();
         messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
     }
-
-    
 
     public String beforeView(PurchaseOrder purchaseOrder) {
         return "/purchase/purchaseView.xhtml?faces-redirect=true&id=" + purchaseOrder.getId();
@@ -212,7 +208,7 @@ public class PurchaseOrderController implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public void view() {
         purchaseOrder = purchaseOrderRepository.eagerload(id);
     }

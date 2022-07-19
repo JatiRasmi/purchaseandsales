@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml">
+
+    <ui:define name="Center">      
+
+        <h:form id="form_display">
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="Report" />
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:outputLabel for="inptxt_date" id="olbl_date" />
+                    <p:datePicker id="inptxt_date" value="#{dayBookController.date}" placeholder="Select Date" 
+                                  showIcon="true"
+                                  monthNavigator="true" yearNavigator="true" showWeek="true">
+                        <p:ajax update="@this msg_date" process="@this" />
+                    </p:datePicker>
+                    <p:message id="msg_date" for="inptxt_date"/>
+
+                    <p:commandButton id="date_button" icon="pi pi-check" process="@this"
+                                     actionListener="#{dayBookController.preparedaybook()}"
+                                     update="form_display"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt_view" widgetVar="dtView" 
+                         var="viewdata" value="#{dayBookController.dayBook.dayBookDetailList}"
+                         reflow="true" rowIndexVar="rowIndex" rowHover="true"
+                         rowKey="#{viewdata.transactiontype}" paginator="true" rows="10" rowSelectMode="add" 
+                         paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+                <p:column headerText="S.No." width="3%">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column headerText="Customer/Supplier" sortBy="#{viewdata.customerSupplierName}">
+                    <h:outputText value="#{viewdata.customerSupplierName}"/>
+                </p:column> 
+
+                <p:column headerText="Transaction Type" sortBy="#{viewdata.transactiontype}">
+                    <h:outputText value="#{viewdata.transactiontype}"/>
+                </p:column>
+
+                <p:column headerText="Money In" sortBy="#{viewdata.moneyin}">
+                    <h:outputText value="#{viewdata.moneyin}"/>
+                </p:column>
+
+                <p:column headerText="Money Out" sortBy="#{viewdata.moneyout}"> 
+                    <h:outputText value="#{viewdata.moneyout}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        
+        
+        <h:form>
+            <p:card style="width: 25em">
+                <p:panel>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value ="Opening Balance" for="outtxt_openingBalance"
+                                       id="olbl_openingBalance"/>
+                        <h:outputText id="outtxt_openingBalance"  value="#{dayBookController.dayBook.openingBalance}"/>
+
+                        <p:outputLabel id="olbl_closingBalance" value ="Closing Balance"
+                                       for="outtxt_closingbalance"/>
+                        <h:outputText id="outtxt_closingbalance" value="#{dayBookController.dayBook.closingBalance}"/>
+
+                        <p:outputLabel id="olbl_todayBalance" value =" Today Balance"/>
+                        <h:outputText id="outtxt_todayBalance" value="#{dayBookController.dayBook.todayBalance}"/>
+                    </p:panelGrid>
+                </p:panel>
+            </p:card>
+        </h:form>
+    </ui:define>
+</ui:composition>

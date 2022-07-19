@@ -7,6 +7,7 @@ package com.syntech.repository;
 
 import com.syntech.model.IEntity;
 import com.syntech.model.IRepository;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

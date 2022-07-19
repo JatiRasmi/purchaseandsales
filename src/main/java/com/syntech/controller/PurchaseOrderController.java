@@ -7,12 +7,14 @@ package com.syntech.controller;
 
 import com.syntech.model.PurchaseOrder;
 import com.syntech.model.PurchaseOrderDetail;
-import com.syntech.repository.PurchaseOrderDetailRepository;
+//import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.util.CalculationUtill;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -36,12 +38,11 @@ public class PurchaseOrderController implements Serializable {
     @Inject
     private PurchaseOrderRepository purchaseOrderRepository;
 
-    @Inject
-    private PurchaseOrderDetailController purchaseOrderDetailController;
-
-    @Inject
-    private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
-
+//    @Inject
+//    private PurchaseOrderDetailController purchaseOrderDetailController;
+//
+//    @Inject
+//    private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
     @Inject
     MessageUtill messageUtill;
 
@@ -235,5 +236,4 @@ public class PurchaseOrderController implements Serializable {
             this.purchaseOrder.setTotalAmount(totalAmount);
         }
     }
-
 }

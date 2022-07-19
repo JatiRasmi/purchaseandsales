@@ -6,6 +6,10 @@
 package com.syntech.repository;
 
 import com.syntech.model.PurchaseOrder;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -47,4 +51,30 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         }
         return po;
     }
+    
+    public BigDecimal calculateTotalAmountBeforeDate(LocalDate date) {
+        BigDecimal amount = BigDecimal.ZERO;
+        try {
+            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date <=:date", BigDecimal.class);
+            query.setParameter("date", date);
+            amount =  (BigDecimal) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            amount = BigDecimal.ZERO;
+        }
+        return amount;
+    }
+    
+    public List<PurchaseOrder> findByDate(LocalDate date) {
+        List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("select e from PurchaseOrder e where e.date =:date");
+            query.setParameter("date", date);
+            purchaseOrderList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Record Display Failed!!!");
+        }
+        return purchaseOrderList;
+    }
+
 }

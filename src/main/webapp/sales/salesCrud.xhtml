@@ -312,14 +312,14 @@
 
                     <p:commandButton id="salesorderdetail_create" value="Add" icon="pi pi-check" 
                                      actionListener="#{salesOrderController.addToList()}"
-                                     update="form_create_salesorder  msg" 
+                                     update="form_create_salesorder form_create_salesorderdetail msg" 
                                      process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();" 
                                      rendered="#{salesOrderController.index eq null}" />
 
                     <p:commandButton id="salesorderdetail_edit" value="Edit" icon="pi pi-check"
                                      actionListener="#{salesOrderController.editFromList()}"
                                      process="@this" oncomplete="PF('manageSalesOrderDetailDialog').hide();"
-                                     update="@this form_create_salesorder msg"
+                                     update="@this form_create_salesorder form_create_salesorderdetail msg"
                                      rendered="#{salesOrderController.index ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" 

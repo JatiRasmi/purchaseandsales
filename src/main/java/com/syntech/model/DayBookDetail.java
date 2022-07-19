@@ -6,6 +6,7 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,6 +20,8 @@ public class DayBookDetail {
     private BigDecimal moneyin;
     private BigDecimal moneyout;
 
+    private List<DayBookDetail> dayBookDetailList;
+    
     public DayBookDetail() {
     }
 
@@ -27,6 +30,14 @@ public class DayBookDetail {
         this.transactiontype = transactiontype;
         this.moneyin = moneyin;
         this.moneyout = moneyout;
+    }
+
+    public List<DayBookDetail> getDayBookDetailList() {
+        return dayBookDetailList;
+    }
+
+    public void setDayBookDetailList(List<DayBookDetail> dayBookDetailList) {
+        this.dayBookDetailList = dayBookDetailList;
     }
 
     

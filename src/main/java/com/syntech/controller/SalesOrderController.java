@@ -7,12 +7,12 @@ package com.syntech.controller;
 
 import com.syntech.model.SalesOrder;
 import com.syntech.model.SalesOrderDetail;
-import com.syntech.repository.SalesOrderDetailRepository;
 import com.syntech.repository.SalesOrderRepository;
 import com.syntech.util.CalculationUtill;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -35,11 +35,6 @@ public class SalesOrderController implements Serializable {
 
     @Inject
     private SalesOrderRepository salesOrderRepository;
-
-//    @Inject
-//    private SalesOrderDetailController salesOrderDetailController;
-    @Inject
-    private SalesOrderDetailRepository salesOrderDetailRepository;
 
     @Inject
     MessageUtill messageUtill;
@@ -191,7 +186,6 @@ public class SalesOrderController implements Serializable {
     }
 
     public void beforeEdit(SalesOrder salesOrder) {
-//        this.salesOrder = salesOrderRepository.findById(salesOrder.getId());
         this.salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
 
     }

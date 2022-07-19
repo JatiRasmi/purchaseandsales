@@ -6,6 +6,10 @@
 package com.syntech.repository;
 
 import com.syntech.model.SalesOrder;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -19,7 +23,8 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
- @PersistenceContext(name = "psDS")
+
+    @PersistenceContext(name = "psDS")
     private EntityManager em;
 
     public SalesOrderRepository() {
@@ -30,8 +35,8 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-     public SalesOrder eagerload(Long soid) {
+
+    public SalesOrder eagerload(Long soid) {
         SalesOrder so = null;
         try {
             Query query = em.createQuery("SELECT e FROM SalesOrder e "
@@ -44,5 +49,30 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             so = null;
         }
         return so;
+    }
+
+    public BigDecimal calculateTotalAmountBeforeDate(LocalDate date) {
+        BigDecimal amount = BigDecimal.ZERO;
+        try {
+            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date <=:date", BigDecimal.class);
+            query.setParameter("date", date);
+            amount =  (BigDecimal) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            amount = BigDecimal.ZERO;
+        }
+        return amount;
+    }
+    
+    public List<SalesOrder> findByDate(LocalDate date) {
+        List<SalesOrder> salesOrderList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("select e from SalesOrder e where e.date =:date");
+            query.setParameter("date", date);
+            salesOrderList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Record Display Failed!!!");
+        }
+        return salesOrderList;
     }
 }

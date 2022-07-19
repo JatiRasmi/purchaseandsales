@@ -6,6 +6,8 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,27 +16,27 @@ import java.util.Objects;
  */
 public class DayBook {
 
-    private String transactionDate;
+    private LocalDate transactionDate;
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private BigDecimal todayBalance;
-
+    private List<DayBookDetail> dayBookDetailList;
 
     public DayBook() {
     }
 
-    public DayBook(String transactionDate, BigDecimal openingBalance, BigDecimal closingBalance, BigDecimal todayBalance) {
+    public DayBook(LocalDate transactionDate, BigDecimal openingBalance, BigDecimal closingBalance, BigDecimal todayBalance) {
         this.transactionDate = transactionDate;
         this.openingBalance = openingBalance;
         this.closingBalance = closingBalance;
         this.todayBalance = todayBalance;
     }
 
-    public String getTransactionDate() {
+    public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(String transactionDate) {
+    public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -62,6 +64,15 @@ public class DayBook {
         this.todayBalance = todayBalance;
     }
 
+    public List<DayBookDetail> getDayBookDetailList() {
+        return dayBookDetailList;
+    }
+
+    public void setDayBookDetailList(List<DayBookDetail> dayBookDetailList) {
+        this.dayBookDetailList = dayBookDetailList;
+    }
+
+    
     @Override
     public final int hashCode() {
         int hash = 7;

@@ -19,10 +19,12 @@ public class DayBookDetail {
     private TransactionType transactiontype;
     private BigDecimal moneyin;
     private BigDecimal moneyout;
-
-    private List<DayBookDetail> dayBookDetailList;
-    
     public DayBookDetail() {
+    }
+
+    public DayBookDetail(String customerSupplierName, BigDecimal moneyout) {
+        this.customerSupplierName = customerSupplierName;
+        this.moneyout = moneyout;
     }
 
     public DayBookDetail(String customerSupplierName, TransactionType transactiontype, BigDecimal moneyin, BigDecimal moneyout) {
@@ -32,20 +34,10 @@ public class DayBookDetail {
         this.moneyout = moneyout;
     }
 
-    public List<DayBookDetail> getDayBookDetailList() {
-        return dayBookDetailList;
-    }
-
-    public void setDayBookDetailList(List<DayBookDetail> dayBookDetailList) {
-        this.dayBookDetailList = dayBookDetailList;
-    }
-
-    
 
     public DayBookDetail(BigDecimal moneyout) {
-    this.moneyout = moneyout;
+        this.moneyout = moneyout;
     }
-    
 
     public String getCustomerSupplierName() {
         return customerSupplierName;
@@ -112,5 +104,12 @@ public class DayBookDetail {
         }
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "DayBookDetail{" + "customerSupplierName=" + customerSupplierName +
+                ", transactiontype=" + transactiontype + ", moneyin=" + moneyin +
+                ", moneyout=" + moneyout + '}';
+    }
+
 }

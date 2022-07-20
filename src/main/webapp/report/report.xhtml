@@ -18,7 +18,7 @@
                 <p:toolbarGroup align="right">
                     <p:outputLabel for="inptxt_date" id="olbl_date" />
                     <p:datePicker id="inptxt_date" value="#{dayBookController.date}" placeholder="Select Date" 
-                                  showIcon="true"
+                                  showIcon="true" showButtonBar="true"
                                   monthNavigator="true" yearNavigator="true" showWeek="true">
                         <p:ajax update="@this msg_date" process="@this" />
                     </p:datePicker>
@@ -59,10 +59,7 @@
                     <h:outputText value="#{viewdata.moneyout}"/>
                 </p:column>
             </p:dataTable>
-        </h:form>
-        
-        
-        <h:form>
+
             <p:card style="width: 25em">
                 <p:panel>
                     <p:panelGrid columns="2">

@@ -35,11 +35,9 @@
 
 import java.sql.Date;
 import java.time.LocalDate;
-import javax.faces.convert.FacesConverter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
  
-@FacesConverter("dateConverter")
 @Converter(autoApply = true)
 public class DateConverter implements AttributeConverter<LocalDate, Date> {
      

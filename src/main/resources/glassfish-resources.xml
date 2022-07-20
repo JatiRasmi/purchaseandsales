@@ -17,5 +17,5 @@
         <property name="URL" value="jdbc:mysql://localhost:3306/purchasesales?zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java/jboss/psDS" object-type="user" pool-name="Demopool"/>
+    <jdbc-resource enabled="true" jndi-name="java/jboss/psDS" object-type="user" pool-name="psDS"/>
 </resources>

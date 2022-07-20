@@ -11,5 +11,4 @@ package com.syntech.model;
  */
 public enum TransactionType {
     PURCHASE, SALE
-
 }

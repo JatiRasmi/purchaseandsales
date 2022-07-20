@@ -29,17 +29,8 @@ import javax.inject.Named;
 @ViewScoped
 public class DayBookController implements Serializable {
 
-    private DayBookDetail dayBookDetail;
     private DayBook dayBook;
     private LocalDate date;
-
-    private List<PurchaseOrder> purchaseOrderList;
-    private List<SalesOrder> salesOrderList;
-    private List<DayBookDetail> dayBookDetailList;
-    private List<DayBook> dayBookList;
-
-    private PurchaseOrderController purchaseOrderController;
-    private SalesOrderController salesOrderController;
 
     @Inject
     private PurchaseOrderRepository purchaseOrderRepository;
@@ -49,38 +40,12 @@ public class DayBookController implements Serializable {
     public DayBookController() {
     }
 
-    
-    
     public DayBook getDayBook() {
         return dayBook;
     }
 
     public void setDayBook(DayBook dayBook) {
         this.dayBook = dayBook;
-    }
-
-    public List<DayBook> getDayBookList() {
-        return dayBookList;
-    }
-
-    public void setDayBookList(List<DayBook> dayBookList) {
-        this.dayBookList = dayBookList;
-    }
-
-    public DayBookDetail getDayBookDetail() {
-        return dayBookDetail;
-    }
-
-    public void setDayBookDetail(DayBookDetail dayBookDetail) {
-        this.dayBookDetail = dayBookDetail;
-    }
-
-    public List<DayBookDetail> getDayBookDetailList() {
-        return dayBookDetailList;
-    }
-
-    public void setDayBookDetailList(List<DayBookDetail> dayBookDetailList) {
-        this.dayBookDetailList = dayBookDetailList;
     }
 
     public LocalDate getDate() {
@@ -90,30 +55,29 @@ public class DayBookController implements Serializable {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-    
+
     public void preparedaybook() {
-        purchaseOrderList = purchaseOrderRepository.findByDate(date);
-        salesOrderList = salesOrderRepository.findByDate(date);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findByDate(date);
+        List<SalesOrder> salesOrderList = salesOrderRepository.findByDate(date);
         BigDecimal todayBalance = BigDecimal.ZERO;
-        
-        dayBookDetailList = new ArrayList<>();
-        
+        dayBook = new DayBook();
+        dayBook.setDayBookDetailList(new ArrayList<>());
+
         for (PurchaseOrder po : purchaseOrderList) {
-            dayBookDetail = new DayBookDetail(po.getSupplier().toString(), TransactionType.PURCHASE, BigDecimal.ZERO, po.getTotalAmount());
-            dayBookDetailList.add(dayBookDetail);            
+            DayBookDetail dayBookDetail = new DayBookDetail(po.getSupplier().getName(), TransactionType.PURCHASE, BigDecimal.ZERO, po.getTotalAmount());
+            dayBook.getDayBookDetailList().add(dayBookDetail);
             todayBalance = todayBalance.subtract(po.getTotalAmount());
         }
 
         for (SalesOrder so : salesOrderList) {
-            dayBookDetail = new DayBookDetail(so.getCustomer().toString(), TransactionType.SALE, so.getTotalAmount(), BigDecimal.ZERO);
-            dayBookDetailList.add(dayBookDetail);            
+            DayBookDetail dayBookDetail = new DayBookDetail(so.getCustomer().getName(), TransactionType.SALE, so.getTotalAmount(), BigDecimal.ZERO);
+            dayBook.getDayBookDetailList().add(dayBookDetail);
             todayBalance = todayBalance.add(so.getTotalAmount());
         }
-        
+
         BigDecimal openingBalance = salesOrderRepository.calculateTotalAmountBeforeDate(date)
                 .subtract(purchaseOrderRepository.calculateTotalAmountBeforeDate(date));
         BigDecimal closingBalance = openingBalance.add(todayBalance);
-        dayBook = new DayBook();
         dayBook.setTodayBalance(todayBalance);
         dayBook.setOpeningBalance(openingBalance);
         dayBook.setClosingBalance(closingBalance);

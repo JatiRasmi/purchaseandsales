@@ -54,14 +54,14 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     public BigDecimal calculateTotalAmountBeforeDate(LocalDate date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date <=:date", BigDecimal.class);
+            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
             query.setParameter("date", date);
             amount =  (BigDecimal) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             amount = BigDecimal.ZERO;
         }
-        return amount;
+        return amount == null ? BigDecimal.ZERO : amount;
     }
     
     public List<SalesOrder> findByDate(LocalDate date) {

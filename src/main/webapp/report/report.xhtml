@@ -67,13 +67,14 @@
                                        id="olbl_openingBalance"/>
                         <h:outputText id="outtxt_openingBalance"  value="#{dayBookController.dayBook.openingBalance}"/>
 
+                        <p:outputLabel id="olbl_todayBalance" value =" Today Balance"/>
+                        <h:outputText id="outtxt_todayBalance" value="#{dayBookController.dayBook.todayBalance}"/>
+                    
                         <p:outputLabel id="olbl_closingBalance" value ="Closing Balance"
                                        for="outtxt_closingbalance"/>
                         <h:outputText id="outtxt_closingbalance" value="#{dayBookController.dayBook.closingBalance}"/>
 
-                        <p:outputLabel id="olbl_todayBalance" value =" Today Balance"/>
-                        <h:outputText id="outtxt_todayBalance" value="#{dayBookController.dayBook.todayBalance}"/>
-                    </p:panelGrid>
+                        </p:panelGrid>
                 </p:panel>
             </p:card>
         </h:form>

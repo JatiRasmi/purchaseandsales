@@ -5,9 +5,7 @@
 // */
 package com.syntech.repository;
 
-import com.syntech.model.DayBookDetail;
 import com.syntech.model.PurchaseOrder;
-import com.syntech.model.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.Tuple;
-import javax.persistence.TypedQuery;
 //
 ///**
 // *
@@ -59,14 +55,14 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     public BigDecimal calculateTotalAmountBeforeDate(LocalDate date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date <=:date", BigDecimal.class);
+            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date<:date", BigDecimal.class);
             query.setParameter("date", date);
             amount = (BigDecimal) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             amount = BigDecimal.ZERO;
         }
-        return amount;
+        return amount == null ? BigDecimal.ZERO : amount;
     }
 
     public List<PurchaseOrder> findByDate(LocalDate date) {
@@ -79,22 +75,5 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             System.out.println("Record Display Failed!!!");
         }
         return purchaseOrderList;
-    }
-
-    public List<DayBookDetail> findDayBookDetail(LocalDate date) {
-        List<DayBookDetail> dayBookDetails = new ArrayList<>();
-        try {
-            TypedQuery<Tuple> query = em.createQuery("select e.supplier.name, e.totalAmount from PurchaseOrder e where e.date =:date", Tuple.class);
-            query.setParameter("date", date);
-            List<Tuple> tuples = query.getResultList();
-            for (Tuple t : tuples) {
-                DayBookDetail d = new DayBookDetail(t.get(0, String.class), TransactionType.PURCHASE,
-                        BigDecimal.ZERO, t.get(1, BigDecimal.class));
-                dayBookDetails.add(d);
-            }
-        } catch (Exception e) {
-            System.out.println("Record Display Failed!!!");
-        }
-        return dayBookDetails;
     }
 }

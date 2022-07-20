@@ -81,21 +81,20 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return purchaseOrderList;
     }
 
-   
-
-    public List<DayBookDetail> findDayBookDetail1(LocalDate date) {
+    public List<DayBookDetail> findDayBookDetail(LocalDate date) {
         List<DayBookDetail> dayBookDetails = new ArrayList<>();
         try {
-            Query query = em.createQuery("select new com.syntech.model.DayBookDetail(e.supplier.name, e.totalAmount) from PurchaseOrder e where e.date =:date", DayBookDetail.class);
+            TypedQuery<Tuple> query = em.createQuery("select e.supplier.name, e.totalAmount from PurchaseOrder e where e.date =:date", Tuple.class);
             query.setParameter("date", date);
-            dayBookDetails = query.getResultList();
-
+            List<Tuple> tuples = query.getResultList();
+            for (Tuple t : tuples) {
+                DayBookDetail d = new DayBookDetail(t.get(0, String.class), TransactionType.PURCHASE,
+                        BigDecimal.ZERO, t.get(1, BigDecimal.class));
+                dayBookDetails.add(d);
+            }
         } catch (Exception e) {
             System.out.println("Record Display Failed!!!");
         }
         return dayBookDetails;
     }
-
-//      
-    
 }

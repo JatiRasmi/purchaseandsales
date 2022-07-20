@@ -57,30 +57,34 @@ public class DayBookController implements Serializable {
     }
 
     public void preparedaybook() {
-        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findByDate(date);
-        List<SalesOrder> salesOrderList = salesOrderRepository.findByDate(date);
-        BigDecimal todayBalance = BigDecimal.ZERO;
+//        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findByDate(date);
+//        List<SalesOrder> salesOrderList = salesOrderRepository.findByDate(date);
+//        BigDecimal todayBalance = BigDecimal.ZERO;
         dayBook = new DayBook();
         dayBook.setDayBookDetailList(new ArrayList<>());
 
-        for (PurchaseOrder po : purchaseOrderList) {
-            DayBookDetail dayBookDetail = new DayBookDetail(po.getSupplier().getName(), TransactionType.PURCHASE, BigDecimal.ZERO, po.getTotalAmount());
-            dayBook.getDayBookDetailList().add(dayBookDetail);
-            todayBalance = todayBalance.subtract(po.getTotalAmount());
-        }
-
-        for (SalesOrder so : salesOrderList) {
-            DayBookDetail dayBookDetail = new DayBookDetail(so.getCustomer().getName(), TransactionType.SALE, so.getTotalAmount(), BigDecimal.ZERO);
-            dayBook.getDayBookDetailList().add(dayBookDetail);
-            todayBalance = todayBalance.add(so.getTotalAmount());
-        }
-
-        BigDecimal openingBalance = salesOrderRepository.calculateTotalAmountBeforeDate(date)
-                .subtract(purchaseOrderRepository.calculateTotalAmountBeforeDate(date));
-        BigDecimal closingBalance = openingBalance.add(todayBalance);
-        dayBook.setTodayBalance(todayBalance);
-        dayBook.setOpeningBalance(openingBalance);
-        dayBook.setClosingBalance(closingBalance);
-        dayBook.setTransactionDate(date);
+        List<DayBookDetail> dayBookDetails = purchaseOrderRepository.findDayBookDetail1(date);
+        dayBookDetails.forEach(x -> System.out.println(x.toString()));
     }
 }
+//        for (PurchaseOrder po : purchaseOrderList) {
+//            DayBookDetail dayBookDetail = new DayBookDetail(po.getSupplier().getName(), TransactionType.PURCHASE, BigDecimal.ZERO, po.getTotalAmount());
+//            dayBook.getDayBookDetailList().add(dayBookDetail);
+//            todayBalance = todayBalance.subtract(po.getTotalAmount());
+//        }
+//
+//        for (SalesOrder so : salesOrderList) {
+//            DayBookDetail dayBookDetail = new DayBookDetail(so.getCustomer().getName(), TransactionType.SALE, so.getTotalAmount(), BigDecimal.ZERO);
+//            dayBook.getDayBookDetailList().add(dayBookDetail);
+//            todayBalance = todayBalance.add(so.getTotalAmount());
+//        }
+//
+//        BigDecimal openingBalance = salesOrderRepository.calculateTotalAmountBeforeDate(date)
+//                .subtract(purchaseOrderRepository.calculateTotalAmountBeforeDate(date));
+//        BigDecimal closingBalance = openingBalance.add(todayBalance);
+//        dayBook.setTodayBalance(todayBalance);
+//        dayBook.setOpeningBalance(openingBalance);
+//        dayBook.setClosingBalance(closingBalance);
+//        dayBook.setTransactionDate(date);
+//    }
+//}

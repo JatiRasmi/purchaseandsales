@@ -47,8 +47,11 @@ public class PurchaseOrder implements IEntity {
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
+    @Column(nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
+    @Column(nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;
+    @Column(nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
@@ -64,8 +67,6 @@ public class PurchaseOrder implements IEntity {
         this.expectedDeliveryDate = expectedDeliveryDate;
         this.purchaseOrderDetailList = purchaseOrderDetailList;
     }
-
-    
 
     @Override
     public Long getId() {
@@ -100,7 +101,6 @@ public class PurchaseOrder implements IEntity {
     public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
-
 
     public BigDecimal getTotalAmount() {
         return totalAmount;

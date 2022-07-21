@@ -37,42 +37,60 @@ public class UnitRestApi {
     @POST
     @Path("create")
     public Response createUnit(Unit unit) throws JsonProcessingException {
-        unitRepository.create(unit);
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(unit);
-        return RestResponse.responseBuilder("true", "200", " Created Unit", str);
-        }
+            unitRepository.create(unit);
+            ObjectMapper mapper = new ObjectMapper();
+            String str = mapper.writeValueAsString(unit);
+            return RestResponse.responseBuilder("true", "200", " Unit Created ", str);
+    }
 
     @GET
     public Response getALLUnit() throws JsonProcessingException {
         List<Unit> unit = unitRepository.findAll();
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(unit);
-        return RestResponse.responseBuilder("true", "200", "Unit List", str);
+        if (unit == null || unit.isEmpty()) {
+            return RestResponse.responseBuilder("Failed!!!", "204", "Unit Doesnot Exist",null);
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            String str = mapper.writeValueAsString(unit);
+            return RestResponse.responseBuilder("true", "200", "Unit List", str);
+        }
     }
 
     @GET
     @Path("{id}")
     public Response getUnitById(@PathParam("id") Long id) throws JsonProcessingException {
         Unit unit = unitRepository.findById(id);
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(unit);
-        return RestResponse.responseBuilder("true", "200", "Unit List By Id", str);
+        if (unit == null) {
+            return RestResponse.responseBuilder("Failed!!!", "204", "Unit of Entered Id Doesnot Exist",null);
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            String str = mapper.writeValueAsString(unit);
+            return RestResponse.responseBuilder("true", "200", "Unit List By Id", str);
+        }
     }
 
     @DELETE
-    public Response deleteUnit(Unit unit) throws JsonProcessingException {
-        unitRepository.delete(unit);
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(unit);
-        return RestResponse.responseBuilder("true", "200", "Unit Deleted", str);
+    @Path("delete/{id}")
+    public Response deleteUnit(@PathParam("id") Long id) throws JsonProcessingException {
+        Unit u = unitRepository.findById(id);
+        if (u == null) {
+            return RestResponse.responseBuilder("false", "304", "Unit Not Deleted",null);
+        } else {
+            unitRepository.delete(u);
+            return RestResponse.responseBuilder("true", "200", "Unit Deleted", null);
+        }
     }
 
     @PUT
-    public Response editUnit(Unit unit) throws JsonProcessingException {
-        unitRepository.edit(unit);
-        ObjectMapper mapper = new ObjectMapper();
-        String str = mapper.writeValueAsString(unit);
-        return RestResponse.responseBuilder("true", "200", "Unit Edited", str);
+    @Path("edit/{id}")
+    public Response editUnit(@PathParam("id") Long id, Unit unit) throws JsonProcessingException {
+        Unit u = unitRepository.findById(id);
+        if (u == null) {
+            return RestResponse.responseBuilder("false", "304", "Failed to Edit Unit ","null");
+        } else {
+            unitRepository.edit(unit);
+            ObjectMapper mapper = new ObjectMapper();
+            String str = mapper.writeValueAsString(unit);
+            return RestResponse.responseBuilder("true", "200", "Unit Edited", str);
+        }
     }
 }

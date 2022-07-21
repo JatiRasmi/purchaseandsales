@@ -6,7 +6,6 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syntech.model.Unit;
 import com.syntech.repository.UnitRepository;
 import java.util.List;
@@ -36,11 +35,9 @@ public class UnitRestApi {
 
     @POST
     @Path("create")
-    public Response createUnit(Unit unit) throws JsonProcessingException {
+    public Response createUnit(Unit unit) throws JsonProcessingException{
             unitRepository.create(unit);
-            ObjectMapper mapper = new ObjectMapper();
-            String str = mapper.writeValueAsString(unit);
-            return RestResponse.responseBuilder("true", "200", " Unit Created ", str);
+            return RestResponse.responseBuilder("true", "200", " Unit Created ", unit);
     }
 
     @GET
@@ -49,9 +46,7 @@ public class UnitRestApi {
         if (unit == null || unit.isEmpty()) {
             return RestResponse.responseBuilder("Failed!!!", "204", "Unit Doesnot Exist",null);
         } else {
-            ObjectMapper mapper = new ObjectMapper();
-            String str = mapper.writeValueAsString(unit);
-            return RestResponse.responseBuilder("true", "200", "Unit List", str);
+            return RestResponse.responseBuilder("true", "200", "Unit List", unit);
         }
     }
 
@@ -62,9 +57,7 @@ public class UnitRestApi {
         if (unit == null) {
             return RestResponse.responseBuilder("Failed!!!", "204", "Unit of Entered Id Doesnot Exist",null);
         } else {
-            ObjectMapper mapper = new ObjectMapper();
-            String str = mapper.writeValueAsString(unit);
-            return RestResponse.responseBuilder("true", "200", "Unit List By Id", str);
+            return RestResponse.responseBuilder("true", "200", "Unit List By Id", unit);
         }
     }
 
@@ -88,9 +81,7 @@ public class UnitRestApi {
             return RestResponse.responseBuilder("false", "304", "Failed to Edit Unit ","null");
         } else {
             unitRepository.edit(unit);
-            ObjectMapper mapper = new ObjectMapper();
-            String str = mapper.writeValueAsString(unit);
-            return RestResponse.responseBuilder("true", "200", "Unit Edited", str);
+            return RestResponse.responseBuilder("true", "200", "Unit Edited", unit);
         }
     }
 }

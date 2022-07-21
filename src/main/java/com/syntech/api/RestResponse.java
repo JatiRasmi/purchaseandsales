@@ -5,6 +5,8 @@
  */
 package com.syntech.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
@@ -62,12 +64,14 @@ public class RestResponse {
         this.result = result;
     }
 
-    public static Response responseBuilder(String success, String code, String message, String result) {
+    public static Response responseBuilder(String success, String code, String message, Object result) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String str = mapper.writeValueAsString(result);
         JsonObject json = Json.createObjectBuilder()
                 .add("success", success)
                 .add("code", code)
                 .add("message", message)
-                .add("result", result == null ? "" : result).build();
+                .add("result", str == null ? "" : str).build();
         return Response.status(Response.Status.OK).entity(json).build();
     }
 }

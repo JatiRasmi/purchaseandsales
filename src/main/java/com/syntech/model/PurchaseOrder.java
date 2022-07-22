@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -54,7 +55,8 @@ public class PurchaseOrder implements IEntity {
     @Column(nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
     private List<PurchaseOrderDetail> purchaseOrderDetailList;
 
     public PurchaseOrder() {

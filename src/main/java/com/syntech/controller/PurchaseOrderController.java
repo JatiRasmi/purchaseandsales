@@ -13,8 +13,6 @@ import com.syntech.util.CalculationUtill;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -146,14 +144,14 @@ public class PurchaseOrderController implements Serializable {
         this.purchaseOrderDetail.setDiscountAmount(discountAmount);
 
         BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscountAmount());
-        this.purchaseOrderDetail.setsubTotalAfterDiscount(subafterdiscount);
+        this.purchaseOrderDetail.setSubTotalAfterDiscount(subafterdiscount);
     }
 
     public void calculateVatAmountAndTotalAmount() {
-        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getsubTotalAfterDiscount(), purchaseOrderDetail.getVat());
+        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVat());
         this.purchaseOrderDetail.setVatAmount(vatAmount);
 
-        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getsubTotalAfterDiscount(), purchaseOrderDetail.getVatAmount());
+        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVatAmount());
         this.purchaseOrderDetail.setTotalAmount(totalAmount);
     }
 

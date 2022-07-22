@@ -5,6 +5,7 @@
  */
 package com.syntech.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -29,6 +30,7 @@ public class PurchaseOrderDetail implements IEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;
@@ -147,14 +149,6 @@ public class PurchaseOrderDetail implements IEntity {
 
     public void setDiscountAmount(BigDecimal discountAmount) {
         this.discountAmount = discountAmount;
-    }
-
-    public BigDecimal getsubTotalAfterDiscount() {
-        return subTotalAfterDiscount;
-    }
-
-    public void setsubTotalAfterDiscount(BigDecimal subTotalAfterDiscount) {
-        this.subTotalAfterDiscount = subTotalAfterDiscount;
     }
 
     public BigDecimal getVat() {

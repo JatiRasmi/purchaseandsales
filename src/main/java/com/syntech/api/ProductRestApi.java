@@ -71,7 +71,7 @@ public class ProductRestApi {
     }
 
     @PUT
-    @Path("edit")
+    @Path("edit/{id}")
     public Response editProduct(@PathParam("id") Long id, Product p) throws JsonProcessingException {
         Product product = productRepository.findById(id);
         if (product == null) {

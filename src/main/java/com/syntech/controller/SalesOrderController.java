@@ -12,7 +12,6 @@ import com.syntech.util.CalculationUtill;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -64,7 +63,7 @@ public class SalesOrderController implements Serializable {
     @PostConstruct
     public void init() {
         this.salesOrder = new SalesOrder();
-        this.salesOrderList = salesOrderRepository.findAll();
+//        this.salesOrderList = salesOrderRepository.findAll();
     }
 
     public SalesOrderDetail getSalesOrderDetail() {
@@ -175,14 +174,6 @@ public class SalesOrderController implements Serializable {
         salesOrderRepository.create(salesOrder);
         this.salesOrderList = salesOrderRepository.findAll();
         messageUtill.showInfo("Order for Sales Added Successfully", "Order Added");
-    }
-
-    public void findAll() {
-        salesOrderRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        salesOrderRepository.findById(id);
     }
 
     public void beforeEdit(SalesOrder salesOrder) {

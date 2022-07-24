@@ -6,6 +6,7 @@
 package com.syntech.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -31,6 +32,7 @@ public class PurchaseOrderDetail implements IEntity {
     private Long id;
 
     @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;

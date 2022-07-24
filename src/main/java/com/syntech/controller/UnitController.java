@@ -70,14 +70,6 @@ public class UnitController implements Serializable {
 
     }
 
-    public void findAll() {
-        unitRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        unitRepository.findById(id);
-    }
-
     public void beforeEdit(Unit unit) {
         this.unit = unitRepository.findById(unit.getId());
     }

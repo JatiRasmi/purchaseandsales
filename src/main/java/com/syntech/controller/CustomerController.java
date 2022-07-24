@@ -64,14 +64,6 @@ public class CustomerController implements Serializable {
         messageUtill.showInfo("Customer Added Successfully", "Added Customer");
     }
 
-    public void findAll() {
-        customerRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        customerRepository.findById(id);
-    }
-
     public void beforeEdit(Customer customer) {
         this.customer = customerRepository.findById(customer.getId());
     }

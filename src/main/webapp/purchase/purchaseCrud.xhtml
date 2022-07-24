@@ -103,7 +103,7 @@
                     <p:outputLabel for="inptxt_date" id="olbl_date" value="Ordered Date" />
                     <p:datePicker id="inptxt_date" value="#{purchaseOrderController.purchaseOrder.date}" 
                                   requiredMessage="Date is Required" required="true" label="Date"
-                                  title="Date" pattern="MM/dd/yyyy" 
+                                  title="Date" pattern="MM/dd/yyyy"
                                   monthNavigator="true" yearNavigator="true" showWeek="true">
                         <p:ajax update="@this msg_date" process="@this" />
                     </p:datePicker>
@@ -111,7 +111,7 @@
 
                     <p:outputLabel for="inptxt_expecteddeliverydate" id="olbl_expecteddeliverydate" 
                                    value="Expected Delivery Date" />
-                    <p:datePicker id="inptxt_expecteddeliverydate" pattern="MM/dd/yyyy" 
+                    <p:datePicker id="inptxt_expecteddeliverydate" pattern="MM/dd/yyyy"
                                   value="#{purchaseOrderController.purchaseOrder.expectedDeliveryDate}" 
                                   requiredMessage="Expected delivery date required" required="true"  
                                   label="ExpecetdDeliveryDate" title="Expeceted Delivery Date"  monthNavigator="true"

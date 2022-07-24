@@ -64,14 +64,6 @@ public class ProductController implements Serializable {
         messageUtill.showInfo("Product Added Successfully", "Product Added");
     }
 
-    public void findAll() {
-        productRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        productRepository.findById(id);
-    }
-
     public void beforeEdit(Product product) {
         this.product = productRepository.findById(product.getId());
     }

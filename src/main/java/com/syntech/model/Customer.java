@@ -5,15 +5,12 @@
  */
 package com.syntech.model;
 
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -52,11 +49,6 @@ public class Customer implements IEntity {
     @NotBlank
     @Column(name = "contact", nullable = false, unique = true, length = 10)
     private String contact;
-    
-    
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
-    private List<SalesOrder> salesOrder;
-
 
     public Customer() {
 
@@ -116,7 +108,6 @@ public class Customer implements IEntity {
         this.contact = contact;
     }
 
-   
     @Override
     public final int hashCode() {
         int hash = 3;

@@ -7,6 +7,7 @@ package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
@@ -66,6 +67,8 @@ public class RestResponse {
 
     public static Response responseBuilder(String success, String code, String message, Object result) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+
         String str = mapper.writeValueAsString(result);
         JsonObject json = Json.createObjectBuilder()
                 .add("success", success)

@@ -64,14 +64,6 @@ public class SupplierController implements Serializable {
         messageUtill.showInfo("Supplier Added Successfully", "Supplier Added");
     }
 
-    public void findAll() {
-        supplierRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        supplierRepository.findById(id);
-    }
-
     public void beforeEdit(Supplier supplier) {
         this.supplier = supplierRepository.findById(supplier.getId());
     }
@@ -85,6 +77,6 @@ public class SupplierController implements Serializable {
     public void delete(Supplier supplier) {
         supplierRepository.delete(supplier);
         supplierList = supplierRepository.findAll();
-        messageUtill.showInfo("Supplier Deleted Successfully", "Supplier Deleted" );
+        messageUtill.showInfo("Supplier Deleted Successfully", "Supplier Deleted");
     }
 }

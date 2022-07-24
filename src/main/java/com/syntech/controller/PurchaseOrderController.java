@@ -7,7 +7,6 @@ package com.syntech.controller;
 
 import com.syntech.model.PurchaseOrder;
 import com.syntech.model.PurchaseOrderDetail;
-//import com.syntech.repository.PurchaseOrderDetailRepository;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.util.CalculationUtill;
 import com.syntech.util.MessageUtill;
@@ -36,11 +35,6 @@ public class PurchaseOrderController implements Serializable {
     @Inject
     private PurchaseOrderRepository purchaseOrderRepository;
 
-//    @Inject
-//    private PurchaseOrderDetailController purchaseOrderDetailController;
-//
-//    @Inject
-//    private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
     @Inject
     MessageUtill messageUtill;
 
@@ -77,7 +71,7 @@ public class PurchaseOrderController implements Serializable {
     @PostConstruct
     public void init() {
         this.purchaseOrder = new PurchaseOrder();
-        this.purchaseOrderList = purchaseOrderRepository.findAll();
+//        this.purchaseOrderList = purchaseOrderRepository.findAll();
     }
 
     public PurchaseOrderDetail getPurchaseOrderDetail() {
@@ -159,14 +153,6 @@ public class PurchaseOrderController implements Serializable {
         purchaseOrderRepository.create(purchaseOrder);
         this.purchaseOrderList = purchaseOrderRepository.findAll();
         messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
-    }
-
-    public void findAll() {
-        purchaseOrderRepository.findAll();
-    }
-
-    public void findById(Long id) {
-        purchaseOrderRepository.findById(id);
     }
 
     public void delete(PurchaseOrder purchaseOrder) {

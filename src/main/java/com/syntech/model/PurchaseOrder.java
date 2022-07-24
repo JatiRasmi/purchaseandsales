@@ -5,6 +5,8 @@
  */
 package com.syntech.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,9 +41,11 @@ public class PurchaseOrder implements IEntity {
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "expected_delivery_date", nullable = false)
     private LocalDate expectedDeliveryDate;
 
@@ -56,7 +60,8 @@ public class PurchaseOrder implements IEntity {
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
     private List<PurchaseOrderDetail> purchaseOrderDetailList;
 
     public PurchaseOrder() {

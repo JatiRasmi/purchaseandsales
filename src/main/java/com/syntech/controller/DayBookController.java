@@ -7,10 +7,12 @@ package com.syntech.controller;
 
 import com.syntech.adaptar.ReportGeneration;
 import com.syntech.model.DayBook;
+import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SalesOrderRepository;
 import java.io.Serializable;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,7 +30,7 @@ public class DayBookController implements Serializable {
 
     @Inject
     private ReportGeneration reportGeneration;
-    
+
     @Inject
     private PurchaseOrderRepository purchaseOrderRepository;
     @Inject
@@ -52,8 +54,13 @@ public class DayBookController implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-    
-    public void preparedaybook(){
+
+    @PostConstruct
+    public void init() {
+        date = new Date();
+    }
+
+    public void preparedaybook() {
         dayBook = reportGeneration.preparedaybook(date);
     }
 }

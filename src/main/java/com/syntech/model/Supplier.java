@@ -13,9 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -31,26 +30,29 @@ public class Supplier implements IEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Name should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name should be string")
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @NotNull
+    @NotNull(message = "Address should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Address should be string")
     @Column(name = "address", nullable = false, length = 50)
     private String address;
 
+    @NotNull(message = "Email should not be null")
     @Email
-    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$", message = "Email is invalid email")
     @Column(name = "email", nullable = false, length = 25, unique = true)
     private String email;
 
-    @NotBlank
-    @Positive
-    @Size
-    @Column(name = "contact", nullable = false, length = 12, unique = true)
+    @NotNull(message = "Contact number should not be null")
+    @Size(max = 10)
+    @Pattern(regexp = "^[0-9]{10}$", message = "Contact number should be 10 digits number")
+    @Column(name = "contact", nullable = false, unique = true)
     private String contact;
 
-    @Column(name = "description", nullable = false, length = 100)
+    @Column(name = "description", length = 100)
     private String description;
 
     public Supplier() {

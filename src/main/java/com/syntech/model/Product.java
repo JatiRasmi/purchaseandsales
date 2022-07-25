@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -33,10 +35,12 @@ public class Product implements IEntity {
     @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
    
+    @NotNull(message = "Name should not be null")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name should be string")
     @Column(name = "name" , nullable = false , length = 50)
     private String name;
     
-    @Column(name = "description", nullable = false, length = 50)
+    @Column(name = "description", length = 50)
     private String description;
 
     public Product() {

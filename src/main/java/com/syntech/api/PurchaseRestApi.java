@@ -67,7 +67,7 @@ public class PurchaseRestApi {
             return RestResponse.responseBuilder("false", "200", "Purchase doesnot exists", null);
         }
         purchaseOrderRepository.delete(po);
-        return RestResponse.responseBuilder("true", "200", "Purchase Deleted Successfully", po);
+        return RestResponse.responseBuilder("true", "200", "Purchase Deleted Successfully", null);
     }
     
     @PUT

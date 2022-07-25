@@ -11,12 +11,14 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -33,7 +35,7 @@ public class PurchaseOrderDetail implements IEntity {
 
     @JsonBackReference
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;
 
@@ -41,30 +43,39 @@ public class PurchaseOrderDetail implements IEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @NotNull(message = " Quantity should not be null")
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity = BigDecimal.ZERO;
 
+    @NotNull(message = "Rate should not be null")
     @Column(name = "rate", nullable = false)
     private BigDecimal rate = BigDecimal.ZERO;
 
+    @NotNull(message = "Sub_total should not be null")
     @Column(name = "sub_total", nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
 
+    @NotNull(message = "Discount should not be null")
     @Column(name = "discount", nullable = false)
     private BigDecimal discount = BigDecimal.ZERO;
 
+    @NotNull(message = "Discount amount should not be null")
     @Column(name = "discount_amount", nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;
 
+    @NotNull(message = "Sub total after discount should not be null")
     @Column(name = "sub_total_after_discount", nullable = false)
     private BigDecimal subTotalAfterDiscount = BigDecimal.ZERO;
 
+    @NotNull(message = "vat should not be null")
     @Column(name = "vat", nullable = false)
     private BigDecimal vat = BigDecimal.ZERO;
 
+    @NotNull(message = "vat amount should not be null")
     @Column(name = "vat_amount", nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
+    @NotNull(message = "total amount should not be null")
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
 

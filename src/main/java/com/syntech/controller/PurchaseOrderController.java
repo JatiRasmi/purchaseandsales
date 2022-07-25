@@ -71,7 +71,7 @@ public class PurchaseOrderController implements Serializable {
     @PostConstruct
     public void init() {
         this.purchaseOrder = new PurchaseOrder();
-//        this.purchaseOrderList = purchaseOrderRepository.findAll();
+        this.purchaseOrderList = purchaseOrderRepository.findAll();
     }
 
     public PurchaseOrderDetail getPurchaseOrderDetail() {

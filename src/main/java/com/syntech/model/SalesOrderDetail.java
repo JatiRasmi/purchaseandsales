@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -23,44 +24,54 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "saesorderdetail")
 public class SalesOrderDetail implements IEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
-    
+
     @ManyToOne
-    @JoinColumn(name = "sales_order_id" , nullable = false)
+    @JoinColumn(name = "sales_order_id", nullable = false)
     private SalesOrder salesOrder;
-    
+
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable =false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-    
-    @Column(name = "quantity" , nullable = false)
+
+    @NotNull(message = "Quantity should not be null")
+    @Column(name = "quantity", nullable = false)
     private BigDecimal quantity = BigDecimal.ZERO;
-    
-    @Column(name = "rate" , nullable = false)
+
+    @NotNull(message = "Rate should not be null")
+    @Column(name = "rate", nullable = false)
     private BigDecimal rate = BigDecimal.ZERO;
-    
-    @Column(name = "sub_total" , nullable = false)
+
+    @NotNull(message = "Sub total should not be null")
+    @Column(name = "sub_total", nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
-    
-    @Column(name = "discount" , nullable = false)
+
+    @NotNull(message = "Discount should not be null")
+    @Column(name = "discount", nullable = false)
     private BigDecimal discount = BigDecimal.ZERO;
-    
-    @Column(name = "discount_amount" , nullable = false)
+
+    @NotNull(message = "Discount amount should not be null")
+    @Column(name = "discount_amount", nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;
-    
-    @Column(name = "sub_total_after_discount" , nullable = false)
+
+    @NotNull(message = "Sub total after discount should not be null")
+    @Column(name = "sub_total_after_discount", nullable = false)
     private BigDecimal subTotalAfterDiscount = BigDecimal.ZERO;
-    
-    @Column(name = "vat" , nullable = false)
+
+    @NotNull(message = "vat should not be null")
+    @Column(name = "vat", nullable = false)
     private BigDecimal vat = BigDecimal.ZERO;
-    
-    @Column(name = "vat_amount" , nullable = false)
+
+    @NotNull(message = "vat amount should not be null")
+    @Column(name = "vat_amount", nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
-    
-    @Column(name = "total_amount" , nullable = false)
+
+    @NotNull(message = "total amount should not be null")
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
     public SalesOrderDetail() {
@@ -81,8 +92,6 @@ public class SalesOrderDetail implements IEntity {
         this.vatAmount = vatAmount;
         this.totalAmount = totalAmount;
     }
-
-   
 
     public SalesOrderDetail(Long id) {
         this.id = id;
@@ -149,7 +158,6 @@ public class SalesOrderDetail implements IEntity {
         this.subTotalAfterDiscount = subTotalAfterDiscount;
     }
 
-   
     public BigDecimal getVat() {
         return vat;
     }
@@ -174,7 +182,6 @@ public class SalesOrderDetail implements IEntity {
         this.totalAmount = totalAmount;
     }
 
-   
     @Override
     public void setId(Long id) {
         this.id = id;

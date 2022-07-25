@@ -5,8 +5,9 @@
  */
 package com.syntech.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -20,6 +21,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -38,26 +42,31 @@ public class SalesOrder implements IEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull(message = "Ordered Date should not be null")
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "date", nullable = false, length = 20)
-    private LocalDate date;
+    private Date date;
 
+    @NotNull(message = "total amount should not be null")
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount = BigDecimal.ZERO;;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
+    ;
 
     private BigDecimal subTotal = BigDecimal.ZERO;
     private BigDecimal discountAmount = BigDecimal.ZERO;
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
-    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "salesOrder")
     private List<SalesOrderDetail> salesOrderDetailList;
 
-    public SalesOrder(Long id, Customer customer, LocalDate date, BigDecimal totalamount) {
+    public SalesOrder(Long id, Customer customer, Date date, BigDecimal totalamount) {
         this.id = id;
         this.customer = customer;
         this.date = date;
         this.totalAmount = totalamount;
     }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -65,12 +74,11 @@ public class SalesOrder implements IEntity {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public void setCustomer(Long id) {
         this.id = id;
     }
 
-    
     public SalesOrder(BigDecimal totalamount) {
         this.totalAmount = totalamount;
     }
@@ -88,9 +96,7 @@ public class SalesOrder implements IEntity {
         return id;
     }
 
-    
-
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -99,11 +105,10 @@ public class SalesOrder implements IEntity {
         this.id = id;
     }
 
-    
-
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
+
     public BigDecimal getTotalAmount() {
         return totalAmount;
     }
@@ -111,7 +116,6 @@ public class SalesOrder implements IEntity {
     public void setTotalAmount(BigDecimal totalamount) {
         this.totalAmount = totalamount;
     }
-
 
     public List<SalesOrderDetail> getSalesOrderDetailList() {
         return salesOrderDetailList;
@@ -145,7 +149,6 @@ public class SalesOrder implements IEntity {
         this.vatAmount = vatAmount;
     }
 
-    
     @Override
     public final int hashCode() {
         int hash = 7;

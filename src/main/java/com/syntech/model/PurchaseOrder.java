@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -23,6 +23,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -41,13 +44,17 @@ public class PurchaseOrder implements IEntity {
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull(message = "Ordered Date should not be null")
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private Date date;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull(message = "Ordered Date should not be null")
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "expected_delivery_date", nullable = false)
-    private LocalDate expectedDeliveryDate;
+    private Date expectedDeliveryDate;
 
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
@@ -67,7 +74,7 @@ public class PurchaseOrder implements IEntity {
     public PurchaseOrder() {
     }
 
-    public PurchaseOrder(Long id, Supplier supplier, LocalDate date, LocalDate expectedDeliveryDate, List<PurchaseOrderDetail> purchaseOrderDetailList) {
+    public PurchaseOrder(Long id, Supplier supplier, Date date, Date expectedDeliveryDate, List<PurchaseOrderDetail> purchaseOrderDetailList) {
         this.id = id;
         this.supplier = supplier;
         this.date = date;
@@ -93,19 +100,19 @@ public class PurchaseOrder implements IEntity {
         this.supplier = supplier;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public LocalDate getExpectedDeliveryDate() {
+    public Date getExpectedDeliveryDate() {
         return expectedDeliveryDate;
     }
 
-    public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+    public void setExpectedDeliveryDate(Date expectedDeliveryDate) {
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
 

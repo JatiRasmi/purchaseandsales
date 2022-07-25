@@ -58,6 +58,7 @@ public class DayBookController implements Serializable {
     @PostConstruct
     public void init() {
         date = new Date();
+        dayBook = reportGeneration.preparedaybook(date);
     }
 
     public void preparedaybook() {

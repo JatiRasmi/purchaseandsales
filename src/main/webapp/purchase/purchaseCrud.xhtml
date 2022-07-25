@@ -83,7 +83,7 @@
         </h:form>
 
         <p:dialog header="PurchaseOrder" showEffect="fade" modal="false" appendTo="@(body)"
-                  widgetVar="managePurchaseOrderDialog" responsive="true" height="700"  width="1700" id="dlg_manage">
+                  widgetVar="managePurchaseOrderDialog" responsive="true" height="700"  width="1500" id="dlg_manage">
 
             <h:form id="form_create_purchaseorder">
                 <p:panelGrid id ="grid" columns="9">
@@ -214,37 +214,45 @@
                 </p:dataTable>
 
 
-                <p:card style="width: 25em">
-                    <p:panel>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
-                                           id="olbl_finalsubtotalamount"/>
-                            <h:outputText id="outtxt_finalsubtotalamount"  value="#{purchaseOrderController.purchaseOrder.subTotal}"/>
+                <p:toolbar style="background-color: white; border: none">
+                    <p:toolbarGroup align="left">
+                        
+                    </p:toolbarGroup>
+                    
+                    <p:toolbarGroup>
+                        <p:card style="width: 25em">
+                            <p:panel>
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
+                                                   id="olbl_finalsubtotalamount"/>
+                                    <h:outputText id="outtxt_finalsubtotalamount"  value="#{purchaseOrderController.purchaseOrder.subTotal}"/>
 
-                            <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
-                            <h:outputText id="outtxt_totaldiscountamount" value="#{purchaseOrderController.purchaseOrder.discountAmount}"/>
+                                    <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
+                                    <h:outputText id="outtxt_totaldiscountamount" value="#{purchaseOrderController.purchaseOrder.discountAmount}"/>
 
-                            <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
-                            <h:outputText id="outtxt_finaltotalvatamount" value="#{purchaseOrderController.purchaseOrder.vatAmount}"/>
+                                    <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
+                                    <h:outputText id="outtxt_finaltotalvatamount" value="#{purchaseOrderController.purchaseOrder.vatAmount}"/>
 
-                            <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
-                            <h:outputText id="outtxt_totalvatamount" value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
+                                    <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
+                                    <h:outputText id="outtxt_totalvatamount" value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
 
-                            <p:commandButton id="purchaseOrder_create" icon="pi pi-check" value="Add" actionListener="#{purchaseOrderController.create()}" 
-                                             update=":form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg" process="@this" 
-                                             oncomplete="PF('managePurchaseOrderDialog').hide();"  
-                                             rendered="#{purchaseOrderController.purchaseOrder.id eq null}" />
+                                    <p:commandButton id="purchaseOrder_create" icon="pi pi-check" value="Add" actionListener="#{purchaseOrderController.create()}" 
+                                                     update=":form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg" process="@this" 
+                                                     oncomplete="PF('managePurchaseOrderDialog').hide();"  
+                                                     rendered="#{purchaseOrderController.purchaseOrder.id eq null}" />
 
-                            <p:commandButton id="purchaseOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{purchaseOrderController.edit()}"
-                                             process="@this" oncomplete="PF('managePurchaseOrderDialog').hide();" 
-                                             update="@this :form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg"
-                                             rendered="#{purchaseOrderController.purchaseOrder.id ne null}" />
+                                    <p:commandButton id="purchaseOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{purchaseOrderController.edit()}"
+                                                     process="@this" oncomplete="PF('managePurchaseOrderDialog').hide();" 
+                                                     update="@this :form_purchaseorder:dt_purchaseorders form_create_purchaseorder  msg"
+                                                     rendered="#{purchaseOrderController.purchaseOrder.id ne null}" />
 
-                            <p:commandButton icon="pi pi-times" value="Cancel" 
-                                             oncomplete="PF('managePurchaseOrderDialog').hide();" />
-                        </p:panelGrid>
-                    </p:panel>
-                </p:card>
+                                    <p:commandButton icon="pi pi-times" value="Cancel" 
+                                                     oncomplete="PF('managePurchaseOrderDialog').hide();" />
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:card>
+                    </p:toolbarGroup>
+                </p:toolbar>
             </h:form>
         </p:dialog>
 

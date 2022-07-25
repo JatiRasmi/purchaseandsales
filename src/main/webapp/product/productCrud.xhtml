@@ -22,9 +22,11 @@
             </p:toolbar>
 
             <p:dataTable id="dt_products" widgetVar="dtProducts" var="product" value="#{productController.productList}"
-                         reflow="true" styleClass="products-table" rowIndexVar="rowIndex" selectionMode="single"
+                         reflow="true" styleClass="products-table" rowIndexVar="rowIndex" 
+                         selectionMode="single"
                          selection="#{productController.product}" rowKey="#{product.id}" paginator="true"
-                         rows="10" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rows="10" rowSelectMode="add" paginatorPosition="bottom" 
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                          rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
 
@@ -46,6 +48,11 @@
                 <p:column headerText="Description" sortBy="#{product.description}" filterBy="#{product.description}">
                     <h:outputText value="#{product.description}"/>
                 </p:column>
+                
+                <p:column headerText="Status" sortBy="#" filterBy="#">
+                    <h:outputText value="#"/>
+                </p:column>
+
 
                 <p:column headerText="Action">
 

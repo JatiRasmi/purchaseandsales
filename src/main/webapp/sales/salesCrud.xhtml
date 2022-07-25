@@ -65,9 +65,9 @@
         </h:form>
 
         <p:dialog header="SalesOrder" showEffect="fade" modal="false" appendTo="@(body)"
-                  widgetVar="manageSalesOrderDialog" responsive="true" height="700"  width="1700" id="dlg_manage">
+                  widgetVar="manageSalesOrderDialog" responsive="true" height="700"  width="1500" id="dlg_manage">
             <h:form id="form_create_salesorder">
-                <p:panelGrid id ="grid" columns="3">
+                <p:panelGrid id ="grid" columns="6">
                     <p:outputLabel for="select_customer" id="olbl_customer" value="Customer"/>
                     <p:selectOneMenu id="select_customer" requiredMessage="Customer is required" 
                                      value="#{salesOrderController.salesOrder.customer}" filter="true" 
@@ -183,40 +183,49 @@
                 </p:dataTable>
 
 
-                <p:card style="width: 25em">
-                    <p:panel>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
-                                           id="olbl_finalsubtotalamount"/>
-                            <h:outputText id="outtxt_finalsubtotalamount"  value="#{salesOrderController.salesOrder.subTotal}"/>
+                <p:toolbar style="background-color: white; border: none">
+                    <p:toolbarGroup align="left">
 
-                            <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
-                            <h:outputText id="outtxt_totaldiscountamount" value="#{salesOrderController.salesOrder.discountAmount}"/>
+                    </p:toolbarGroup>
 
-                            <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
-                            <h:outputText id="outtxt_finaltotalvatamount" value="#{salesOrderController.salesOrder.vatAmount}"/>
+                    <p:toolbarGroup align="right">
 
-                            <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
-                            <h:outputText id="outtxt_totalvatamount" value="#{salesOrderController.salesOrder.totalAmount}"/>
+                        <p:card style="width: 25em">
+                            <p:panel>
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value ="Sub Total Amount" for="outtxt_finalsubtotalamount"
+                                                   id="olbl_finalsubtotalamount"/>
+                                    <h:outputText id="outtxt_finalsubtotalamount"  value="#{salesOrderController.salesOrder.subTotal}"/>
 
+                                    <p:outputLabel id="olbl_totaldiscountamount" value =" Total Discount Amount"/>
+                                    <h:outputText id="outtxt_totaldiscountamount" value="#{salesOrderController.salesOrder.discountAmount}"/>
 
-                            <p:commandButton id="salesOrder_create" icon="pi pi-check" value="Add" actionListener="#{salesOrderController.create()}" 
-                                             update=":form_salesorder:dt_salesorders form_create_salesorder  msg" process="@this" 
-                                             oncomplete="PF('manageSalesOrderDialog').hide();"  
-                                             rendered="#{salesOrderController.salesOrder.id eq null}" />
+                                    <p:outputLabel id="olbl_finaltotalvatamount" value =" Total Vat Amount"/>
+                                    <h:outputText id="outtxt_finaltotalvatamount" value="#{salesOrderController.salesOrder.vatAmount}"/>
 
-                            <p:commandButton id="salesOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{salesOrderController.edit()}"
-                                             process="@this" oncomplete="PF('manageSalesOrderDialog').hide();" 
-                                             update="@this :form_salesorder:dt_salesorders form_create_salesorder  msg"
-                                             rendered="#{salesOrderController.salesOrder.id ne null}" />
-
-                            <p:commandButton icon="pi pi-times" value="Cancel" 
-                                             oncomplete="PF('manageSalesOrderDialog').hide();" />
+                                    <p:outputLabel id="olbl_totalamount" value =" Total Amount"/>
+                                    <h:outputText id="outtxt_totalvatamount" value="#{salesOrderController.salesOrder.totalAmount}"/>
 
 
-                        </p:panelGrid>
-                    </p:panel>
-                </p:card>
+                                    <p:commandButton id="salesOrder_create" icon="pi pi-check" value="Add" actionListener="#{salesOrderController.create()}" 
+                                                     update=":form_salesorder:dt_salesorders form_create_salesorder  msg" process="@this" 
+                                                     oncomplete="PF('manageSalesOrderDialog').hide();"  
+                                                     rendered="#{salesOrderController.salesOrder.id eq null}" />
+
+                                    <p:commandButton id="salesOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{salesOrderController.edit()}"
+                                                     process="@this" oncomplete="PF('manageSalesOrderDialog').hide();" 
+                                                     update="@this :form_salesorder:dt_salesorders form_create_salesorder  msg"
+                                                     rendered="#{salesOrderController.salesOrder.id ne null}" />
+
+                                    <p:commandButton icon="pi pi-times" value="Cancel" 
+                                                     oncomplete="PF('manageSalesOrderDialog').hide();" />
+
+
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:card>
+                    </p:toolbarGroup>
+                </p:toolbar>
             </h:form>
         </p:dialog>
 

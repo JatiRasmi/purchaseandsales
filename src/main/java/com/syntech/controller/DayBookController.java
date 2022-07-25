@@ -7,7 +7,6 @@ package com.syntech.controller;
 
 import com.syntech.adaptar.ReportGeneration;
 import com.syntech.model.DayBook;
-import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SalesOrderRepository;
 import java.io.Serializable;
@@ -30,11 +29,6 @@ public class DayBookController implements Serializable {
 
     @Inject
     private ReportGeneration reportGeneration;
-
-    @Inject
-    private PurchaseOrderRepository purchaseOrderRepository;
-    @Inject
-    private SalesOrderRepository salesOrderRepository;
 
     public DayBookController() {
     }

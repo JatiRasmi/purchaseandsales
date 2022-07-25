@@ -60,23 +60,31 @@
                 </p:column>
             </p:dataTable>
 
-            <p:card style="width: 25em">
-                <p:panel>
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value ="Opening Balance" for="outtxt_openingBalance"
-                                       id="olbl_openingBalance"/>
-                        <h:outputText id="outtxt_openingBalance"  value="#{dayBookController.dayBook.openingBalance}"/>
+            <p:toolbar style="background-color: white; border: none">
+                <p:toolbarGroup align="left">
 
-                        <p:outputLabel id="olbl_todayBalance" value =" Today Balance"/>
-                        <h:outputText id="outtxt_todayBalance" value="#{dayBookController.dayBook.todayBalance}"/>
-                    
-                        <p:outputLabel id="olbl_closingBalance" value ="Closing Balance"
-                                       for="outtxt_closingbalance"/>
-                        <h:outputText id="outtxt_closingbalance" value="#{dayBookController.dayBook.closingBalance}"/>
+                </p:toolbarGroup>
+               
+                <p:toolbarGroup align="right">
+                    <p:card style="width: 25em;">
+                        <p:panel>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value ="Opening Balance" for="outtxt_openingBalance"
+                                               id="olbl_openingBalance"/>
+                                <h:outputText id="outtxt_openingBalance"  value="#{dayBookController.dayBook.openingBalance}"/>
 
-                        </p:panelGrid>
-                </p:panel>
-            </p:card>
+                                <p:outputLabel id="olbl_todayBalance" value =" Today Balance"/>
+                                <h:outputText id="outtxt_todayBalance" value="#{dayBookController.dayBook.todayBalance}"/>
+
+                                <p:outputLabel id="olbl_closingBalance" value ="Closing Balance"
+                                               for="outtxt_closingbalance"/>
+                                <h:outputText id="outtxt_closingbalance" value="#{dayBookController.dayBook.closingBalance}"/>
+
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:card>
+                </p:toolbarGroup>
+            </p:toolbar>
         </h:form>
     </ui:define>
 </ui:composition>

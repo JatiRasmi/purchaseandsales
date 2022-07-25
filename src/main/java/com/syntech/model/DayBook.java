@@ -6,7 +6,7 @@
 package com.syntech.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class DayBook {
 
-    private LocalDate transactionDate;
+    private Date transactionDate;
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private BigDecimal todayBalance;
@@ -25,18 +25,18 @@ public class DayBook {
     public DayBook() {
     }
 
-    public DayBook(LocalDate transactionDate, BigDecimal openingBalance, BigDecimal closingBalance, BigDecimal todayBalance) {
+    public DayBook(Date transactionDate, BigDecimal openingBalance, BigDecimal closingBalance, BigDecimal todayBalance) {
         this.transactionDate = transactionDate;
         this.openingBalance = openingBalance;
         this.closingBalance = closingBalance;
         this.todayBalance = todayBalance;
     }
 
-    public LocalDate getTransactionDate() {
+    public Date getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(LocalDate transactionDate) {
+    public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
 

@@ -7,8 +7,8 @@ package com.syntech.repository;
 
 import com.syntech.model.SalesOrder;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,7 +51,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return so;
     }
 
-    public BigDecimal calculateTotalAmountBeforeDate(LocalDate date) {
+    public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
             Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
@@ -64,7 +64,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return amount == null ? BigDecimal.ZERO : amount;
     }
     
-    public List<SalesOrder> findByDate(LocalDate date) {
+    public List<SalesOrder> findByDate(Date date) {
         List<SalesOrder> salesOrderList = new ArrayList<>();
         try {
             Query query = em.createQuery("select e from SalesOrder e where e.date =:date");

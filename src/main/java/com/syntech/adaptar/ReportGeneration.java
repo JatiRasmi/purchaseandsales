@@ -14,8 +14,8 @@ import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SalesOrderRepository;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class ReportGeneration implements Serializable {
     @Inject
     private SalesOrderRepository salesOrderRepository;
 
-    public DayBook preparedaybook(LocalDate date) {
+    public DayBook preparedaybook(Date date) {
         List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findByDate(date);
         List<SalesOrder> salesOrderList = salesOrderRepository.findByDate(date);
         BigDecimal todayBalance = BigDecimal.ZERO;

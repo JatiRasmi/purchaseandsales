@@ -63,7 +63,7 @@ public class SalesOrderController implements Serializable {
     @PostConstruct
     public void init() {
         this.salesOrder = new SalesOrder();
-//        this.salesOrderList = salesOrderRepository.findAll();
+        this.salesOrderList = salesOrderRepository.findAll();
     }
 
     public SalesOrderDetail getSalesOrderDetail() {

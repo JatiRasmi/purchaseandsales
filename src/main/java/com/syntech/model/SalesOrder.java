@@ -6,6 +6,8 @@
 package com.syntech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -51,13 +53,17 @@ public class SalesOrder implements IEntity {
     @NotNull(message = "total amount should not be null")
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount = BigDecimal.ZERO;
-    ;
 
+    @Column(nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
+    @Column(nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;
+    @Column(nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "salesOrder")
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "salesOrder")
     private List<SalesOrderDetail> salesOrderDetailList;
 
     public SalesOrder(Long id, Customer customer, Date date, BigDecimal totalamount) {
@@ -73,10 +79,6 @@ public class SalesOrder implements IEntity {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public void setCustomer(Long id) {
-        this.id = id;
     }
 
     public SalesOrder(BigDecimal totalamount) {

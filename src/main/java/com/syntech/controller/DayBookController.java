@@ -10,7 +10,7 @@ import com.syntech.model.DayBook;
 import com.syntech.repository.PurchaseOrderRepository;
 import com.syntech.repository.SalesOrderRepository;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +24,7 @@ import javax.inject.Named;
 public class DayBookController implements Serializable {
 
     private DayBook dayBook;
-    private LocalDate date;
+    private Date date;
 
     @Inject
     private ReportGeneration reportGeneration;
@@ -45,11 +45,11 @@ public class DayBookController implements Serializable {
         this.dayBook = dayBook;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     

@@ -8,7 +8,7 @@ package com.syntech.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.adaptar.ReportGeneration;
 import com.syntech.model.DayBook;
-import java.time.LocalDate;
+import java.util.Date;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -30,7 +30,7 @@ public class ReportRestApi {
     private ReportGeneration reportGeneration;
     @GET
     @Path("{date}")
-    public Response getReport(LocalDate date) throws JsonProcessingException {
+    public Response getReport(Date date) throws JsonProcessingException {
         DayBook db = reportGeneration.preparedaybook(date);
         return RestResponse.responseBuilder("true", "200", "Transaction Report Generated Successfully",db );
     }

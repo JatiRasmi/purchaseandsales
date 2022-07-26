@@ -7,6 +7,7 @@ package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.adapter.ReportGeneration;
+import com.syntech.exception.CustomException;
 import com.syntech.model.DayBook;
 import java.util.Date;
 import javax.inject.Inject;
@@ -31,8 +32,11 @@ public class ReportRestApi {
     private ReportGeneration reportGeneration;
     @GET
     @Path("{date}")
-    public Response getReport(@PathParam("date") Date date) throws JsonProcessingException {
+    public Response getReport(@PathParam("date") Date date) throws JsonProcessingException, CustomException {
         DayBook db = reportGeneration.preparedaybook(date);
+        if(db == null){
+            throw new CustomException("Daybook is null");
+        }
         return RestResponse.responseBuilder("true", "200", "Transaction Report Generated Successfully",db );
     }
 }

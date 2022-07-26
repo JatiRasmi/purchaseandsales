@@ -6,6 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.syntech.exception.CustomException;
 import com.syntech.model.Product;
 import com.syntech.repository.ProductRepository;
 import java.util.List;
@@ -41,30 +42,30 @@ public class ProductRestApi {
     }
 
     @GET
-    public Response getAllProduct() throws JsonProcessingException {
+    public Response getAllProduct() throws JsonProcessingException, CustomException {
         List<Product> p = productRepository.findAll();
         if (p == null) {
-            return RestResponse.responseBuilder("false", "200", "No Product Data", null);
+            throw new CustomException("Product is null");
         }
         return RestResponse.responseBuilder("true", "200", "List of Product", p);
     }
 
     @GET
     @Path("{id}")
-    public Response getProductById(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response getProductById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         Product product = productRepository.findById(id);
         if (product == null) {
-            return RestResponse.responseBuilder("False", "200", "Product with the id doesn't exists", null);
+            throw new CustomException("Product of id " + id + " is null");
         }
         return RestResponse.responseBuilder("True", "200", "List of product of the given id", product);
     }
 
     @DELETE
     @Path("delete/{id}")
-    public Response deleteProduct(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response deleteProduct(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         Product p = productRepository.findById(id);
         if (p == null) {
-            return RestResponse.responseBuilder("False", "200", "Product delete failed", null);
+            throw new CustomException("Product of id " + id + " is null");
         }
         productRepository.delete(p);
         return RestResponse.responseBuilder("True", "200", "Product deleted successfully", null);
@@ -72,10 +73,10 @@ public class ProductRestApi {
 
     @PUT
     @Path("edit/{id}")
-    public Response editProduct(@PathParam("id") Long id, Product p) throws JsonProcessingException {
+    public Response editProduct(@PathParam("id") Long id, Product p) throws JsonProcessingException, CustomException {
         Product product = productRepository.findById(id);
         if (product == null) {
-            return RestResponse.responseBuilder("False", "200", "Product doesn't exists", null);
+            throw new CustomException("Product of id " + id + " is null");
         }
         productRepository.edit(p);
         return RestResponse.responseBuilder("True", "200", "Product Edited Successfully", p);

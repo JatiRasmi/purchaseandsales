@@ -6,6 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.syntech.exception.CustomException;
 import com.syntech.model.Unit;
 import com.syntech.repository.UnitRepository;
 import java.util.List;
@@ -35,16 +36,16 @@ public class UnitRestApi {
 
     @POST
     @Path("create")
-    public Response createUnit(Unit unit) throws JsonProcessingException{
-            unitRepository.create(unit);
-            return RestResponse.responseBuilder("true", "200", " Unit Created ", unit);
+    public Response createUnit(Unit unit) throws JsonProcessingException {
+        unitRepository.create(unit);
+        return RestResponse.responseBuilder("true", "200", " Unit Created ", unit);
     }
 
     @GET
-    public Response getALLUnit() throws JsonProcessingException {
+    public Response getALLUnit() throws JsonProcessingException, CustomException {
         List<Unit> unit = unitRepository.findAll();
         if (unit == null || unit.isEmpty()) {
-            return RestResponse.responseBuilder("Failed!!!", "204", "Unit Doesnot Exist",null);
+            throw new CustomException("Unit is null");
         } else {
             return RestResponse.responseBuilder("true", "200", "Unit List", unit);
         }
@@ -52,10 +53,10 @@ public class UnitRestApi {
 
     @GET
     @Path("{id}")
-    public Response getUnitById(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response getUnitById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         Unit unit = unitRepository.findById(id);
         if (unit == null) {
-            return RestResponse.responseBuilder("Failed!!!", "204", "Unit of Entered Id Doesnot Exist",null);
+            throw new CustomException("Unit of id " + id +" is null");
         } else {
             return RestResponse.responseBuilder("true", "200", "Unit List By Id", unit);
         }
@@ -63,10 +64,10 @@ public class UnitRestApi {
 
     @DELETE
     @Path("delete/{id}")
-    public Response deleteUnit(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response deleteUnit(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         Unit u = unitRepository.findById(id);
         if (u == null) {
-            return RestResponse.responseBuilder("false", "304", "Unit Not Deleted",null);
+            throw new CustomException("Unit of id " + id +" is null");
         } else {
             unitRepository.delete(u);
             return RestResponse.responseBuilder("true", "200", "Unit Deleted", null);
@@ -75,10 +76,10 @@ public class UnitRestApi {
 
     @PUT
     @Path("edit/{id}")
-    public Response editUnit(@PathParam("id") Long id, Unit unit) throws JsonProcessingException {
+    public Response editUnit(@PathParam("id") Long id, Unit unit) throws JsonProcessingException, CustomException {
         Unit u = unitRepository.findById(id);
         if (u == null) {
-            return RestResponse.responseBuilder("false", "304", "Failed to Edit Unit ","null");
+            throw new CustomException("Unit of id " + id +" is null");
         } else {
             unitRepository.edit(unit);
             return RestResponse.responseBuilder("true", "200", "Unit Edited", unit);

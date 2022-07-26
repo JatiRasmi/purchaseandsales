@@ -6,6 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.syntech.exception.CustomException;
 import com.syntech.model.SalesOrder;
 import com.syntech.repository.SalesOrderRepository;
 import java.util.List;
@@ -41,30 +42,30 @@ public class SalesRestApi {
     }
 
     @GET
-    public Response getALLSales() throws JsonProcessingException {
+    public Response getALLSales() throws JsonProcessingException, CustomException {
         List<SalesOrder> so = salesOrderRepository.eagerLoadAll();
         if (so == null) {
-            return RestResponse.responseBuilder("false", "200", "Sales Does not exists", null);
+            throw new CustomException("Sales Order is null");
         }
         return RestResponse.responseBuilder("true", "200", "List of Sales Order", so);
     }
 
     @GET
     @Path("{id}")
-    public Response getSalesById(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response getSalesById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            return RestResponse.responseBuilder("false", "200", "Sales doesnot exists", null);
+            throw new CustomException("Sales Order of id " + id +" is null");
         }
         return RestResponse.responseBuilder("true", "200", "Sales of given Id is", so);
     }
 
     @DELETE
     @Path("delete/{id}")
-    public Response deleteSales(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response deleteSales(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            return RestResponse.responseBuilder("false", "200", "Sales doesnot exists", null);
+            throw new CustomException("Sales Order of id " + id +" is null");
         }
         salesOrderRepository.delete(so);
         return RestResponse.responseBuilder("true", "200", "Sales Deleted Successfully", null);
@@ -72,10 +73,10 @@ public class SalesRestApi {
 
     @PUT
     @Path("edit/{id}")
-    public Response editSales(@PathParam("id") Long id, SalesOrder salesOrder) throws JsonProcessingException {
+    public Response editSales(@PathParam("id") Long id, SalesOrder salesOrder) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            return RestResponse.responseBuilder("false", "200", "Sales doesnot exists", null);
+            throw new CustomException("Sales Order of id " + id +" is null");
         }
         salesOrderRepository.edit(salesOrder);
         return RestResponse.responseBuilder("true", "200", "Sales Edited Successfully", salesOrder);

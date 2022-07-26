@@ -6,6 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.syntech.exception.CustomException;
 import com.syntech.model.Supplier;
 import com.syntech.repository.SupplierRepository;
 import java.util.List;
@@ -41,30 +42,30 @@ public class SupplierRestApi {
     }
     
     @GET
-    public Response getAllSupplier() throws JsonProcessingException{
+    public Response getAllSupplier() throws JsonProcessingException, CustomException{
         List<Supplier> supplier = supplierRepository.findAll();
         if(supplier == null){
-            return RestResponse.responseBuilder("false", "200", "No supplier has been added yet", null);
+            throw new CustomException("Supplier is null");
         }
         return RestResponse.responseBuilder("true", "200", "Available Suppliers", supplier);
     }
     
     @GET
     @Path("{id}")
-    public Response getSupplierById(@PathParam("id") Long id) throws JsonProcessingException{
+    public Response getSupplierById(@PathParam("id") Long id) throws JsonProcessingException, CustomException{
         Supplier supplier = supplierRepository.findById(id);
         if(supplier == null){
-            return RestResponse.responseBuilder("false", "200", "No supplier with given id", null);
+            throw new CustomException("Supplier of id " + id +" is null");
         }
         return RestResponse.responseBuilder("true", "200", "List of Supplier by Id", supplier);
     }
     
     @DELETE
     @Path("delete/{id}")
-    public Response deleteSupplier(@PathParam("id") Long id) throws JsonProcessingException{
+    public Response deleteSupplier(@PathParam("id") Long id) throws JsonProcessingException, CustomException{
         Supplier supplier = supplierRepository.findById(id);
         if(supplier == null){
-            return RestResponse.responseBuilder("false", "200", "Failed to delete supplier", null);
+            throw new CustomException("Supplier of id " + id +" is null");
         }
         supplierRepository.delete(supplier);
         return RestResponse.responseBuilder("true", "200", "Supplier deleted Successfully", supplier);
@@ -72,10 +73,10 @@ public class SupplierRestApi {
     
     @PUT
     @Path("edit/{id}")
-    public Response editSupplier(@PathParam("id") Long id, Supplier supplier) throws JsonProcessingException{
+    public Response editSupplier(@PathParam("id") Long id, Supplier supplier) throws JsonProcessingException, CustomException{
         Supplier s = supplierRepository.findById(id);
         if(s==null){
-            return RestResponse.responseBuilder("failed", "200", "Edit for supplier failed", null);
+            throw new CustomException("Supplier of id " + id +" is null");
         }
         supplierRepository.edit(supplier);
         return RestResponse.responseBuilder("true", "200", "Supplier Edited Successfully", supplier);

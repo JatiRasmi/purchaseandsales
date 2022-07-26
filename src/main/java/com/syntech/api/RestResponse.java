@@ -68,7 +68,6 @@ public class RestResponse {
     public static Response responseBuilder(String success, String code, String message, Object result) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-
         String str = mapper.writeValueAsString(result);
         JsonObject json = Json.createObjectBuilder()
                 .add("success", success)

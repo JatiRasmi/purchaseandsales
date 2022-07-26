@@ -52,6 +52,30 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return po;
     }
 
+    public List<PurchaseOrder> eagerLoadAll() {
+        List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
+                    + "INNER JOIN FETCH e.purchaseOrderDetailList t");
+            purchaseOrderList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Failed to find all record of purchase");
+        }
+        return purchaseOrderList;
+    }
+    
+    public List<PurchaseOrder> findByDate(Date date) {
+        List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("select e from PurchaseOrder e where e.date =:date");
+            query.setParameter("date", date);
+            purchaseOrderList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Record of the Given Date Display Failed!!!");
+        }
+        return purchaseOrderList;
+    }
+    
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
@@ -63,17 +87,5 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             amount = BigDecimal.ZERO;
         }
         return amount == null ? BigDecimal.ZERO : amount;
-    }
-
-    public List<PurchaseOrder> findByDate(Date date) {
-        List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
-        try {
-            Query query = em.createQuery("select e from PurchaseOrder e where e.date =:date");
-            query.setParameter("date", date);
-            purchaseOrderList = query.getResultList();
-        } catch (Exception e) {
-            System.out.println("Record Display Failed!!!");
-        }
-        return purchaseOrderList;
     }
 }

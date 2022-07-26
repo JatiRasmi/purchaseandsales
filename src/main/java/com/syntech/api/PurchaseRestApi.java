@@ -43,14 +43,14 @@ public class PurchaseRestApi {
 
     @GET
     public Response getALLPurchase() throws JsonProcessingException {
-        List<PurchaseOrder> po = purchaseOrderRepository.findAll();
+        List<PurchaseOrder> po = (List<PurchaseOrder>) purchaseOrderRepository.eagerLoadAll();
         
         if (po == null) {
             return RestResponse.responseBuilder("false", "200", "Purchase Does not exists", null);
         }
-        for(PurchaseOrder purchaseOrder: po){
-            purchaseOrder.setPurchaseOrderDetailList(new ArrayList<>());               
-        }
+//        for(PurchaseOrder purchaseOrder: po){
+//            purchaseOrder.setPurchaseOrderDetailList(new ArrayList<>());               
+//        }
         return RestResponse.responseBuilder("true", "200", "List of Purchase Order", po);
     }
 

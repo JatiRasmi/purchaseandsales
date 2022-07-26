@@ -44,13 +44,10 @@ public class PurchaseRestApi {
     @GET
     public Response getALLPurchase() throws JsonProcessingException {
         List<PurchaseOrder> po = (List<PurchaseOrder>) purchaseOrderRepository.eagerLoadAll();
-        
+
         if (po == null) {
             return RestResponse.responseBuilder("false", "200", "Purchase Does not exists", null);
         }
-//        for(PurchaseOrder purchaseOrder: po){
-//            purchaseOrder.setPurchaseOrderDetailList(new ArrayList<>());               
-//        }
         return RestResponse.responseBuilder("true", "200", "List of Purchase Order", po);
     }
 
@@ -63,7 +60,7 @@ public class PurchaseRestApi {
         }
         return RestResponse.responseBuilder("true", "200", "Purchase of given Id is", po);
     }
-    
+
     @DELETE
     @Path("delete/{id}")
     public Response deletePurchase(@PathParam("id") Long id) throws JsonProcessingException {
@@ -74,15 +71,15 @@ public class PurchaseRestApi {
         purchaseOrderRepository.delete(po);
         return RestResponse.responseBuilder("true", "200", "Purchase Deleted Successfully", null);
     }
-    
+
     @PUT
     @Path("edit/{id}")
-    public Response editPurchase(@PathParam("id") Long id, PurchaseOrder purchaseOrder) throws JsonProcessingException{
+    public Response editPurchase(@PathParam("id") Long id, PurchaseOrder purchaseOrder) throws JsonProcessingException {
         PurchaseOrder po = purchaseOrderRepository.eagerload(id);
-         if (po == null) {
+        if (po == null) {
             return RestResponse.responseBuilder("false", "200", "Purchase doesnot exists", null);
         }
-         purchaseOrderRepository.edit(purchaseOrder);
-         return RestResponse.responseBuilder("true", "200", "Purchase Edited Successfully", purchaseOrder);
+        purchaseOrderRepository.edit(purchaseOrder);
+        return RestResponse.responseBuilder("true", "200", "Purchase Edited Successfully", purchaseOrder);
     }
 }

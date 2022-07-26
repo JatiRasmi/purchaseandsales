@@ -18,7 +18,7 @@
                 <p:toolbarGroup align="right">
                     <p:outputLabel for="inptxt_date" id="olbl_date" />
                     <p:datePicker id="inptxt_date" value="#{dayBookController.date}" placeholder="Select Date" 
-                                  showIcon="true" showButtonBar="true"
+                                  showIcon="true" showButtonBar="true" pattern="yyyy-MM-dd"
                                   monthNavigator="true" yearNavigator="true" showWeek="true">
                         <p:ajax update="@this msg_date" process="@this" />
                     </p:datePicker>

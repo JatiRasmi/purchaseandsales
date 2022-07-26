@@ -56,15 +56,16 @@ public class PurchaseOrder implements IEntity {
     @Column(name = "expected_delivery_date", nullable = false)
     private Date expectedDeliveryDate;
 
-    @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount = BigDecimal.ZERO;
-
     @Column(nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
     @Column(nullable = false)
     private BigDecimal discountAmount = BigDecimal.ZERO;
     @Column(nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
+    
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount = BigDecimal.ZERO;
+
 
     @JsonManagedReference
     @JsonIgnore

@@ -5,10 +5,13 @@
  */
 package com.syntech.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -16,6 +19,9 @@ import java.util.Objects;
  */
 public class DayBook {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Temporal(value = TemporalType.DATE)
+    
     private Date transactionDate;
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;

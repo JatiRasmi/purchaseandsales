@@ -8,7 +8,6 @@ package com.syntech.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -34,10 +33,11 @@ public class PurchaseRestApi {
     @Inject
     PurchaseOrderRepository purchaseOrderRepository;
 
+//    while creating through api we have to pass id of both purchase order and purchase order detail as null to avoid detached entity passed to persist error
     @POST
     @Path("create")
     public Response createPurchase(PurchaseOrder purchaseOrder) throws JsonProcessingException {
-        purchaseOrderRepository.create(purchaseOrder);
+        purchaseOrderRepository.create(purchaseOrder);  
         return RestResponse.responseBuilder("true", "200", "Purchase Order Created Successfully", purchaseOrder);
     }
 

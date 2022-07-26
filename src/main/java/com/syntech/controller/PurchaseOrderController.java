@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -27,6 +29,7 @@ import javax.inject.Named;
 @ViewScoped
 public class PurchaseOrderController implements Serializable {
 
+    private static final Logger logger = Logger.getLogger(PurchaseOrderController.class.getName());
     private PurchaseOrder purchaseOrder;
     private List<PurchaseOrder> purchaseOrderList;
     private PurchaseOrderDetail purchaseOrderDetail;
@@ -150,15 +153,21 @@ public class PurchaseOrderController implements Serializable {
     }
 
     public void create() {
-        purchaseOrderRepository.create(purchaseOrder);
-        this.purchaseOrderList = purchaseOrderRepository.findAll();
-        messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
+        try {
+            purchaseOrderRepository.create(purchaseOrder);
+            this.purchaseOrderList = purchaseOrderRepository.findAll();
+            messageUtill.showInfo("Order for purchase Added Successfully", "Order Added");
+            logger.log(Level.INFO, " Purchase order Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Purchase order is null");
+        }
     }
 
     public void delete(PurchaseOrder purchaseOrder) {
         purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
         if (purchaseOrder == null) {
             messageUtill.showError("Message", "Purchase Order delete failed !!");
+            logger.log(Level.SEVERE, "Purchase order is null while deleting");
             return;
         }
         purchaseOrderRepository.delete(purchaseOrder);
@@ -173,6 +182,8 @@ public class PurchaseOrderController implements Serializable {
     public void edit() {
         if (purchaseOrder == null) {
             messageUtill.showError("Message", "Purchase Order edit failed !!");
+            logger.log(Level.SEVERE, "Purchase order is null while editing");
+
             return;
         }
         purchaseOrderRepository.edit(this.purchaseOrder);

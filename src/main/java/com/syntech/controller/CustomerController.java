@@ -10,6 +10,8 @@ import com.syntech.repository.CustomerRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +24,8 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class CustomerController implements Serializable {
+
+    private static final Logger logger = Logger.getLogger(CustomerController.class.getName());
 
     private Customer customer;
     private List<Customer> customerList;
@@ -59,9 +63,14 @@ public class CustomerController implements Serializable {
     }
 
     public void create() {
-        customerRepository.create(customer);
-        this.customerList = customerRepository.findAll();
-        messageUtill.showInfo("Customer Added Successfully", "Added Customer");
+        try {
+            customerRepository.create(customer);
+            this.customerList = customerRepository.findAll();
+            messageUtill.showInfo("Customer Added Successfully", "Added Customer");
+            logger.log(Level.INFO, " Customer Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.WARNING, " Customer is null!!:", e);
+        }
     }
 
     public void beforeEdit(Customer customer) {
@@ -69,14 +78,25 @@ public class CustomerController implements Serializable {
     }
 
     public void edit() {
-        customerRepository.edit(this.customer);
-        this.customerList = customerRepository.findAll();
-        messageUtill.showInfo("Customer Edited Successfully", "Edited Customer");
+        try {
+            customerRepository.edit(this.customer);
+            this.customerList = customerRepository.findAll();
+            messageUtill.showInfo("Customer Edited Successfully", "Edited Customer");
+            logger.log(Level.INFO, " Customer Edited Successfully!!!:");
+
+        } catch (NullPointerException e) {
+            logger.log(Level.WARNING, " Customer is null!!:", e);
+        }
     }
 
     public void delete(Customer customer) {
-        customerRepository.delete(customer);
-        customerList = customerRepository.findAll();
-        messageUtill.showInfo("Customer Deleted Successfully", "Deleted Customer");
+        try {
+            customerRepository.delete(customer);
+            customerList = customerRepository.findAll();
+            messageUtill.showInfo("Customer Deleted Successfully", "Deleted Customer");
+            logger.log(Level.INFO, " Customer Deleted Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.WARNING, " Customer is Null!!!:", e);
+        }
     }
 }

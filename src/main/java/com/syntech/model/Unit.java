@@ -23,18 +23,16 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Table(name = "unit")
 public class Unit implements IEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
-    
-    @NotNull(message =  "Unit is mandatory")
+
+    @NotNull(message = "Unit is mandatory")
     @Pattern(regexp = "^[a-zA-Z ]+$", message = "Unit should be string")
     @Column(name = "name", unique = true)
     private String name;
-    
-//    private static final Logger logger = Logger.getLogger(Unit.class.getName());
 
     public Unit() {
 

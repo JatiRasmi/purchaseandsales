@@ -10,6 +10,8 @@ import com.syntech.repository.UnitRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +24,8 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class UnitController implements Serializable {
+
+    private static final Logger logger = Logger.getLogger(UnitController.class.getName());
 
     private Unit unit;
     private List<Unit> unitList;
@@ -63,9 +67,10 @@ public class UnitController implements Serializable {
             unitRepository.create(unit);
             this.unitList = unitRepository.findAll();
             messageUtill.showInfo("Unit Added Successfully", "Added Unit");
-        } catch (Exception e) {
-            e.printStackTrace();
-            messageUtill.showError("Message", "Failed to create unit !!!");
+            logger.log(Level.INFO, " Unit Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            messageUtill.showError("Failed to create unit !!!", "Unit not Create !!!");
+            logger.log(Level.SEVERE, " Failed to create unit !!!", e);
         }
 
     }
@@ -79,15 +84,22 @@ public class UnitController implements Serializable {
             unitRepository.edit(this.unit);
             this.unitList = unitRepository.findAll();
             messageUtill.showInfo("Unit Edited Successfully", "Edited Unit");
+            logger.log(Level.INFO, " Unit Edited Successfully!!!:");
         } catch (Exception e) {
-//            e.printStackTrace();
+            logger.log(Level.SEVERE, " Failed to edit unit !!!", e);
             messageUtill.showError("Message", "Failed to update unit !!!");
         }
     }
 
     public void delete(Unit unit) {
-        unitRepository.delete(unit);
-        unitList = unitRepository.findAll();
-        messageUtill.showInfo("Unit Deleted Successfully", "Deleted Unit");
+        try {
+            unitRepository.delete(unit);
+            unitList = unitRepository.findAll();
+            messageUtill.showInfo("Unit Deleted Successfully", "Deleted Unit");
+            logger.log(Level.INFO, " Unit Deleted Successfully !!!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, " Failed to delete unit !!!", e);
+            messageUtill.showError("Failed to delete unit !!!", "Failed to delete unit !!!");
+        }
     }
 }

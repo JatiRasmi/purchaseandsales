@@ -10,6 +10,8 @@ import com.syntech.repository.ProductRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +24,8 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class ProductController implements Serializable {
+
+    private static final Logger logger = Logger.getLogger(ProductController.class.getName());
 
     private Product product;
     private List<Product> productList;
@@ -59,9 +63,23 @@ public class ProductController implements Serializable {
     }
 
     public void create() {
+        if (product.getName() == null || product.getName().isEmpty()) {
+            messageUtill.showError("Product Name is required", "Name Required");
+            logger.log(Level.SEVERE, "Product name is null");
+        }
+//        if (product.getUnit() == null || product.getUnit().getName().isEmpty()) {
+        if (product.getUnit() == null) {
+            messageUtill.showError("Unit is required", "Unit Required");
+            logger.log(Level.SEVERE, "Product unit is null");
+        }
+        if (product.getDescription() == null || product.getDescription().isEmpty()) {
+            messageUtill.showError("Product Description is required", "Description Required");
+            logger.log(Level.SEVERE, "Product description is null");
+        }
         productRepository.create(product);
         this.productList = productRepository.findAll();
         messageUtill.showInfo("Product Added Successfully", "Product Added");
+        logger.log(Level.INFO, " Product Created Successfully!!!:");
     }
 
     public void beforeEdit(Product product) {
@@ -69,14 +87,22 @@ public class ProductController implements Serializable {
     }
 
     public void edit() {
-        productRepository.edit(this.product);
-        this.productList = productRepository.findAll();
-        messageUtill.showInfo("Product Edited Successfully", "Product Edited");
+        if(product.getId() == null){
+            logger.log(Level.SEVERE, "Product is null");
+        }       
+            productRepository.edit(this.product);
+            this.productList = productRepository.findAll();
+            messageUtill.showInfo("Product Edited Successfully", "Product Edited");
+            logger.log(Level.INFO, " Product Edited Successfully!!!:");
     }
 
     public void delete(Product product) {
-        productRepository.delete(product);
-        productList = productRepository.findAll();
-        messageUtill.showInfo("Product Deleted Successfully", "Product Deleted" );
+        if(product.getId() == null){
+            logger.log(Level.SEVERE, "Product is null");
+        }
+            productRepository.delete(product);
+            productList = productRepository.findAll();
+            messageUtill.showInfo("Product Deleted Successfully", "Product Deleted");
+            logger.log(Level.INFO, " Product Deleted Successfully!!!:");
     }
 }

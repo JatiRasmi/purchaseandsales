@@ -10,6 +10,8 @@ import com.syntech.repository.SupplierRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -23,6 +25,7 @@ import javax.inject.Named;
 @ViewScoped
 public class SupplierController implements Serializable {
 
+    private static final Logger logger = Logger.getLogger(SupplierController.class.getName());
     private Supplier supplier;
     private List<Supplier> supplierList;
 
@@ -59,9 +62,14 @@ public class SupplierController implements Serializable {
     }
 
     public void create() {
-        supplierRepository.create(supplier);
-        this.supplierList = supplierRepository.findAll();
-        messageUtill.showInfo("Supplier Added Successfully", "Supplier Added");
+        try {
+            supplierRepository.create(supplier);
+            this.supplierList = supplierRepository.findAll();
+            messageUtill.showInfo("Supplier Added Successfully", "Supplier Added");
+            logger.log(Level.INFO, " Supplier Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Supplier is null while deleting");
+        }
     }
 
     public void beforeEdit(Supplier supplier) {
@@ -69,14 +77,24 @@ public class SupplierController implements Serializable {
     }
 
     public void edit() {
-        supplierRepository.edit(this.supplier);
-        this.supplierList = supplierRepository.findAll();
-        messageUtill.showInfo("Supplier Edited Successfully", "Supplier Edited");
+        try {
+            supplierRepository.edit(this.supplier);
+            this.supplierList = supplierRepository.findAll();
+            messageUtill.showInfo("Supplier Edited Successfully", "Supplier Edited");
+            logger.log(Level.INFO, " Supplier Edited Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Supplier is null while deleting");
+        }
     }
 
     public void delete(Supplier supplier) {
-        supplierRepository.delete(supplier);
-        supplierList = supplierRepository.findAll();
-        messageUtill.showInfo("Supplier Deleted Successfully", "Supplier Deleted");
+        try {
+            supplierRepository.delete(supplier);
+            supplierList = supplierRepository.findAll();
+            messageUtill.showInfo("Supplier Deleted Successfully", "Supplier Deleted");
+            logger.log(Level.INFO, " Supplier Deleted Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Supplier is null while deleting");
+        }
     }
 }

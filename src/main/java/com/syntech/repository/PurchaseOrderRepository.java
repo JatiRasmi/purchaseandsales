@@ -60,10 +60,13 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             purchaseOrderList = query.getResultList();
         } catch (Exception e) {
             System.out.println("Failed to find all record of purchase");
+            Logger.getLogger(PurchaseOrderRepository.class.getName())
+                    .log(Level.SEVERE, " Error while eager loading all purchase data:", e);
+
         }
         return purchaseOrderList;
     }
-    
+
     public List<PurchaseOrder> findByDate(Date date) {
         List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
         try {
@@ -72,10 +75,13 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             purchaseOrderList = query.getResultList();
         } catch (Exception e) {
             System.out.println("Record of the Given Date Display Failed!!!");
+            Logger.getLogger(PurchaseOrderRepository.class.getName())
+                    .log(Level.SEVERE, " Error fetching purchase data based on date:", e);
+
         }
         return purchaseOrderList;
     }
-    
+
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
@@ -83,7 +89,8 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
             query.setParameter("date", date);
             amount = (BigDecimal) query.getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(PurchaseOrderRepository.class.getName())
+                    .log(Level.SEVERE, " Error while calculating total amount before date:", e);
             amount = BigDecimal.ZERO;
         }
         return amount == null ? BigDecimal.ZERO : amount;

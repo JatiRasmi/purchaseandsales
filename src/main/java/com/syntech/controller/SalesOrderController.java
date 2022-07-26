@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -26,6 +28,8 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class SalesOrderController implements Serializable {
+
+    private static final Logger logger = Logger.getLogger(SalesOrderController.class.getName());
 
     private SalesOrder salesOrder;
     private List<SalesOrder> salesOrderList;
@@ -85,14 +89,20 @@ public class SalesOrderController implements Serializable {
     }
 
     public void addToList() {
-        salesOrderDetail.setSalesOrder(salesOrder);
-        if (salesOrder.getSalesOrderDetailList() == null || salesOrder.getSalesOrderDetailList().isEmpty()) {
-            salesOrder.setSalesOrderDetailList(new ArrayList<>());
+        try {
+            salesOrderDetail.setSalesOrder(salesOrder);
+
+            if (salesOrder.getSalesOrderDetailList() == null || salesOrder.getSalesOrderDetailList().isEmpty()) {
+                salesOrder.setSalesOrderDetailList(new ArrayList<>());
+            }
+            salesOrder.getSalesOrderDetailList().add(salesOrderDetail);
+            messageUtill.showInfo("Order for Sales Added Successfully", "Order Added");
+            calculateTotalAmount();
+            salesOrderDetail = new SalesOrderDetail();
+            logger.log(Level.INFO, " Sales order detail Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Sales order detail cannot be null");
         }
-        salesOrder.getSalesOrderDetailList().add(salesOrderDetail);
-        messageUtill.showInfo("Order for Sales Added Successfully", "Order Added");
-        calculateTotalAmount();
-        salesOrderDetail = new SalesOrderDetail();
     }
 
     public void deleteFromList(SalesOrderDetail salesOrderDetail) {
@@ -171,9 +181,14 @@ public class SalesOrderController implements Serializable {
     }
 
     public void create() {
-        salesOrderRepository.create(salesOrder);
-        this.salesOrderList = salesOrderRepository.findAll();
-        messageUtill.showInfo("Order for Sales Added Successfully", "Order Added");
+        try {
+            salesOrderRepository.create(salesOrder);
+            this.salesOrderList = salesOrderRepository.findAll();
+            messageUtill.showInfo("Order for Sales Added Successfully", "Order Added");
+            logger.log(Level.INFO, " sales order Created Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "sales order is null");
+        }
     }
 
     public void beforeEdit(SalesOrder salesOrder) {
@@ -182,24 +197,34 @@ public class SalesOrderController implements Serializable {
     }
 
     public void edit() {
-        if (salesOrder == null) {
-            messageUtill.showError("Message", "Sales Order edit failed !!");
-            return;
+        try {
+            if (salesOrder == null) {
+                messageUtill.showError("Message", "Sales Order edit failed !!");
+                return;
+            }
+            salesOrderRepository.edit(this.salesOrder);
+            this.salesOrderList = salesOrderRepository.findAll();
+            messageUtill.showInfo("Order for Sales Edited Successfully", "Order Edited");
+            logger.log(Level.INFO, " Sales order Edited Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Sales order is null while editing");
         }
-        salesOrderRepository.edit(this.salesOrder);
-        this.salesOrderList = salesOrderRepository.findAll();
-        messageUtill.showInfo("Order for Sales Edited Successfully", "Order Edited");
     }
 
     public void delete(SalesOrder salesOrder) {
-        salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
-        if (salesOrder == null) {
-            messageUtill.showError("Message", "Sales Order delete failed !!");
-            return;
+        try {
+            salesOrder = salesOrderRepository.eagerload(salesOrder.getId());
+            if (salesOrder == null) {
+                messageUtill.showError("Message", "Sales Order delete failed !!");
+                return;
+            }
+            salesOrderRepository.delete(salesOrder);
+            salesOrderList = salesOrderRepository.findAll();
+            messageUtill.showInfo("Order for sales Deleted Successfully", "Order Deleted");
+            logger.log(Level.INFO, " Sales order Deleted Successfully!!!:");
+        } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, "Sales order is null while deleting");
         }
-        salesOrderRepository.delete(salesOrder);
-        salesOrderList = salesOrderRepository.findAll();
-        messageUtill.showInfo("Order for sales Deleted Successfully", "Order Deleted");
     }
 
     private Long id;

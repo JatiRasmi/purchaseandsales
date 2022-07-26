@@ -33,7 +33,7 @@ public class PurchaseOrderDetail implements IEntity {
     private Long id;
 
     @JsonBackReference
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;

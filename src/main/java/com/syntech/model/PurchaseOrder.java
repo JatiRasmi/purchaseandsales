@@ -68,7 +68,7 @@ public class PurchaseOrder implements IEntity {
 
 
     @JsonManagedReference
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "purchaseOrder")  //mappedBy = purchaseOrder --> must be same as PurchaseOrderDetail's purchaseOrder variable
     private List<PurchaseOrderDetail> purchaseOrderDetailList;
 

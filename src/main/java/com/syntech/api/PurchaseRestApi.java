@@ -8,6 +8,7 @@ package com.syntech.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -43,8 +44,12 @@ public class PurchaseRestApi {
     @GET
     public Response getALLPurchase() throws JsonProcessingException {
         List<PurchaseOrder> po = purchaseOrderRepository.findAll();
+        
         if (po == null) {
             return RestResponse.responseBuilder("false", "200", "Purchase Does not exists", null);
+        }
+        for(PurchaseOrder purchaseOrder: po){
+            purchaseOrder.setPurchaseOrderDetailList(new ArrayList<>());               
         }
         return RestResponse.responseBuilder("true", "200", "List of Purchase Order", po);
     }

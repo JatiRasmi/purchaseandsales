@@ -42,7 +42,7 @@ public class SalesRestApi {
 
     @GET
     public Response getALLSales() throws JsonProcessingException {
-        List<SalesOrder> so = salesOrderRepository.findAll();
+        List<SalesOrder> so = salesOrderRepository.eagerLoadAll();
         if (so == null) {
             return RestResponse.responseBuilder("false", "200", "Sales Does not exists", null);
         }

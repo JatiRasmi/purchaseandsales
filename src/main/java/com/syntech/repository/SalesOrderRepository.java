@@ -51,17 +51,16 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return so;
     }
 
-    public BigDecimal calculateTotalAmountBeforeDate(Date date) {
-        BigDecimal amount = BigDecimal.ZERO;
+     public List<SalesOrder> eagerLoadAll() {
+        List<SalesOrder> salesOrderList = new ArrayList<>();
         try {
-            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
-            query.setParameter("date", date);
-            amount =  (BigDecimal) query.getSingleResult();
+            Query query = em.createQuery("SELECT e FROM SalesOrder e "
+                    + "INNER JOIN FETCH e.salesOrderDetailList t");
+            salesOrderList = query.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
-            amount = BigDecimal.ZERO;
+            System.out.println("Sales data doesn't exists!!!");
         }
-        return amount == null ? BigDecimal.ZERO : amount;
+        return salesOrderList;
     }
     
     public List<SalesOrder> findByDate(Date date) {
@@ -74,5 +73,18 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
             System.out.println("Record Display Failed!!!");
         }
         return salesOrderList;
+    }
+    
+    public BigDecimal calculateTotalAmountBeforeDate(Date date) {
+        BigDecimal amount = BigDecimal.ZERO;
+        try {
+            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
+            query.setParameter("date", date);
+            amount =  (BigDecimal) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            amount = BigDecimal.ZERO;
+        }
+        return amount == null ? BigDecimal.ZERO : amount;
     }
 }

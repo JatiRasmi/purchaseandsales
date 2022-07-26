@@ -50,10 +50,7 @@ public class SalesOrder implements IEntity {
     @Column(name = "date", nullable = false, length = 20)
     private Date date;
 
-    @NotNull(message = "total amount should not be null")
-    @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount = BigDecimal.ZERO;
-
+    
     @Column(nullable = false)
     private BigDecimal subTotal = BigDecimal.ZERO;
     @Column(nullable = false)
@@ -61,8 +58,13 @@ public class SalesOrder implements IEntity {
     @Column(nullable = false)
     private BigDecimal vatAmount = BigDecimal.ZERO;
 
+    @NotNull(message = "total amount should not be null")
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount = BigDecimal.ZERO;
+
+    
     @JsonManagedReference
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "salesOrder")
     private List<SalesOrderDetail> salesOrderDetailList;
 

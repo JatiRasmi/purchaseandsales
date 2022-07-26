@@ -34,7 +34,7 @@ public class SalesOrderDetail implements IEntity {
     private Long id;
 
     @JsonBackReference
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sales_order_id", nullable = false)
     private SalesOrder salesOrder;

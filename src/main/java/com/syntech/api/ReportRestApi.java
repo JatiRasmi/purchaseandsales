@@ -6,7 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.syntech.adaptar.ReportGeneration;
+import com.syntech.adapter.ReportGeneration;
 import com.syntech.model.DayBook;
 import java.util.Date;
 import javax.inject.Inject;

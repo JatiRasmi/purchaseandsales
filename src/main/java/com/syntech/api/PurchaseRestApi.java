@@ -6,6 +6,7 @@
 package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.syntech.exception.CustomException;
 import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
 import java.util.List;
@@ -37,36 +38,35 @@ public class PurchaseRestApi {
     @POST
     @Path("create")
     public Response createPurchase(PurchaseOrder purchaseOrder) throws JsonProcessingException {
-        purchaseOrderRepository.create(purchaseOrder);  
+        purchaseOrderRepository.create(purchaseOrder);
         return RestResponse.responseBuilder("true", "200", "Purchase Order Created Successfully", purchaseOrder);
     }
 
     @GET
-    public Response getALLPurchase() throws JsonProcessingException {
+    public Response getALLPurchase() throws JsonProcessingException, CustomException {
         List<PurchaseOrder> po = (List<PurchaseOrder>) purchaseOrderRepository.eagerLoadAll();
-
         if (po == null) {
-            return RestResponse.responseBuilder("false", "200", "Purchase Does not exists", null);
+            throw new CustomException("Purchase order is null!!");
         }
         return RestResponse.responseBuilder("true", "200", "List of Purchase Order", po);
     }
 
     @GET
     @Path("{id}")
-    public Response getPurchaseById(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response getPurchaseById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         PurchaseOrder po = purchaseOrderRepository.eagerload(id);
         if (po == null) {
-            return RestResponse.responseBuilder("false", "200", "Purchase doesnot exists", null);
+            throw new CustomException("Purchase order of the id " + id + " is null");
         }
         return RestResponse.responseBuilder("true", "200", "Purchase of given Id is", po);
     }
 
     @DELETE
     @Path("delete/{id}")
-    public Response deletePurchase(@PathParam("id") Long id) throws JsonProcessingException {
+    public Response deletePurchase(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         PurchaseOrder po = purchaseOrderRepository.eagerload(id);
         if (po == null) {
-            return RestResponse.responseBuilder("false", "200", "Purchase doesnot exists", null);
+            throw new CustomException("Purchase order of the id " + id + " is null");
         }
         purchaseOrderRepository.delete(po);
         return RestResponse.responseBuilder("true", "200", "Purchase Deleted Successfully", null);
@@ -74,10 +74,10 @@ public class PurchaseRestApi {
 
     @PUT
     @Path("edit/{id}")
-    public Response editPurchase(@PathParam("id") Long id, PurchaseOrder purchaseOrder) throws JsonProcessingException {
+    public Response editPurchase(@PathParam("id") Long id, PurchaseOrder purchaseOrder) throws JsonProcessingException, CustomException {
         PurchaseOrder po = purchaseOrderRepository.eagerload(id);
         if (po == null) {
-            return RestResponse.responseBuilder("false", "200", "Purchase doesnot exists", null);
+            throw new CustomException("Purchase order of the id " + id + " is null");
         }
         purchaseOrderRepository.edit(purchaseOrder);
         return RestResponse.responseBuilder("true", "200", "Purchase Edited Successfully", purchaseOrder);

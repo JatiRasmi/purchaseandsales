@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.syntech.adaptar;
+package com.syntech.adapter;
 
 import com.syntech.model.DayBook;
 import com.syntech.model.DayBookDetail;

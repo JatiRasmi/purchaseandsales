@@ -6,7 +6,7 @@
 package com.syntech.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.syntech.adaptar.ReportGeneration;
+import com.syntech.adapter.ReportGeneration;
 import com.syntech.model.DayBook;
 import java.io.Serializable;
 import java.util.Date;

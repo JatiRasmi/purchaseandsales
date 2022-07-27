@@ -48,7 +48,7 @@ public class PurchaseOrder implements IEntity {
     @NotNull(message = "Ordered Date should not be null")
     @Temporal(value = TemporalType.DATE)
     @Column(name = "date", nullable = false)
-    private Date date;
+    private Date date = new Date();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Ordered Date should not be null")

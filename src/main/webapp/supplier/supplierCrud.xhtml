@@ -124,12 +124,12 @@
 
 
                     <p:commandButton id="supplier_create" value="Add" icon="pi pi-check" actionListener="#{supplierController.create()}"
-                                     update=":form_supplier:dt_suppliers msg" process="@this" oncomplete="PF('manageSupplierDialog').hide();" 
+                                     update=":form_supplier:dt_suppliers msg" process="@this" oncomplete="if (args !args.validationFailed) PF('manageSupplierDialog').hide();" 
                                      rendered="#{supplierController.supplier.id eq null}" />
 
 
                     <p:commandButton id="supplier_edit" value="Edit" icon="pi pi-check" actionListener="#{supplierController.edit()}"
-                                     process="@this" oncomplete="PF('manageSupplierDialog').hide();" update="@this :form_supplier:dt_suppliers msg"
+                                     process="@this" oncomplete="if (args !args.validationFailed) PF('manageSupplierDialog').hide();" update="@this :form_supplier:dt_suppliers msg"
                                      rendered="#{supplierController.supplier.id ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageSupplierDialog').hide()"

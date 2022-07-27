@@ -47,7 +47,7 @@ public class SalesOrder implements IEntity {
     @NotNull(message = "Ordered Date should not be null")
     @Temporal(value = TemporalType.DATE)
     @Column(name = "date", nullable = false, length = 20)
-    private Date date;
+    private Date date = new Date();
 
     
     @Column(nullable = false)

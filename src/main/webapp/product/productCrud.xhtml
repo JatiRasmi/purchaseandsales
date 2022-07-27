@@ -99,12 +99,12 @@
 
 
                     <p:commandButton id="product_create" value="Add" icon="pi pi-check" actionListener="#{productController.create()}"
-                                     update=":form_product:dt_products grid msg" process="@this" oncomplete="PF('manageProductDialog').hide();" 
+                                     update=":form_product:dt_products grid msg" process="@this" oncomplete="if (args !args.validationFailed) PF('manageProductDialog').hide();" 
                                      rendered="#{productController.product.id eq null}" />
 
 
                     <p:commandButton id="product_edit" value="Edit" icon="pi pi-check" actionListener="#{productController.edit()}"
-                                     process="@this" oncomplete="PF('manageProductDialog').hide();" update="@this :form_product:dt_products msg"
+                                     process="@this" oncomplete="if (args !args.validationFailed)PF('manageProductDialog').hide();" update="@this :form_product:dt_products msg"
                                      rendered="#{productController.product.id ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"

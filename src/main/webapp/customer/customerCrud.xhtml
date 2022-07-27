@@ -112,12 +112,12 @@
                     <p:message id="msg_contact" for="inptxt_contact"/>
 
                     <p:commandButton id="customer_create" value="Add" icon="pi pi-check" actionListener="#{customerController.create()}"
-                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update=":form_customer:dt_customers grid @form msg" 
+                                     process="@this" oncomplete="if (args !args.validationFailed) PF('manageCustomerDialog').hide();" update=":form_customer:dt_customers grid @form msg" 
                                      rendered="#{customerController.customer.id eq null}" />
 
 
                     <p:commandButton id="customer_edit" value="Edit" icon="pi pi-check" actionListener="#{customerController.edit()}"
-                                     process="@this" oncomplete="PF('manageCustomerDialog').hide();" update="@this :form_customer:dt_customers msg"
+                                     process="@this" oncomplete="if (args !args.validationFailed) PF('manageCustomerDialog').hide();" update="@this :form_customer:dt_customers msg"
                                      rendered="#{customerController.customer.id ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageCustomerDialog').hide()"

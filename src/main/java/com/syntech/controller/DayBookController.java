@@ -5,7 +5,6 @@
  */
 package com.syntech.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.syntech.adapter.ReportGeneration;
 import com.syntech.model.DayBook;
 import java.io.Serializable;
@@ -14,8 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *

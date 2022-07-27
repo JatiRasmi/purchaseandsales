@@ -65,7 +65,7 @@
         </h:form>
 
         <p:dialog header="SalesOrder" showEffect="fade" modal="false" appendTo="@(body)"
-                  widgetVar="manageSalesOrderDialog" responsive="true" height="700"  width="1500" id="dlg_manage">
+                  widgetVar="manageSalesOrderDialog" responsive="true" height="700"  width="1700" id="dlg_manage">
             <h:form id="form_create_salesorder">
                 <p:panelGrid id ="grid" columns="6">
                     <p:outputLabel for="select_customer" id="olbl_customer" value="Customer"/>
@@ -82,9 +82,11 @@
 
                     <p:outputLabel for="inptxt_date" id="olbl_date" value="Ordered Date" />
                     <p:datePicker id="inptxt_date" value="#{salesOrderController.salesOrder.date}" 
-                                  requiredMessage="Date is Required"
-                                  required="true" label="Date" title="Date" pattern="MM/dd/yyyy" 
-                                  monthNavigator="true" yearNavigator="true" showWeek="true">
+                                  requiredMessage="Date is Required" showIcon="true"
+                                  required="true" label="Date" title="Date" pattern="yyyy-MM-dd" 
+                                  monthNavigator="true" yearNavigator="true" showWeek="true"
+                                  mindate="#{salesOrderController.salesOrder.date}"
+                                  maxdate="#{salesOrderController.salesOrder.date}">
                         <p:ajax update="@this msg_date" process="@this" />
                     </p:datePicker>
                     <p:message id="msg_date" for="inptxt_date"/>
@@ -209,11 +211,11 @@
 
                                     <p:commandButton id="salesOrder_create" icon="pi pi-check" value="Add" actionListener="#{salesOrderController.create()}" 
                                                      update=":form_salesorder:dt_salesorders form_create_salesorder  msg" process="@this" 
-                                                     oncomplete="PF('manageSalesOrderDialog').hide();"  
+                                                     oncomplete="if (args !args.validationFailed) PF('manageSalesOrderDialog').hide();"  
                                                      rendered="#{salesOrderController.salesOrder.id eq null}" />
 
                                     <p:commandButton id="salesOrder_edit" value="Edit" icon="pi pi-check" actionListener="#{salesOrderController.edit()}"
-                                                     process="@this" oncomplete="PF('manageSalesOrderDialog').hide();" 
+                                                     process="@this" oncomplete="if (args !args.validationFailed) PF('manageSalesOrderDialog').hide();" 
                                                      update="@this :form_salesorder:dt_salesorders form_create_salesorder  msg"
                                                      rendered="#{salesOrderController.salesOrder.id ne null}" />
 

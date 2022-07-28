@@ -6,12 +6,14 @@
 package com.syntech.controller;
 
 import com.syntech.model.User;
+import com.syntech.model.UserSession;
 import com.syntech.repository.UserRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,6 +37,9 @@ public class LoginController implements Serializable {
     @Inject
     private MessageUtill messageUtill;
 
+    @Inject
+    private UserSession userSession;
+
     public User getUser() {
         return user;
     }
@@ -55,15 +60,15 @@ public class LoginController implements Serializable {
             messageUtill.showError("User doesn't exists", "User not available");
             return "/login.xhtml?faces-redirect=true";
         }
+        userSession.setUser(u);
+        FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         logger.log(Level.INFO, " Login Successfully!!");
         messageUtill.showError("Login Successfully!!", "Login Successfully!!");
         return "/index.xhtml?faces-redirect=true";
     }
 
-    private String hashPassword(String plainTextPassword) {
-        String p = BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
-        System.out.println(p + p.length());
-        return p;
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
     }
-
 }

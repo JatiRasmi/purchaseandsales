@@ -29,8 +29,8 @@
             <p:divider layout="vertical" align="right"/>
 
 
-            <p:menuitem value="" icon="pi pi-fw pi-user"/>
-            <p:menuitem value="Log Out" icon="pi pi-fw pi-power-off"/>
+            <p:menuitem value="#{userSession.user.name}" icon="pi pi-fw pi-user"/>
+            <p:menuitem value="Log Out" action="#{loginController.logout()}" icon="pi pi-fw pi-power-off"/>
         </p:menubar>
     </h:form>
 </ui:composition>

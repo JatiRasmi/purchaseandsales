@@ -6,13 +6,13 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <h:form>
 
         <p:menubar style="background-color: #f2f2f2;">
 
             <p:menuitem value="Home" action ="/index.xhtml?faces-redirect=true" icon="pi pi-fw pi-home"/>
-            <p:menuitem value="User" action ="/user/user.xhtml?faces-redirect=true" icon="pi pi-fw pi-users"/>
+            <p:menuitem value="User" action ="/user/user.xhtml?faces-redirect=true" icon="pi pi-fw pi-user"/>
             <p:menuitem value="Customer" action ="/customer/customerCrud.xhtml?faces-redirect=true" icon="pi pi-fw pi-users"/>
             <p:menuitem value="Supplier" action ="/supplier/supplierCrud.xhtml?faces-redirect=true" icon="pi pi-fw pi-users"/>
             <p:submenu label="Product" icon="pi pi-shopping-cart">
@@ -26,9 +26,11 @@
 
             <p:menuitem value="Report" action ="/report/report.xhtml?faces-redirect=true" icon="pi pi-list"/>
 
-            <p:divider layout="vertical"/>
+            <p:divider layout="vertical" align="right"/>
 
-            <p:menuitem value="Quit" icon="pi pi-fw pi-power-off"/>
+
+            <p:menuitem value="" icon="pi pi-fw pi-user"/>
+            <p:menuitem value="Log Out" icon="pi pi-fw pi-power-off"/>
         </p:menubar>
     </h:form>
 </ui:composition>

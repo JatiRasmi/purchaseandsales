@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </h:head>
+
+    <h:body>
+        <style>
+            .ui-layout-north {
+                z-index:40 !important;
+                overflow:visible !important;
+            }
+
+            #south_layoutpane{
+                text-align: center;
+                background-color: #f2f2f2;
+                justify-content: center;
+                font-size: 20px;
+            }
+        </style>
+        <pe:layout id="fullPage" fullPage="true" widgetVar="LayoutWidget">
+
+            <pe:layoutPane position="north" id="north_layoutpane"  closable="false" styleContent="ui-layout-north">
+                <p:toolbar>
+                    <p:toolbarGroup style="margin-left: 30em; font-size: 30px;">
+                        Purchase and Sales Management
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+            </pe:layoutPane>
+
+
+            <pe:layoutPane position="center"  id = "center_layoutpane" closable="false" resizable="true">
+                <p:growl id="msg" showDetail="true" /> 
+                <ui:insert>
+                    <h:form id="form_login">
+                        <p:card style="margin-top: 10em; margin-left: 40em; margin-bottom: 2em; display: inline-block;">
+                            <f:facet name="title">
+                                User Login
+                            </f:facet>
+                            <p:panelGrid id ="grid" columns="3">
+
+                                <p:outputLabel for="inptxt_uname" id="olbl_uname" value="Username" />
+                                <p:inputText id="inptxt_uname" requiredMessage="Username is required" 
+                                             value="#{loginController.user.name}" 
+                                             required="true" label="Username"
+                                             title="Username">
+                                    <p:ajax update="@this msg_uname" process="@this" />
+                                </p:inputText>        
+                                <p:message id="msg_uname" for="inptxt_uname" />
+
+
+                                <p:outputLabel for="inptxt_password" id="olbl_password" value="Password" />
+                                <p:password id="inptxt_password" value="#{loginController.user.password}" required="true" 
+                                            requiredMessage="Password is Required" toggleMask="true" 
+                                            redisplay="true"/>
+                                <p:message id="msg_password" for="inptxt_password"/>
+                                <p:commandButton id="login" value="Login" ajax="false" action="#{loginController.userLogin()}"
+                                                 icon="pi pi-check"/>
+                            </p:panelGrid>
+                        </p:card>
+                    </h:form>
+                </ui:insert>
+            </pe:layoutPane>
+
+            <pe:layoutPane position="south"  id="south_layoutpane" closable="false" size="30">
+                Copyright © Rasmi Jati
+                <!--bottom-->
+            </pe:layoutPane>
+        </pe:layout>
+    </h:body>
+</html>

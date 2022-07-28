@@ -68,7 +68,8 @@ public class CustomerController implements Serializable {
             this.customerList = customerRepository.findAll();
             messageUtill.showInfo("Customer Added Successfully", "Added Customer");
             logger.log(Level.INFO, " Customer Created Successfully!!!:");
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
+            messageUtill.setValidationFlag();
             logger.log(Level.WARNING, " Customer is null!!:", e);
         }
     }

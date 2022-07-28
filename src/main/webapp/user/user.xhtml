@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/layout.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="Center">       
+        <h:form id="form_user">
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:outputLabel value="USER DETAILS" />
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:commandButton id="add-user-button" icon="pi pi-plus" actionListener="#{userController.beforeCreate()}"
+                                     oncomplete="PF('manageuserDialog').show()" update="frm_create_user"/>
+                </p:toolbarGroup>
+
+
+            </p:toolbar>
+            <p:dataTable id="dt_users" widgetVar="dtusers" var="user" value="#{userController.userList}"
+                         reflow="true" styleClass="users-table" rowIndexVar="rowIndex" selectionMode="single"
+                         selection="#{userController.user}" rowKey="#{user.id}" paginator="true"
+                         rows="5" rowSelectMode="add" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+
+                <p:column headerText="S.No" width="3%">
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column headerText="Username" sortBy="#{user.name}" filterBy="#{user.name}">
+                    <h:outputText value="#{user.name}"/>
+                </p:column>
+
+                <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
+                    <h:outputText value="#{user.email}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+
+                    <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{userController.beforeEdit(user)}" 
+                                     oncomplete="PF('manageuserDialog').show()" process="@this"
+                                     update="@this frm_create_user"/>
+
+                    <p:commandButton icon="pi pi-trash" action="#{userController.delete(user)}" 
+                                     process="@this" update=":form_user:dt_users msg"><!--delete(user) is the user given in var property of data table -->
+                        <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+
+        <p:dialog header="user" showEffect="fade" modal="false" appendTo="@(body)"
+                  widgetVar="manageuserDialog" responsive="true" id="dlg_manage">
+
+            <h:form id="frm_create_user">
+                <p:panelGrid id ="grid" columns="3">
+
+                    <p:outputLabel for="inptxt_name" id="olbl_name" value="Username" />
+                    <p:inputText id="inptxt_name" value="#{userController.user.name}" required="true"
+                                 requiredMessage="Username is Required" label="Username"  maxlength="20"
+                                 title="Username">
+                        <p:ajax update="@this msg_name" process="@this" />
+                    </p:inputText>
+
+                    <p:message id="msg_name" for="inptxt_email"/>
+                    <p:outputLabel for="inptxt_email" id="olbl_email" value="Email" />
+                    <p:inputText id="inptxt_email" requiredMessage="Email is required" 
+                                 value="#{userController.user.email}" required="true" label="Email"
+                                 title="Email">
+                        <f:validateRegex pattern="^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$"/>
+                        <p:ajax update="@this msg_email" process="@this" />
+                    </p:inputText>
+                    <p:message id="msg_email" for="inptxt_email" />
+
+
+                    <p:outputLabel for="inptxt_password" id="olbl_password" value="Password" />
+                    <p:password id="inptxt_password" value="#{userController.user.password1}" 
+                                match="inptxt_repassword" label="Password " 
+                                required="true" toggleMask="true"
+                                redisplay="true" >
+                        <f:validateRegex pattern="^(?=.*[\w])(?=.*[\W])[\w\W]{8,}$" />
+                        <p:ajax update="@this msg_password" process="@this" />
+                    </p:password>
+                    <p:message id="msg_password" for="inptxt_password" />
+
+
+                    <p:outputLabel for="inptxt_repassword" id="olbl_repassword" value="Confirm Password" />
+                    <p:password id="inptxt_repassword" value="#{userController.user.repassword}" 
+                                label="Confirm Password" required="true" toggleMask="true" 
+                                redisplay="true">
+                        <p:ajax update="@this msg_repassword msg_password" process="@this" />
+                    </p:password>
+                    <p:message id="msg_repassword" for="inptxt_repassword"/>
+
+
+
+                    <p:commandButton id="user_create" value="Add" icon="pi pi-check" actionListener="#{userController.create()}"
+                                     update=":form_user:dt_users grid @form" process="@this"
+                                     oncomplete="if (args !args.validationFailed) PF('manageuserDialog').hide();" 
+                                     rendered="#{userController.user.id eq null}" />
+
+
+                    <p:commandButton id="user_edit" value="Edit" icon="pi pi-check" actionListener="#{userController.edit()}"
+                                     process="@this"
+                                     oncomplete="if (!args.validationFailed) PF('manageuserDialog').hide();" 
+                                     update=":form_user:dt_users msg"
+                                     rendered="#{userController.user.id ne null}"/>
+
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageuserDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" id="ui-confirm-yes-btn"/>
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" id="ui-confirm-no-btn"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>        
+
+
+
+

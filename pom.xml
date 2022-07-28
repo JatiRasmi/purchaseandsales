@@ -87,7 +87,12 @@
             <artifactId>json</artifactId>
             <version>20190722</version>
         </dependency>
-        
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+            <type>jar</type>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -119,6 +124,12 @@
                 </exclusion>
             </exclusions>
             <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+	    <version>0.3m</version>
         </dependency>
         <!--        
         <dependency>

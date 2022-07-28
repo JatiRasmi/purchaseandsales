@@ -44,6 +44,7 @@ public class Customer implements IEntity {
     @NotNull(message = "Email should not be null")
     @Email
     @Pattern(regexp = "^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$", message = "Email is invalid")
+//    "^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" 
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 

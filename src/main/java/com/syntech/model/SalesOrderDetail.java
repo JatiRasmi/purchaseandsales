@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
  * @author rasmi
  */
 @Entity
-@Table(name = "saesorderdetail")
+@Table(name = "sales_order_detail")
 public class SalesOrderDetail implements IEntity {
 
     @Id

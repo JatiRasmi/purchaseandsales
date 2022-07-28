@@ -30,4 +30,7 @@ public class MessageUtill implements Serializable {
     public void showSticky(String title, String message) {
         FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_INFO, title, message));
     }
+    public void setValidationFlag(){
+        FacesContext.getCurrentInstance().validationFailed();
+    }
 }

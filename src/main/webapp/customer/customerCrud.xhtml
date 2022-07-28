@@ -91,7 +91,7 @@
                     <p:inputText id="inptxt_email" requiredMessage="Email is required" value="#{customerController.customer.email}" required="true" label="Email"
                                  title="Email">
                         <f:validateRegex
-                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            pattern="^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$"/>
                         <p:ajax update="@this msg_email" process="@this" />
                         <f:validator validatorId="customerValidator" />
                         <f:attribute name="currentEntity" value="#{customerController.customer}" />
@@ -107,12 +107,14 @@
                         <f:validator validatorId="customerValidator" />
                         <f:attribute name="currentEntity" value="#{customerController.customer}" />
                         <f:attribute name="uniqueColumn" value="contact" />
-                        
+
                     </p:inputText>
                     <p:message id="msg_contact" for="inptxt_contact"/>
 
                     <p:commandButton id="customer_create" value="Add" icon="pi pi-check" actionListener="#{customerController.create()}"
-                                     process="@this" oncomplete="if (args !args.validationFailed) PF('manageCustomerDialog').hide();" update=":form_customer:dt_customers grid @form msg" 
+                                     process="@this"                  
+                                     oncomplete="if (args !args.validationFailed) PF('manageCustomerDialog').hide();"
+                                     update=":form_customer:dt_customers grid msg" 
                                      rendered="#{customerController.customer.id eq null}" />
 
 

@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
  * @author rasmi
  */
 @Entity
-@Table(name = "salesorder")
+@Table(name = "sales_order")
 public class SalesOrder implements IEntity {
 
     @Id

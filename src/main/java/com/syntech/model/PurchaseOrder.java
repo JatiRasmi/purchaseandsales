@@ -6,7 +6,6 @@
 package com.syntech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,7 +31,7 @@ import javax.validation.constraints.NotNull;
  * @author rasmi
  */
 @Entity
-@Table(name = "purchaseorder")
+@Table(name = "purchase_order")
 public class PurchaseOrder implements IEntity {
 
     @Id

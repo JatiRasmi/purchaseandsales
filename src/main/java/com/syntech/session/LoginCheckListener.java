@@ -33,10 +33,15 @@ public class LoginCheckListener implements PhaseListener {
         FacesContext facesContext = event.getFacesContext();
         String currentPage = facesContext.getViewRoot().getViewId();
         boolean isLoginPage = (currentPage.lastIndexOf("login.xhtml") > -1);
-        if (!isLoginPage && !isUserLoggedIn()) {
+
+        if (isLoginPage && isUserLoggedIn()) {
+            NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
+            nh.handleNavigation(facesContext, null, "/index.xhtml?faces-redirect=true");
+        } else if (!isLoginPage && !isUserLoggedIn()) {
             NavigationHandler nh = facesContext.getApplication().getNavigationHandler();
             nh.handleNavigation(facesContext, null, "/login.xhtml?faces-redirect=true");
         }
+
     }
 
     @Override

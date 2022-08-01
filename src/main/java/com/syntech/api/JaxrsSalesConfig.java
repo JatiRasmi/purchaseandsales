@@ -14,18 +14,18 @@ import javax.ws.rs.core.Application;
  *
  * @author rasmi
  */
-@ApplicationPath("/api")
-public class JaxrsConfig extends Application {
+@ApplicationPath("/sales-api")
+public class JaxrsSalesConfig extends Application {
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         // register root resource
-        classes.add(CustomerRestApi.class);
-        classes.add(SupplierRestApi.class);
-        classes.add(ReportRestApi.class);
-        classes.add(UnitRestApi.class);
-        classes.add(ProductRestApi.class);
+        classes.add(SalesRestApi.class);
         return classes;
     }
 }

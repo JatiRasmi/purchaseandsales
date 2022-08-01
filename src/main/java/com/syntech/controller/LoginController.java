@@ -71,17 +71,4 @@ public class LoginController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login.xhtml?faces-redirect=true";
     }
-    
-    
-//    private Boolean isUserLoggedIn() {
-//        return null != userSession.getUser();
-//    }
-//
-//    
-//    public void forwardToDashboard(ComponentSystemEvent cse) {
-//		if (isUserLoggedIn()) {
-//			FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-//					.handleNavigation(FacesContext.getCurrentInstance(), null, "/index.xhtml?faces-redirect=true");
-//		}
-//	}
 }

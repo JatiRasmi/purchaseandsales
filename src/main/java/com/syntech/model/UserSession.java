@@ -26,9 +26,5 @@ public class UserSession implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    public boolean isLoggedIn() {
-//        return user!=null;
-//    }
     
 }

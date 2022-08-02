@@ -7,6 +7,7 @@ package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.exception.CustomException;
+import com.syntech.model.LoggedIn;
 import com.syntech.model.SalesOrder;
 import com.syntech.repository.SalesOrderRepository;
 import java.util.List;
@@ -34,6 +35,7 @@ public class SalesRestApi {
     @Inject
     SalesOrderRepository salesOrderRepository;
 
+    @LoggedIn
     @POST
     @Path("create")
     public Response createSales(SalesOrder salesOrder) throws JsonProcessingException {
@@ -55,28 +57,30 @@ public class SalesRestApi {
     public Response getSalesById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            throw new CustomException("Sales Order of id " + id +" is null");
+            throw new CustomException("Sales Order of id " + id + " is null");
         }
         return RestResponse.responseBuilder("true", "200", "Sales of given Id is", so);
     }
 
+    @LoggedIn
     @DELETE
     @Path("delete/{id}")
     public Response deleteSales(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            throw new CustomException("Sales Order of id " + id +" is null");
+            throw new CustomException("Sales Order of id " + id + " is null");
         }
         salesOrderRepository.delete(so);
         return RestResponse.responseBuilder("true", "200", "Sales Deleted Successfully", null);
     }
 
+    @LoggedIn
     @PUT
     @Path("edit/{id}")
     public Response editSales(@PathParam("id") Long id, SalesOrder salesOrder) throws JsonProcessingException, CustomException {
         SalesOrder so = salesOrderRepository.eagerload(id);
         if (so == null) {
-            throw new CustomException("Sales Order of id " + id +" is null");
+            throw new CustomException("Sales Order of id " + id + " is null");
         }
         salesOrderRepository.edit(salesOrder);
         return RestResponse.responseBuilder("true", "200", "Sales Edited Successfully", salesOrder);

@@ -8,6 +8,7 @@ package com.syntech.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.exception.CustomException;
 import com.syntech.model.Customer;
+import com.syntech.model.LoggedIn;
 import com.syntech.repository.CustomerRepository;
 import java.util.List;
 import javax.inject.Inject;
@@ -34,6 +35,7 @@ public class CustomerRestApi {
     @Inject
     private CustomerRepository customerRepository;
 
+    @LoggedIn
     @POST
     @Path("create")
     public Response createCustomer(Customer customer) throws JsonProcessingException {
@@ -60,6 +62,7 @@ public class CustomerRestApi {
         return RestResponse.responseBuilder("true", "200", "List of customer of Id " + id + " is:", c);
     }
 
+    @LoggedIn
     @DELETE
     @Path("delete/{id}")
     public Response deleteCustomer(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
@@ -71,6 +74,7 @@ public class CustomerRestApi {
         return RestResponse.responseBuilder("true", "200", "Customer Deleted Successfully", c);
     }
 
+    @LoggedIn
     @PUT
     @Path("edit/{id}")
     public Response editCustomer(@PathParam("id") Long id, Customer customer) throws JsonProcessingException, CustomException {

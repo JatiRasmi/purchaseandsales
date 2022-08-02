@@ -21,6 +21,7 @@ public class JaxrsConfig extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         // register root resource
+        classes.add(UserRestApi.class);
         classes.add(CustomerRestApi.class);
         classes.add(SupplierRestApi.class);
         classes.add(ReportRestApi.class);

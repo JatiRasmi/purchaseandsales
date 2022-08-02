@@ -7,6 +7,7 @@ package com.syntech.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.syntech.exception.CustomException;
+import com.syntech.model.LoggedIn;
 import com.syntech.model.PurchaseOrder;
 import com.syntech.repository.PurchaseOrderRepository;
 import java.util.List;
@@ -35,6 +36,7 @@ public class PurchaseRestApi {
     PurchaseOrderRepository purchaseOrderRepository;
 
 //    while creating through api we have to pass id of both purchase order and purchase order detail as null to avoid detached entity passed to persist error
+    @LoggedIn
     @POST
     @Path("create")
     public Response createPurchase(PurchaseOrder purchaseOrder) throws JsonProcessingException {
@@ -61,6 +63,7 @@ public class PurchaseRestApi {
         return RestResponse.responseBuilder("true", "200", "Purchase of given Id is", po);
     }
 
+    @LoggedIn
     @DELETE
     @Path("delete/{id}")
     public Response deletePurchase(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
@@ -72,6 +75,7 @@ public class PurchaseRestApi {
         return RestResponse.responseBuilder("true", "200", "Purchase Deleted Successfully", null);
     }
 
+    @LoggedIn
     @PUT
     @Path("edit/{id}")
     public Response editPurchase(@PathParam("id") Long id, PurchaseOrder purchaseOrder) throws JsonProcessingException, CustomException {

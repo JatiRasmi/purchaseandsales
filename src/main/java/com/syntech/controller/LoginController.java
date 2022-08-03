@@ -10,9 +10,11 @@ import com.syntech.model.UserSession;
 import com.syntech.repository.UserRepository;
 import com.syntech.util.MessageUtill;
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.ObservesAsync;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,13 +55,14 @@ public class LoginController implements Serializable {
         this.user = new User();
     }
 
-    public String userLogin() {
+    public String userLogin() throws InterruptedException {
         User u = userRepository.findByUsername(user.getName());
         if (u == null || !BCrypt.checkpw(user.getPassword(), u.getPassword())) {
             logger.log(Level.SEVERE, " User doesn't exists");
             messageUtill.showError("User doesn't exists", "User not available");
             return "/login.xhtml?faces-redirect=true";
         }
+        consumeEvent(user);
         userSession.setUser(u);
         FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         logger.log(Level.INFO, " Login Successfully!!");
@@ -70,5 +73,11 @@ public class LoginController implements Serializable {
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login.xhtml?faces-redirect=true";
+    }
+    
+    public void consumeEvent(@ObservesAsync User myEvent) throws InterruptedException {
+        System.out.println("Email Event");
+        logger.log(Level.INFO, "Email Event with TimeUnit");
+        TimeUnit.MILLISECONDS.sleep(100);
     }
 }

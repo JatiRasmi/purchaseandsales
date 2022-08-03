@@ -15,6 +15,13 @@
                 </p:toolbarGroup>
 
                 <p:toolbarGroup align="right">
+
+                    <h:commandLink value="XLXS" >
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_purchaseorders" 
+                                        fileName="purchaseOrder.xlxs" />
+                    </h:commandLink>
+
                     <p:commandButton id="add-purchaseorder-button" icon="pi pi-plus"
                                      actionListener="#{purchaseOrderController.beforeCreate()}"
                                      oncomplete="PF('managePurchaseOrderDialog').show()" 
@@ -58,10 +65,6 @@
                           filterBy="#{purchaseorderdetail.totalAmount}">
                     <h:outputText value="#{purchaseorder.totalAmount}"/>
                 </p:column>
-
-                <!--                <p:column headerText="Status" sortBy="#" filterBy="#">
-                                    <h:outputText value="#"/>
-                                </p:column>-->
 
                 <p:column headerText="Action">
 

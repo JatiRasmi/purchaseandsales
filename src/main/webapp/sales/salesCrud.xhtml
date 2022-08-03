@@ -15,6 +15,13 @@
                 </p:toolbarGroup>
 
                 <p:toolbarGroup align="right">
+                    
+                    <h:commandLink value="XLXS" >
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_salesorders" 
+                                        fileName="salesOrder.xlxs" />
+                    </h:commandLink>
+                    
                     <p:commandButton id="add-salesorder-button" icon="pi pi-plus"
                                      actionListener="#{salesOrderController.beforeCreate()}"
                                      oncomplete="PF('manageSalesOrderDialog').show()" 
@@ -62,6 +69,7 @@
                                      icon="pi pi-external-link"/>
                 </p:column>
             </p:dataTable>
+            
         </h:form>
 
         <p:dialog header="SalesOrder" showEffect="fade" modal="false" appendTo="@(body)"

@@ -44,6 +44,7 @@ public class UserRestApi {
     }
 
     @GET
+    @LoggedIn
     public Response getALLUser() throws JsonProcessingException, CustomException {
         List<User> user = userRepository.findAll();
         if (user == null || user.isEmpty()) {
@@ -54,6 +55,7 @@ public class UserRestApi {
     }
 
     @GET
+    @LoggedIn
     @Path("{id}")
     public Response getUserById(@PathParam("id") Long id) throws JsonProcessingException, CustomException {
         User user = userRepository.findById(id);

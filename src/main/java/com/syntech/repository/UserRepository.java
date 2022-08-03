@@ -47,6 +47,4 @@ public class UserRepository extends AbstractRepository<User> {
         }
         return  user;
     }
-    
-    
 }

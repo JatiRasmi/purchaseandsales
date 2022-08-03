@@ -6,15 +6,22 @@
 package com.syntech.interceptor;
 
 import com.syntech.api.RestResponse;
+import com.syntech.controller.UserController;
 import com.syntech.model.LoggedIn;
-import com.syntech.model.UserSession;
+import com.syntech.model.User;
+import com.syntech.repository.UserRepository;
+import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -23,23 +30,46 @@ import javax.ws.rs.Priorities;
 @Interceptor
 @LoggedIn
 @Dependent
-@Priority(Priorities.AUTHORIZATION)
-
+@Priority(Priorities.AUTHENTICATION)
 public class LoginInterceptor {
 
+    private static final Logger logger = Logger.getLogger(UserController.class.getName());
+
     @Inject
-    private UserSession userSession;
+    HttpServletRequest request;
+
+    @Inject
+    private UserRepository userRepository;
 
     @AroundInvoke
     public Object checkLoggedIn(InvocationContext context) throws Exception {
 
-        boolean isLoggedIn = true;
-        
-//        boolean isLoggedIn = userSession.getUser() != null;
-        if (isLoggedIn) {
-            return context.proceed();
-        } else {
-            return RestResponse.responseBuilder("false", "304", "User cannot access the Resource", null);
+        String roleToken = request.getHeader("Authorization");
+//        System.out.println("heaL: " + roleToken);
+
+        if (roleToken == null) {
+            return RestResponse.responseBuilder("false", "200", "Authorization Failed", null);
         }
+
+        byte[] valueDecoded = Base64.getDecoder().decode(roleToken);
+        String decoded = new String(Base64.getDecoder().decode(roleToken));
+        //        System.out.println("Decoded value is " + new String(valueDecoded));
+
+        String name = decoded.split(":")[0];
+        String pass = decoded.split(":")[1];
+//        System.out.println(pass); // plain password
+
+        User user = userRepository.findByUsername(name);
+        if (user == null) {
+            return RestResponse.responseBuilder("false", "200", "User doesn't Exists", null);
+        }
+//                System.out.println(user.getPassword()); //hash password
+        if (!BCrypt.checkpw(pass, user.getPassword())) {
+            return RestResponse.responseBuilder("false", "500", "Incorrect Data", null);
+        }
+        logger.log(Level.INFO, " Authorization Succeed");
+        return context.proceed();
     }
+    
+    
 }

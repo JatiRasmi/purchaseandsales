@@ -115,7 +115,7 @@ public class UserController implements Serializable {
 
     private String hashPassword(String plainTextPassword) {
         String p = BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
-        System.out.println(p + p.length());
+//        System.out.println(p + p.length());
         return p;
     }
 

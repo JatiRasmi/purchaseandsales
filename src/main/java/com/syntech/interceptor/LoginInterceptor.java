@@ -44,15 +44,16 @@ public class LoginInterceptor {
     @AroundInvoke
     public Object checkLoggedIn(InvocationContext context) throws Exception {
 
-        String roleToken = request.getHeader("Authorization");
+        String userAuthorization = request.getHeader("Authorization");  // Authorization is the header name from api
 //        System.out.println("heaL: " + roleToken);
 
-        if (roleToken == null) {
-            return RestResponse.responseBuilder("false", "200", "Authorization Failed", null);
+        if (userAuthorization == null) {
+            logger.log(Level.SEVERE, " Authorization Failed");
+            return RestResponse.responseBuilder("false", "500", "Authorization Failed", null);
         }
 
-        byte[] valueDecoded = Base64.getDecoder().decode(roleToken);
-        String decoded = new String(Base64.getDecoder().decode(roleToken));
+        byte[] valueDecoded = Base64.getDecoder().decode(userAuthorization);
+        String decoded = new String(Base64.getDecoder().decode(userAuthorization));
         //        System.out.println("Decoded value is " + new String(valueDecoded));
 
         String name = decoded.split(":")[0];
@@ -61,7 +62,8 @@ public class LoginInterceptor {
 
         User user = userRepository.findByUsername(name);
         if (user == null) {
-            return RestResponse.responseBuilder("false", "200", "User doesn't Exists", null);
+            logger.log(Level.SEVERE, " User doesnot exists");
+            return RestResponse.responseBuilder("false", "500", "User doesn't Exists", null);
         }
 //                System.out.println(user.getPassword()); //hash password
         if (!BCrypt.checkpw(pass, user.getPassword())) {
@@ -70,6 +72,5 @@ public class LoginInterceptor {
         logger.log(Level.INFO, " Authorization Succeed");
         return context.proceed();
     }
-    
-    
+
 }

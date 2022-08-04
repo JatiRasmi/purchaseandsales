@@ -37,7 +37,7 @@ public class Product implements IEntity {
    
     @NotNull(message = "Name should not be null")
     @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name should be string")
-    @Column(name = "name" , nullable = false , length = 50)
+    @Column(name = "name" ,unique = true, nullable = false , length = 50)
     private String name;
     
     @Column(name = "description", length = 50)

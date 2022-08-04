@@ -7,6 +7,7 @@ package com.syntech.validator;
 
 import com.syntech.model.User;
 import com.syntech.repository.AbstractRepository;
+import com.syntech.repository.ProductRepository;
 import com.syntech.repository.UserRepository;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.validator.FacesValidator;
@@ -17,15 +18,15 @@ import javax.inject.Inject;
  * @author rasmi
  */
 @RequestScoped
-@FacesValidator("userValidator")
-public class UserValidator extends AbstractValidator<User> {
+@FacesValidator("productValidator")
+public class ProductValidator extends AbstractValidator<User> {
 
     @Inject
-    private UserRepository userRepository;
+    private ProductRepository productRepository;
 
     @Override
     protected AbstractRepository getRepository() {
-        return userRepository;
+        return productRepository;
     }
 
 }

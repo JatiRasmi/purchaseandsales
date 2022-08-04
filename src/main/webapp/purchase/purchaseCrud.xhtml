@@ -16,16 +16,20 @@
 
                 <p:toolbarGroup align="right">
 
-                    <h:commandLink value="XLXS" >
-                        <p:dataExporter type="xlsxstream" 
-                                        target="dt_purchaseorders" 
-                                        fileName="purchaseOrder.xlxs" />
-                    </h:commandLink>
+
 
                     <p:commandButton id="add-purchaseorder-button" icon="pi pi-plus"
                                      actionListener="#{purchaseOrderController.beforeCreate()}"
                                      oncomplete="PF('managePurchaseOrderDialog').show()" 
                                      update="form_create_purchaseorder"/>
+
+                    <h:commandLink>
+                        <p:commandButton title="Download XLXS File" ajax="false" icon="pi pi-arrow-down"/>
+
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_purchaseorders" 
+                                        fileName="purchaseOrder.xlxs" />
+                    </h:commandLink>
                 </p:toolbarGroup>
             </p:toolbar>
 

@@ -16,8 +16,19 @@
 
 
                 <p:toolbarGroup align="right">
-                    <p:commandButton id="add-product-button" icon="pi pi-plus" actionListener="#{productController.beforeCreate()}"
+                    <p:commandButton id="add-product-button" icon="pi pi-plus" 
+                                     actionListener="#{productController.beforeCreate()}"
                                      oncomplete="PF('manageProductDialog').show()" update="form_create_product"/>
+                    <h:commandLink>
+                        <p:commandButton title="Download XLXS File" ajax="false" icon="pi pi-arrow-down"/>
+
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_products" 
+                                        fileName="product" />
+                    </h:commandLink>
+                    <p:commandButton title="Upload Product" icon="pi pi-arrow-up" 
+                                     oncomplete="PF('excelUpload').show();"
+                                     update="@this :dlog_excel_upload" />
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -48,12 +59,6 @@
                 <p:column headerText="Description" sortBy="#{product.description}" filterBy="#{product.description}">
                     <h:outputText value="#{product.description}"/>
                 </p:column>
-                
-<!--                <p:column headerText="Status" sortBy="#" filterBy="#">
-                    <h:outputText value="#"/>
-                </p:column>-->
-
-
                 <p:column headerText="Action">
 
                     <p:commandButton id="edit" icon="pi pi-pencil" actionListener="#{productController.beforeEdit(product)}" 
@@ -69,6 +74,27 @@
             </p:dataTable>
         </h:form>
 
+        <p:dialog header="Enter Details" widgetVar="excelUpload" id="dlog_excel_upload">
+                <h:form id="frm_excel_file_upload" enctype="multipart/form-data">
+                    <h:panelGrid columns="1">
+                        <p:fileUpload auto="true"  id="btn_upload" process="@this"
+                                      listener="#{productController.handleExcelFileUpload}"
+                                       update="@form" >
+                        </p:fileUpload>
+
+                        <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
+                                         actionListener="#{productController.saveExcelFile()}"
+                                         oncomplete="if(!args.validationFailed) {PF('excelUpload').hide();}" 
+                                         update=":form_product:dt_products @form" >
+                        </p:commandButton>
+                        
+                        
+                        <p:outputLabel value="Notes:" style="font-weight: bold;"/>
+                        <h:outputText value="File must have unit, product name and product description"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+        
         <p:dialog header="Product" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="manageProductDialog" responsive="true" id="dlg_manage">
 

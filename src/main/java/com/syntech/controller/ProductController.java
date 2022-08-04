@@ -5,10 +5,13 @@
  */
 package com.syntech.controller;
 
+import com.syntech.repository.ExcelUpload;
 import com.syntech.model.Product;
 import com.syntech.repository.ProductRepository;
 import com.syntech.util.MessageUtill;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -28,6 +32,10 @@ public class ProductController implements Serializable {
     private static final Logger logger = Logger.getLogger(ProductController.class.getName());
 
     private Product product;
+
+    @Inject
+    private ExcelUpload excelUpload;
+
     private List<Product> productList;
 
     @Inject
@@ -87,22 +95,43 @@ public class ProductController implements Serializable {
     }
 
     public void edit() {
-        if(product.getId() == null){
+        if (product.getId() == null) {
             logger.log(Level.SEVERE, "Product is null");
-        }       
-            productRepository.edit(this.product);
-            this.productList = productRepository.findAll();
-            messageUtill.showInfo("Product Edited Successfully", "Product Edited");
-            logger.log(Level.INFO, " Product Edited Successfully!!!:");
+        }
+        productRepository.edit(this.product);
+        this.productList = productRepository.findAll();
+        messageUtill.showInfo("Product Edited Successfully", "Product Edited");
+        logger.log(Level.INFO, " Product Edited Successfully!!!:");
     }
 
     public void delete(Product product) {
-        if(product.getId() == null){
+        if (product.getId() == null) {
             logger.log(Level.SEVERE, "Product is null");
         }
-            productRepository.delete(product);
-            productList = productRepository.findAll();
-            messageUtill.showInfo("Product Deleted Successfully", "Product Deleted");
-            logger.log(Level.INFO, " Product Deleted Successfully!!!:");
+        productRepository.delete(product);
+        productList = productRepository.findAll();
+        messageUtill.showInfo("Product Deleted Successfully", "Product Deleted");
+        logger.log(Level.INFO, " Product Deleted Successfully!!!:");
+    }
+
+    private List<Product> products;
+
+    public void handleExcelFileUpload(FileUploadEvent event) {
+        this.products = new ArrayList<>();
+        try {
+            InputStream file = event.getFile().getInputStream();
+            products = excelUpload.uploadExcelFile(file);
+            logger.log(Level.INFO, "Succesfully uploaded product file");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to upload file");
+        }
+    }
+    
+    public void saveExcelFile(){
+        this.products.forEach((p) -> {
+            productRepository.create(p);
+            logger.log(Level.INFO, "Data uploaded to database Successfully");
+        });
     }
 }

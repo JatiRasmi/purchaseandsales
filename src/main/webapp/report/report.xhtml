@@ -13,6 +13,7 @@
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:outputLabel value="Report" />
+                    
                 </p:toolbarGroup>
 
                 <p:toolbarGroup align="right">
@@ -27,6 +28,14 @@
                     <p:commandButton id="date_button" icon="pi pi-check" process="@this"
                                      actionListener="#{dayBookController.preparedaybook()}"
                                      update="form_display"/>
+                    
+                    <h:commandLink>
+                        <p:commandButton title="Download Report in Excel" ajax="false" icon="pi pi-arrow-down"/>
+
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_view" 
+                                        fileName="dayBookReport.xlxs" />
+                    </h:commandLink>
                 </p:toolbarGroup>
             </p:toolbar>
 

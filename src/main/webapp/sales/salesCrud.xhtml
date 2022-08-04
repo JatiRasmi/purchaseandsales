@@ -15,17 +15,19 @@
                 </p:toolbarGroup>
 
                 <p:toolbarGroup align="right">
-                    
-                    <h:commandLink value="XLXS" >
-                        <p:dataExporter type="xlsxstream" 
-                                        target="dt_salesorders" 
-                                        fileName="salesOrder.xlxs" />
-                    </h:commandLink>
-                    
+
                     <p:commandButton id="add-salesorder-button" icon="pi pi-plus"
                                      actionListener="#{salesOrderController.beforeCreate()}"
                                      oncomplete="PF('manageSalesOrderDialog').show()" 
                                      update="form_create_salesorder"/>
+
+                    <h:commandLink>
+                        <p:commandButton title="Download XLXS File" ajax="false" icon="pi pi-arrow-down"/>
+
+                        <p:dataExporter type="xlsxstream" 
+                                        target="dt_salesorders" 
+                                        fileName="salesOrder.xlxs" />
+                    </h:commandLink>
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -69,7 +71,7 @@
                                      icon="pi pi-external-link"/>
                 </p:column>
             </p:dataTable>
-            
+
         </h:form>
 
         <p:dialog header="SalesOrder" showEffect="fade" modal="false" appendTo="@(body)"

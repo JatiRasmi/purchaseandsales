@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 /**
@@ -23,14 +25,29 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class FileDownloadView {
 
     public void downloadFile() throws FileNotFoundException, IOException {
-        Workbook wb = new HSSFWorkbook();
-        
+
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Product Empty Data");
+        String[] headers = new String[]{"Unit", "Name", "Description"};
+
+        Row r = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            r.createCell(i).setCellValue(headers[i]);
+        }
+
+        sheet.getRow(0); 
         //create file at the loaction
         OutputStream fileOut = new FileOutputStream("/home/rasmi/NetBeansProjects/purchaseandsales/src/main/webapp/excelfile/myproduct.xlsx");
+
         System.out.println("Excel File has been created successfully.");
-        wb.write(fileOut);
+        workbook.write(fileOut);
     }
     
+    
+    
+    
+    
+
 //    public void downloadFile() throws IOException {
 //        File file = new File("/home/rasmi/NetBeansProjects/purchaseandsales/src/main/webapp/excelfile/product.xlsx");
 //        byte[] buf;

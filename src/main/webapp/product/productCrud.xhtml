@@ -75,26 +75,24 @@
         </h:form>
 
         <p:dialog header="Enter Details" widgetVar="excelUpload" id="dlog_excel_upload">
-                <h:form id="frm_excel_file_upload" enctype="multipart/form-data">
-                    <h:panelGrid columns="1">
-                        <p:fileUpload auto="true"  id="btn_upload" process="@this"
-                                      listener="#{productController.handleExcelFileUpload}"
-                                       update="@form" >
-                        </p:fileUpload>
+            <h:form id="frm_excel_file_upload" enctype="multipart/form-data">
+                <h:panelGrid columns="1">
+                    <p:fileUpload auto="true"  id="btn_upload" process="@this"
+                                  listener="#{productController.handleExcelFileUpload}"/>
 
-                        <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
-                                         actionListener="#{productController.saveExcelFile()}"
-                                         oncomplete="if(!args.validationFailed) {PF('excelUpload').hide();}" 
-                                         update=":form_product:dt_products @form" >
-                        </p:commandButton>
-                        
-                        
-                        <p:outputLabel value="Notes:" style="font-weight: bold;"/>
-                        <h:outputText value="File must have unit, product name and product description"/>
-                    </h:panelGrid>
-                </h:form>
-            </p:dialog>
-        
+                    <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
+                                     actionListener="#{productController.saveExcelFile()}"
+                                     oncomplete="if(!args.validationFailed) {PF('excelUpload').hide();}" 
+                                     update="form_product:dt_products msg" >
+                    </p:commandButton>
+
+
+                    <p:outputLabel value="Notes:" style="font-weight: bold;"/>
+                    <h:outputText value="File must have unit, product name and product description"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
         <p:dialog header="Product" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="manageProductDialog" responsive="true" id="dlg_manage">
 

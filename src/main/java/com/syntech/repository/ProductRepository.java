@@ -6,9 +6,15 @@
 package com.syntech.repository;
 
 import com.syntech.model.Product;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 //
 ///**
 // *
@@ -27,5 +33,20 @@ public class ProductRepository extends AbstractRepository<Product> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+     public List<Product> findByName(String name) {
+        List<Product> productList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("select e from Product e where e.name =:name");
+            query.setParameter("name", name);
+            productList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Record of the Given Date Display Failed!!!");
+            Logger.getLogger(Product.class.getName())
+                    .log(Level.SEVERE, " Error fetching product data based on product name:", e);
+
+        }
+        return productList;
     }
 }

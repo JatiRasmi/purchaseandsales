@@ -8,6 +8,7 @@ package com.syntech.repository;
 import com.syntech.controller.ProductController;
 import com.syntech.model.Product;
 import com.syntech.model.Unit;
+import com.syntech.util.MessageUtill;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -35,6 +36,12 @@ public class ExcelUpload implements Serializable {
     @Inject
     private UnitRepository unitRepository;
 
+    @Inject
+    private MessageUtill messageUtill;
+    
+    @Inject
+    private ProductRepository productRepository;
+
     public List<Product> uploadExcelFile(InputStream inputStream)
             throws EncryptedDocumentException, IOException {
 
@@ -56,12 +63,21 @@ public class ExcelUpload implements Serializable {
             Long unitId = Long.valueOf((int) row.getCell(0).getNumericCellValue());
             Unit unit = unitRepository.findById(unitId);
             prod.setUnit(unit);
-            
+
             prod.setName(row.getCell(1).getStringCellValue());
             prod.setDescription(row.getCell(2).getStringCellValue());
-            
-            productList.add(prod);
-            logger.log(Level.INFO, "Product Selected Successfully!!");
+
+            String name = row.getCell(1).getStringCellValue();
+
+            List<Product> p = productRepository.findByName(name);
+
+            if (p == null) {
+                productList.add(prod);
+                logger.log(Level.INFO, "Product Selected Successfully!!");
+                messageUtill.showInfo("Product File Uploaded Successfully ","Uploaded Successfully!!!!");
+            }
+            logger.log(Level.WARNING,"Product Already exists");
+            messageUtill.showError("Product Already Exists", "Already Exists!!!!");
         }
         return productList;
     }

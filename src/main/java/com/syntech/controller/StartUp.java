@@ -8,7 +8,8 @@ package com.syntech.controller;
 import com.syntech.model.User;
 import com.syntech.repository.UserRepository;
 import java.io.Serializable;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -21,7 +22,9 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @Startup
 @Singleton
-public class StartUp implements Serializable{
+public class StartUp implements Serializable {
+
+    private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Inject
     private UserRepository userRepository;
@@ -32,7 +35,8 @@ public class StartUp implements Serializable{
         String email = "admin123@gmail.com";
         String password = "Admin@123";
         User u = userRepository.findByUsername(name);
-        if (u  == null) {
+        if (u == null) {
+            logger.log(Level.WARNING, "User Table is empty !! User Doesn't Exists!!!");
             User user = new User();
             user.setName(name);
             user.setEmail(email);

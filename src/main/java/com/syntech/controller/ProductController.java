@@ -121,10 +121,10 @@ public class ProductController implements Serializable {
         try {
             InputStream file = event.getFile().getInputStream();
             products = excelUpload.uploadExcelFile(file);
-            logger.log(Level.INFO, "Succesfully uploaded product file");
         } catch (Exception e) {
             e.printStackTrace();
             logger.log(Level.SEVERE, "Failed to upload file");
+            messageUtill.showError("Failed to Select File", "File Selection Failed");
         }
     }
     

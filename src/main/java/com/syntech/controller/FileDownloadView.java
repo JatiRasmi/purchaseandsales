@@ -5,14 +5,14 @@
  */
 package com.syntech.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  *
@@ -22,29 +22,37 @@ import javax.servlet.http.HttpServletResponse;
 @RequestScoped
 public class FileDownloadView {
 
-    public void downloadFile() throws IOException {
-        File file = new File("/home/rasmi/NetBeansProjects/purchaseandsales/src/main/webapp/excelfile/product.xlsx");
-        byte[] buf;
-        try (InputStream fis = new FileInputStream(file)) {
-            buf = new byte[1024];
-            int offset = 0;
-            int numRead = 0;
-            while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length - offset)) >= 0)) {
-                offset += numRead;
-            }
-        }
-        HttpServletResponse response
-                = (HttpServletResponse) FacesContext.getCurrentInstance()
-                        .getExternalContext().getResponse();
-
-        response.setContentType("application/xls");
-        response.setHeader("Content-Disposition", "attachment;filename=product.xlxs");
-        response.getOutputStream().write(buf);
-        response.getOutputStream().flush();
-        response.getOutputStream().close();
-        FacesContext.getCurrentInstance().responseComplete();
+    public void downloadFile() throws FileNotFoundException, IOException {
+        Workbook wb = new HSSFWorkbook();
+        
+        //create file at the loaction
+        OutputStream fileOut = new FileOutputStream("/home/rasmi/NetBeansProjects/purchaseandsales/src/main/webapp/excelfile/myproduct.xlsx");
+        System.out.println("Excel File has been created successfully.");
+        wb.write(fileOut);
     }
-
+    
+//    public void downloadFile() throws IOException {
+//        File file = new File("/home/rasmi/NetBeansProjects/purchaseandsales/src/main/webapp/excelfile/product.xlsx");
+//        byte[] buf;
+//        try (InputStream fis = new FileInputStream(file)) {
+//            buf = new byte[1024];
+//            int offset = 0;
+//            int numRead = 0;
+//            while ((offset < buf.length) && ((numRead = fis.read(buf, offset, buf.length - offset)) >= 0)) {
+//                offset += numRead;
+//            }
+//        }
+//        HttpServletResponse response
+//                = (HttpServletResponse) FacesContext.getCurrentInstance()
+//                        .getExternalContext().getResponse();
+//
+//        response.setContentType("application/xls");
+//        response.setHeader("Content-Disposition", "attachment;filename=product.xlxs");
+//        response.getOutputStream().write(buf);
+//        response.getOutputStream().flush();
+//        response.getOutputStream().close();
+//        FacesContext.getCurrentInstance().responseComplete();
+//    }
 //    public void downloadFile() {
 //        try {
 //            FacesContext.getCurrentInstance().getExternalContext().setResponseHeader("Content-disposition", "Attachment;filename=product.xlxs");

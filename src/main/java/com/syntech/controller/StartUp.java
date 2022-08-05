@@ -36,7 +36,7 @@ public class StartUp implements Serializable {
         String password = "Admin@123";
         User u = userRepository.findByUsername(name);
         if (u == null) {
-            logger.log(Level.WARNING, "User Table is empty !! User Doesn't Exists!!!");
+            logger.log(Level.WARNING, "User Doesn't Exists!!!");
             User user = new User();
             user.setName(name);
             user.setEmail(email);

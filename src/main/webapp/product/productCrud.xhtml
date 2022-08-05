@@ -78,7 +78,8 @@
             <h:form id="frm_excel_file_upload" enctype="multipart/form-data">
                 <h:panelGrid columns="1">
                     <p:fileUpload auto="true"  id="btn_upload" process="@this"
-                                  listener="#{productController.handleExcelFileUpload}"/>
+                                  listener="#{productController.handleExcelFileUpload}" 
+                                  invalidFileMessage="only excel is allowed"/>
 
                     <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
                                      actionListener="#{productController.saveExcelFile()}"

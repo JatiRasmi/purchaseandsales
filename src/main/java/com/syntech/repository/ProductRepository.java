@@ -35,18 +35,18 @@ public class ProductRepository extends AbstractRepository<Product> {
         return em;
     }
     
-     public List<Product> findByName(String name) {
-        List<Product> productList = new ArrayList<>();
+     public Product findByName(String name) {
+        Product product = null;
         try {
             Query query = em.createQuery("select e from Product e where e.name =:name");
             query.setParameter("name", name);
-            productList = query.getResultList();
+            product = (Product) query.getSingleResult();
         } catch (Exception e) {
             System.out.println("Record of the Given Date Display Failed!!!");
             Logger.getLogger(Product.class.getName())
                     .log(Level.SEVERE, " Error fetching product data based on product name:", e);
 
         }
-        return productList;
+        return product;
     }
 }

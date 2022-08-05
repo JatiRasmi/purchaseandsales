@@ -38,7 +38,7 @@ public class ExcelUpload implements Serializable {
 
     @Inject
     private MessageUtill messageUtill;
-    
+
     @Inject
     private ProductRepository productRepository;
 
@@ -58,26 +58,29 @@ public class ExcelUpload implements Serializable {
             if (row.getRowNum() == 0) {
                 continue;
             }
-            Product prod = new Product();
-
-            Long unitId = Long.valueOf((int) row.getCell(0).getNumericCellValue());
-            Unit unit = unitRepository.findById(unitId);
-            prod.setUnit(unit);
-
-            prod.setName(row.getCell(1).getStringCellValue());
-            prod.setDescription(row.getCell(2).getStringCellValue());
 
             String name = row.getCell(1).getStringCellValue();
+            Product p = productRepository.findByName(name);
 
-            List<Product> p = productRepository.findByName(name);
-
-            if (p == null) {
-                productList.add(prod);
-                logger.log(Level.INFO, "Product Selected Successfully!!");
-                messageUtill.showInfo("Product File Uploaded Successfully ","Uploaded Successfully!!!!");
+            if (p != null) {
+                logger.log(Level.WARNING, "Product:" + name + " Already exists");
+                continue;
             }
-            logger.log(Level.WARNING,"Product Already exists");
-            messageUtill.showError("Product Already Exists", "Already Exists!!!!");
+
+            Product prod = new Product();
+            Long unitId = Long.valueOf((int) row.getCell(0).getNumericCellValue());
+            Unit unit = unitRepository.findById(unitId);
+            if (unit == null) {
+                logger.log(Level.WARNING, "Unit with Id:" + unitId + " not found");
+                continue;
+            }
+            prod.setUnit(unit);
+
+            prod.setName(name);
+            prod.setDescription(row.getCell(2).getStringCellValue());
+            productList.add(prod);
+            logger.log(Level.INFO, "New Product:" + name + "added");
+
         }
         return productList;
     }

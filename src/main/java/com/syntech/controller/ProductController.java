@@ -131,7 +131,7 @@ public class ProductController implements Serializable {
     public void saveExcelFile(){
         this.products.forEach((p) -> {
             productRepository.create(p);
-            logger.log(Level.INFO, "Data uploaded to database Successfully");
         });
+        messageUtill.showInfo("Message", "File Uploaded Successfully");
     }
 }

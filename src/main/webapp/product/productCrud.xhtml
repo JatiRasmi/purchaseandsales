@@ -81,12 +81,18 @@
                                   listener="#{productController.handleExcelFileUpload}" 
                                   invalidFileMessage="only excel is allowed"/>
 
+                    
+                    
                     <p:commandButton value="Save" id="btn_save_to_db"  process="@this"
                                      actionListener="#{productController.saveExcelFile()}"
                                      oncomplete="if(!args.validationFailed) {PF('excelUpload').hide();}" 
                                      update="form_product:dt_products msg" >
                     </p:commandButton>
-
+                    
+                    <p:commandButton value="Download Excel Sheet" 
+                                     icon="pi pi-arrow-down" action="#{fileDownloadView.downloadFile()}"
+                                     ajax="false">
+                    </p:commandButton>
 
                     <p:outputLabel value="Notes:" style="font-weight: bold;"/>
                     <h:outputText value="File must have unit, product name and product description"/>

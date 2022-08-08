@@ -6,24 +6,23 @@
 package com.syntech.repository;
 
 import com.syntech.model.Product;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.Predicate;
 //
 ///**
 // *
 // * @author rasmi
 // */
+
 @Stateless
 public class ProductRepository extends AbstractRepository<Product> {
 
-     @PersistenceContext(name = "psDS")
+    @PersistenceContext(name = "psDS")
     private EntityManager em;
 
     public ProductRepository() {
@@ -34,13 +33,21 @@ public class ProductRepository extends AbstractRepository<Product> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-     public Product findByName(String name) {
+
+    public ProductRepository filterByProductName(String name) {
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("name"), name);
+        this.addCriteria(criteriaPredicates);
+        return this;
+    }
+
+    //excel file upload
+    public Product findByName(String uname) {
         Product product = null;
         try {
-            Query query = em.createQuery("select e from Product e where e.name =:name");
-            query.setParameter("name", name);
-            product = (Product) query.getSingleResult();
+//            Query query = em.createQuery("select e from Product e where e.name =:name");
+//            query.setParameter("name", name);
+//            product = (Product) query.getSingleResult();
+            product = ((ProductRepository) this.startQuery()).filterByProductName(uname).getSingleResult();
         } catch (Exception e) {
             System.out.println("Record of the Given Date Display Failed!!!");
             Logger.getLogger(Product.class.getName())

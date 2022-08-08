@@ -33,7 +33,7 @@ public class User implements IEntity {
     @NotNull(message = "Username is mandatory")
     @Pattern(regexp = "^[a-zA-Z ]+$", message = "User should be string")
     @Column(name = "name", unique = true)
-    private String name;
+    public String name;
 
     @NotNull(message = "Email should not be null")
     @Email

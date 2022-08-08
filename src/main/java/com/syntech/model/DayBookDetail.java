@@ -56,7 +56,7 @@ public class DayBookDetail {
     }
 
     public BigDecimal getMoneyin() {
-        return moneyin;
+        return moneyin.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setMoneyin(BigDecimal moneyin) {
@@ -64,7 +64,7 @@ public class DayBookDetail {
     }
 
     public BigDecimal getMoneyout() {
-        return moneyout;
+        return moneyout.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setMoneyout(BigDecimal moneyout) {

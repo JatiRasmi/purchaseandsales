@@ -47,7 +47,7 @@ public class DayBook {
     }
 
     public BigDecimal getOpeningBalance() {
-        return openingBalance;
+        return openingBalance.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setOpeningBalance(BigDecimal openingBalance) {
@@ -55,7 +55,7 @@ public class DayBook {
     }
 
     public BigDecimal getClosingBalance() {
-        return closingBalance;
+        return closingBalance.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setClosingBalance(BigDecimal closingBalance) {
@@ -63,7 +63,7 @@ public class DayBook {
     }
 
     public BigDecimal getTodayBalance() {
-        return todayBalance;
+        return todayBalance.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setTodayBalance(BigDecimal todayBalance) {

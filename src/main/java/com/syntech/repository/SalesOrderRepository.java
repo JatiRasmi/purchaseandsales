@@ -7,6 +7,7 @@ package com.syntech.repository;
 
 import com.syntech.model.SalesOrder;
 import com.syntech.model.SalesOrderDetail;
+import com.syntech.model.SalesOrder_;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +18,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 //import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -42,9 +45,8 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     }
 
     public SalesOrderRepository filterByIdEagerLoad(Long saleOrderId) {
-        Join<SalesOrder, SalesOrderDetail> salesItemJoin = (Join<SalesOrder, SalesOrderDetail>) 
-                root.<SalesOrder, SalesOrderDetail>fetch("salesOrderDetailList", JoinType.LEFT);
-        Predicate criteriaPredicates = criteriaBuilder. equal(salesItemJoin.get("salesOrder").get("id"), saleOrderId);
+        Join<SalesOrder, SalesOrderDetail> salesItemJoin = (Join<SalesOrder, SalesOrderDetail>) root.<SalesOrder, SalesOrderDetail>fetch("salesOrderDetailList", JoinType.LEFT);
+        Predicate criteriaPredicates = criteriaBuilder.equal(salesItemJoin.get("salesOrder").get("id"), saleOrderId);
         this.addCriteria(criteriaPredicates);
         return this;
     }
@@ -82,7 +84,7 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     }
 
     public SalesOrderRepository filterByDate(Date date) {
-        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("date"), date);
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get(SalesOrder_.date), date);
         this.addCriteria(criteriaPredicates);
         return this;
     }
@@ -102,12 +104,25 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return salesOrderList;
     }
 
+//    public SalesOrderRepository filterByLessThanDate(Date date) {
+//        Predicate criteriaPredicates = criteriaBuilder.lessThan(root.get(SalesOrder_.date), date);
+//        this.addCriteria(criteriaPredicates);
+//        return this;
+//    }
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
-            query.setParameter("date", date);
-            amount = (BigDecimal) query.getSingleResult();
+//            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
+//            query.setParameter("date", date);
+//            amount = (BigDecimal) query.getSingleResult();
+
+            CriteriaQuery<BigDecimal> query = this.criteriaBuilder.createQuery(BigDecimal.class);
+            Root<SalesOrder> root = query.from(SalesOrder.class);
+            Predicate datePredicate = criteriaBuilder.lessThan(root.get(SalesOrder_.date), date);
+            query.select(criteriaBuilder.sum(root.get(SalesOrder_.totalAmount)));
+            query.where(datePredicate);
+            amount = (BigDecimal) em.createQuery(query).getSingleResult();
+
         } catch (Exception e) {
             e.printStackTrace();
             amount = BigDecimal.ZERO;

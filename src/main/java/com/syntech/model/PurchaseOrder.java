@@ -117,7 +117,7 @@ public class PurchaseOrder implements IEntity {
     }
 
     public BigDecimal getTotalAmount() {
-        return totalAmount;
+        return totalAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setTotalAmount(BigDecimal totalAmount) {
@@ -133,7 +133,7 @@ public class PurchaseOrder implements IEntity {
     }
 
     public BigDecimal getSubTotal() {
-        return subTotal;
+        return subTotal.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setSubTotal(BigDecimal subTotal) {
@@ -141,7 +141,7 @@ public class PurchaseOrder implements IEntity {
     }
 
     public BigDecimal getDiscountAmount() {
-        return discountAmount;
+        return discountAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setDiscountAmount(BigDecimal discountAmount) {
@@ -149,7 +149,7 @@ public class PurchaseOrder implements IEntity {
     }
 
     public BigDecimal getVatAmount() {
-        return vatAmount;
+        return vatAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setVatAmount(BigDecimal vatAmount) {

@@ -7,6 +7,7 @@ package com.syntech.repository;
 
 import com.syntech.model.PurchaseOrder;
 import com.syntech.model.PurchaseOrderDetail;
+import com.syntech.model.PurchaseOrder_;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +18,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 //
 ///**
 // *
@@ -66,7 +69,13 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return po;
     }
 
-    
+//    public PurchaseOrderRepository filterByEagerLoadAll() {
+//        Join<PurchaseOrder, PurchaseOrderDetail> purchaseItemJoin = (Join<PurchaseOrder, PurchaseOrderDetail>) root.<PurchaseOrder, PurchaseOrderDetail>fetch("purchaseOrderDetailList", JoinType.LEFT);
+//        Subquery<PurchaseOrder> productInventorySubquery = criteriaQuery.subquery(PurchaseOrder.class);
+//        Predicate criteriaPredicates = criteriaBuilder.equal(purchaseItemJoin.get("purchaseOrder").get("id"), purchaseItemJoin.get("purchaseOrderDetailList").get("purchaseOrder").get("id"));
+//        this.addCriteria(criteriaPredicates);
+//        return this;
+//    }
     //api
     public List<PurchaseOrder> eagerLoadAll() {
         List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
@@ -84,7 +93,7 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     }
 
     public PurchaseOrderRepository filterByDate(Date date) {
-        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("date"), date);
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get(PurchaseOrder_.date), date);
         this.addCriteria(criteriaPredicates);
         return this;
     }
@@ -96,7 +105,8 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
 //            query.setParameter("date", date);
 //            purchaseOrderList = query.getResultList();
 
-            purchaseOrderList = ((PurchaseOrderRepository) this.startQuery()).filterByDate(date).getResultList();
+            purchaseOrderList = ((PurchaseOrderRepository) this.startQuery())
+                    .filterByDate(date).getResultList();
 
         } catch (Exception e) {
             System.out.println("Record of the Given Date Display Failed!!!");
@@ -107,28 +117,24 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return purchaseOrderList;
     }
 
-//    public PurchaseOrderRepository filterTotalAmountBeforeDate(Date date) {
-//
-//        criteriaQuery.select(criteriaBuilder.
-//        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("date"), date);
+//    public PurchaseOrderRepository filterByLessThanDate(Date date) {
+//        Predicate criteriaPredicates = criteriaBuilder.lessThan(root.get(PurchaseOrder_.date), date);
 //        this.addCriteria(criteriaPredicates);
 //        return this;
 //    }
-//    protected PurchaseOrderRepository querySelect() {
-//        criteriaQuery.select(criteriaBuilder.construct(getEntityClass(),
-//                root.get("date"),
-//                criteriaBuilder.sum(root.get("totalAmount"))));
-//        return this;
-//    }
-    
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date<:date", BigDecimal.class);
-            query.setParameter("date", date);
-            amount = (BigDecimal) query.getSingleResult();
+//            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date<:date", BigDecimal.class);
+//            query.setParameter("date", date);
+//            amount = (BigDecimal) query.getSingleResult();
 
-//        amount = (BigDecimal) this.startQuery()).filterTotalAmountBeforeDate(date).getSingleResult();
+            CriteriaQuery<BigDecimal> query = this.criteriaBuilder.createQuery(BigDecimal.class);
+            Root<PurchaseOrder> root = query.from(PurchaseOrder.class);
+            query.select(criteriaBuilder.sum(root.get(PurchaseOrder_.totalAmount)));
+            Predicate datePredicate = criteriaBuilder.lessThan(root.get(PurchaseOrder_.date), date);
+            query.where(datePredicate);
+            amount = (BigDecimal) em.createQuery(query).getSingleResult();
         } catch (Exception e) {
             Logger.getLogger(PurchaseOrderRepository.class.getName())
                     .log(Level.SEVERE, " Error while calculating total amount before date:", e);

@@ -47,7 +47,7 @@ public class SalesOrderDetail implements IEntity {
 
     @NotNull(message = "Rate should not be null")
     @Column(name = "rate", nullable = false)
-    private BigDecimal rate = BigDecimal.ZERO;
+    private BigDecimal rate = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_UP);
 
     @NotNull(message = "Sub total should not be null")
     @Column(name = "sub_total", nullable = false)
@@ -114,7 +114,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getQuantity() {
-        return quantity;
+        return quantity.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setQuantity(BigDecimal quantity) {
@@ -122,7 +122,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getRate() {
-        return rate;
+        return rate.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setRate(BigDecimal rate) {
@@ -130,7 +130,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getSubTotal() {
-        return subTotal;
+        return subTotal.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setSubTotal(BigDecimal subtotal) {
@@ -138,7 +138,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getDiscount() {
-        return discount;
+        return discount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setDiscount(BigDecimal discount) {
@@ -146,7 +146,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getDiscountAmount() {
-        return discountAmount;
+        return discountAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setDiscountAmount(BigDecimal discountAmount) {
@@ -154,7 +154,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getSubTotalAfterDiscount() {
-        return subTotalAfterDiscount;
+        return subTotalAfterDiscount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setSubTotalAfterDiscount(BigDecimal subTotalAfterDiscount) {
@@ -162,7 +162,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getVat() {
-        return vat;
+        return vat.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setVat(BigDecimal vat) {
@@ -170,7 +170,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getVatAmount() {
-        return vatAmount;
+        return vatAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setVatAmount(BigDecimal vatAmount) {
@@ -178,7 +178,7 @@ public class SalesOrderDetail implements IEntity {
     }
 
     public BigDecimal getTotalAmount() {
-        return totalAmount;
+        return totalAmount.setScale(2, BigDecimal.ROUND_UP);
     }
 
     public void setTotalAmount(BigDecimal totalAmount) {

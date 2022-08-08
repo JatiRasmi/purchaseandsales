@@ -7,7 +7,10 @@ package com.syntech.controller;
 
 import com.syntech.adapter.ReportGeneration;
 import com.syntech.model.DayBook;
+import com.syntech.util.DateUtil;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -27,6 +30,9 @@ public class DayBookController implements Serializable {
 
     @Inject
     private ReportGeneration reportGeneration;
+    
+    @Inject
+    private DateUtil dateUtil;
 
     public DayBookController() {
     }
@@ -48,8 +54,8 @@ public class DayBookController implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
-        date = new Date();
+    public void init() throws ParseException {
+        date = dateUtil.removeTime(new Date());
         dayBook = reportGeneration.preparedaybook(date);
     }
 

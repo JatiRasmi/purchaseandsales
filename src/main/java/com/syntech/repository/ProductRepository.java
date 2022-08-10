@@ -6,6 +6,7 @@
 package com.syntech.repository;
 
 import com.syntech.model.Product;
+import com.syntech.model.Product_;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -35,7 +36,7 @@ public class ProductRepository extends AbstractRepository<Product> {
     }
 
     public ProductRepository filterByProductName(String name) {
-        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("name"), name);
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get(Product_.name), name);
         this.addCriteria(criteriaPredicates);
         return this;
     }

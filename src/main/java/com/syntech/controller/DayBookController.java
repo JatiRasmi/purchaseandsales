@@ -10,7 +10,6 @@ import com.syntech.model.DayBook;
 import com.syntech.util.DateUtil;
 import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;

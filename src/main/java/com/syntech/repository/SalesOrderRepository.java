@@ -17,9 +17,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-//import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
@@ -54,11 +52,6 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     public SalesOrder eagerload(Long soid) {
         SalesOrder so = null;
         try {
-//            Query query = em.createQuery("SELECT e FROM SalesOrder e "
-//                    + "INNER JOIN FETCH e.salesOrderDetailList t WHERE e.id=:soId", SalesOrder.class);
-//            query.setParameter("soId", soid);
-//            so = (SalesOrder) query.getSingleResult();
-
             so = ((SalesOrderRepository) this.startQuery()).filterByIdEagerLoad(soid).getSingleResult();
 
         } catch (Exception e) {
@@ -69,14 +62,19 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return so;
     }
 
+    public SalesOrderRepository filterByEagerLoadAll() {
+        Join<SalesOrder, SalesOrderDetail> salesItemJoin = (Join<SalesOrder, SalesOrderDetail>) root.<SalesOrder, SalesOrderDetail>fetch("salesOrderDetailList", JoinType.LEFT);
+        return this;
+    }
+
     public List<SalesOrder> eagerLoadAll() {
         List<SalesOrder> salesOrderList = new ArrayList<>();
         try {
-            Query query = em.createQuery("SELECT e FROM SalesOrder e "
-                    + "INNER JOIN FETCH e.salesOrderDetailList t");
-            salesOrderList = query.getResultList();
+//            Query query = em.createQuery("SELECT e FROM SalesOrder e "
+//                    + "INNER JOIN FETCH e.salesOrderDetailList t");
+//            salesOrderList = query.getResultList();
 
-//            salesOrderList = ((SalesOrderRepository) this.startQuery()).filterByEagerLoadAll().getResultList();
+            salesOrderList = ((SalesOrderRepository) this.startQuery()).filterByEagerLoadAll().getResultList();
         } catch (Exception e) {
             System.out.println("Sales data doesn't exists!!!");
         }
@@ -92,10 +90,6 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
     public List<SalesOrder> findByDate(Date date) {
         List<SalesOrder> salesOrderList = new ArrayList<>();
         try {
-//            Query query = em.createQuery("select e from SalesOrder e where e.date =:date");
-//            query.setParameter("date", date);
-//            salesOrderList = query.getResultList();
-
             salesOrderList = ((SalesOrderRepository) this.startQuery()).filterByDate(date).getResultList();
 
         } catch (Exception e) {
@@ -104,18 +98,9 @@ public class SalesOrderRepository extends AbstractRepository<SalesOrder> {
         return salesOrderList;
     }
 
-//    public SalesOrderRepository filterByLessThanDate(Date date) {
-//        Predicate criteriaPredicates = criteriaBuilder.lessThan(root.get(SalesOrder_.date), date);
-//        this.addCriteria(criteriaPredicates);
-//        return this;
-//    }
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-//            Query query = em.createQuery("SELECT sum(e.totalAmount) from SalesOrder e where e.date<:date", BigDecimal.class);
-//            query.setParameter("date", date);
-//            amount = (BigDecimal) query.getSingleResult();
-
             CriteriaQuery<BigDecimal> query = this.criteriaBuilder.createQuery(BigDecimal.class);
             Root<SalesOrder> root = query.from(SalesOrder.class);
             Predicate datePredicate = criteriaBuilder.lessThan(root.get(SalesOrder_.date), date);

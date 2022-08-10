@@ -54,11 +54,6 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     public PurchaseOrder eagerload(Long poid) {
         PurchaseOrder po = null;
         try {
-//            Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
-//                    + "INNER JOIN FETCH e.purchaseOrderDetailList t WHERE e.id=:poId", PurchaseOrder.class);
-//            query.setParameter("poId", poid);
-//            po = (PurchaseOrder) query.getSingleResult();
-
             po = ((PurchaseOrderRepository) this.startQuery()).filterByIdEagerLoad(poid).getSingleResult();
 
         } catch (Exception e) {
@@ -69,20 +64,20 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return po;
     }
 
-//    public PurchaseOrderRepository filterByEagerLoadAll() {
-//        Join<PurchaseOrder, PurchaseOrderDetail> purchaseItemJoin = (Join<PurchaseOrder, PurchaseOrderDetail>) root.<PurchaseOrder, PurchaseOrderDetail>fetch("purchaseOrderDetailList", JoinType.LEFT);
-//        Subquery<PurchaseOrder> productInventorySubquery = criteriaQuery.subquery(PurchaseOrder.class);
-//        Predicate criteriaPredicates = criteriaBuilder.equal(purchaseItemJoin.get("purchaseOrder").get("id"), purchaseItemJoin.get("purchaseOrderDetailList").get("purchaseOrder").get("id"));
-//        this.addCriteria(criteriaPredicates);
-//        return this;
-//    }
+    public PurchaseOrderRepository filterByEagerLoadAll() {
+        Join<PurchaseOrder, PurchaseOrderDetail> purchaseItemJoin = (Join<PurchaseOrder, PurchaseOrderDetail>) root.<PurchaseOrder, PurchaseOrderDetail>fetch("purchaseOrderDetailList", JoinType.LEFT);
+        return this;
+    }
+
     //api
     public List<PurchaseOrder> eagerLoadAll() {
         List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
         try {
-            Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
-                    + "INNER JOIN FETCH e.purchaseOrderDetailList t");
-            purchaseOrderList = query.getResultList();
+//            Query query = em.createQuery("SELECT e FROM PurchaseOrder e "
+//                    + "INNER JOIN FETCH e.purchaseOrderDetailList t");
+//            purchaseOrderList = query.getResultList();
+            purchaseOrderList = ((PurchaseOrderRepository) this.startQuery()).filterByEagerLoadAll().getResultList();
+
         } catch (Exception e) {
             System.out.println("Failed to find all record of purchase");
             Logger.getLogger(PurchaseOrderRepository.class.getName())
@@ -101,10 +96,6 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     public List<PurchaseOrder> findByDate(Date date) {
         List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
         try {
-//            Query query = em.createQuery("select e from PurchaseOrder e where e.date =:date");
-//            query.setParameter("date", date);
-//            purchaseOrderList = query.getResultList();
-
             purchaseOrderList = ((PurchaseOrderRepository) this.startQuery())
                     .filterByDate(date).getResultList();
 
@@ -117,18 +108,9 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
         return purchaseOrderList;
     }
 
-//    public PurchaseOrderRepository filterByLessThanDate(Date date) {
-//        Predicate criteriaPredicates = criteriaBuilder.lessThan(root.get(PurchaseOrder_.date), date);
-//        this.addCriteria(criteriaPredicates);
-//        return this;
-//    }
     public BigDecimal calculateTotalAmountBeforeDate(Date date) {
         BigDecimal amount = BigDecimal.ZERO;
         try {
-//            Query query = em.createQuery("SELECT sum(e.totalAmount) from PurchaseOrder e where e.date<:date", BigDecimal.class);
-//            query.setParameter("date", date);
-//            amount = (BigDecimal) query.getSingleResult();
-
             CriteriaQuery<BigDecimal> query = this.criteriaBuilder.createQuery(BigDecimal.class);
             Root<PurchaseOrder> root = query.from(PurchaseOrder.class);
             query.select(criteriaBuilder.sum(root.get(PurchaseOrder_.totalAmount)));

@@ -6,6 +6,7 @@
 package com.syntech.repository;
 
 import com.syntech.model.User;
+import com.syntech.model.User_;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +36,7 @@ public class UserRepository extends AbstractRepository<User> {
     }
 
     public UserRepository filterByUserName(String uname) {
-        Predicate criteriaPredicates = criteriaBuilder.equal(root.get("name"), uname);
+        Predicate criteriaPredicates = criteriaBuilder.equal(root.get(User_.name), uname);
         this.addCriteria(criteriaPredicates);
         return this;
     }

@@ -8,6 +8,7 @@ package com.syntech.util;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,17 +24,17 @@ public class CalculationTest {
     @DataProvider
     public static Object[][] subTotalData() {
         return new Object[][]{
-            {0L, 0L, 0L}, //obj 1
-            {10L, 50L, 500L}, //obj 2
-            {2L, 2L, 4L}
+            {BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO}, //obj 1
+            {new BigDecimal("10"), new BigDecimal("50"), new BigDecimal("500")}, //obj 2
+            {new BigDecimal("2"), new BigDecimal("2"), new BigDecimal("4")}
         //  rate,quantity,subtotal(expected)
         };
     }
 
     @Test
     @UseDataProvider("subTotalData")
-    public void subTotalDataProviderTest(Long rate, Long quantity, Long subtotal) {
-        Long actual = Calculation.calculateSubtotal(rate, quantity);
+    public void subTotalDataProviderTest(BigDecimal rate, BigDecimal quantity, BigDecimal subtotal) {
+        BigDecimal actual = Calculation.calculateSubtotal(rate, quantity);
         Assert.assertEquals(subtotal, actual);
     }
 
@@ -41,17 +42,17 @@ public class CalculationTest {
     @DataProvider
     public static Object[][] discountData() {
         return new Object[][]{
-            {4L, 0L, 0L}, //obj 1
-            {500L, 5L, 25L}, //obj 2
-            {40L, 5L, 2L}
+            {new BigDecimal("4"), new BigDecimal("0"), new BigDecimal("0")}, //obj 1
+            {new BigDecimal("500"), new BigDecimal("5"), new BigDecimal("25")}, //obj 2
+            {new BigDecimal("40"), new BigDecimal("5"), new BigDecimal("2")}
         //  subtotal(expected), discount, discountamount(expected)
         };
     }
 
     @Test
     @UseDataProvider("discountData")
-    public void discountDataProviderTest(Long subtotal, Long discount, Long discountamount) {
-        Long actual = Calculation.calculateDiscount(subtotal, discount);
+    public void discountDataProviderTest(BigDecimal subtotal, BigDecimal discount, BigDecimal discountamount) {
+        BigDecimal actual = Calculation.calculateDiscount(subtotal, discount);
         Assert.assertEquals(discountamount, actual);
     }
 
@@ -59,17 +60,17 @@ public class CalculationTest {
     @DataProvider
     public static Object[][] subTotalAfterDiscountData() {
         return new Object[][]{
-            {4L, 0L, 4L}, //obj 1
-            {500L, 25L, 475L}, //obj 2
-            {40L, 2L, 38L}
+            {new BigDecimal("4"), new BigDecimal("0"), new BigDecimal("4")}, //obj 1
+            {new BigDecimal("500"), new BigDecimal("25"), new BigDecimal("475")}, //obj 2
+            {new BigDecimal("40"), new BigDecimal("2"), new BigDecimal("38")}
         //  subtotal(expected), discountamount, subtotalafterdiscount(expected)
         };
     }
 
     @Test
     @UseDataProvider("subTotalAfterDiscountData")
-    public void subtotalAfterDiscountDataProviderTest(Long subtotal, Long discountamount, Long subtotalafterdiscountamount) {
-        Long actual = Calculation.calculateSubtotalAfterDiscount(subtotal, discountamount);
+    public void subtotalAfterDiscountDataProviderTest(BigDecimal subtotal, BigDecimal discountamount, BigDecimal subtotalafterdiscountamount) {
+        BigDecimal actual = Calculation.calculateSubtotalAfterDiscount(subtotal, discountamount);
         Assert.assertEquals(subtotalafterdiscountamount, actual);
     }
 
@@ -77,17 +78,17 @@ public class CalculationTest {
     @DataProvider
     public static Object[][] vatData() {
         return new Object[][]{
-            {4L, 0L, 0L}, //obj 1
-            {500L, 5L, 25L}, //obj 2
-            {40L, 5L, 2L}
+            {new BigDecimal("4"), new BigDecimal("0"), new BigDecimal("0")}, //obj 1
+            {new BigDecimal("500"), new BigDecimal("5"), new BigDecimal("25")}, //obj 2
+            {new BigDecimal("40"), new BigDecimal("5"), new BigDecimal("2")}
 //             subtotalafterdiscount,   vat,  vatamount(expected)
         };
     }
 
     @Test
     @UseDataProvider("vatData")
-    public void vatDataProviderTest(Long subtotalafterdiscountamount, Long vat, Long vatamount) {
-        Long actual = Calculation.calculateVat(subtotalafterdiscountamount, vat);
+    public void vatDataProviderTest(BigDecimal subtotalafterdiscountamount, BigDecimal vat, BigDecimal vatamount) {
+        BigDecimal actual = Calculation.calculateVat(subtotalafterdiscountamount, vat);
         Assert.assertEquals(vatamount, actual);
     }
     
@@ -96,17 +97,17 @@ public class CalculationTest {
     @DataProvider
     public static Object[][] totalAmountData() {
         return new Object[][]{
-            {4L, 0L, 4L}, //obj 1
-            {500L, 5L, 505L}, //obj 2
-            {40L, 5L, 45L}
+            {new BigDecimal("4"), new BigDecimal("0"), new BigDecimal("4")}, //obj 1
+            {new BigDecimal("500"), new BigDecimal("5"), new BigDecimal("505")}, //obj 2
+            {new BigDecimal("40"), new BigDecimal("5"), new BigDecimal("45")}
 //             subtotalafterdiscount,  vatamount, total(expected)
         };
     }
 
     @Test
     @UseDataProvider("totalAmountData")
-    public void totalAmountDataProviderTest(Long subtotalafterdiscountamount, Long vatamount, Long total) {
-        Long actual = Calculation.calculateTotal(subtotalafterdiscountamount, vatamount);
+    public void totalAmountDataProviderTest(BigDecimal subtotalafterdiscountamount, BigDecimal vatamount, BigDecimal total) {
+        BigDecimal actual = Calculation.calculateTotal(subtotalafterdiscountamount, vatamount);
         Assert.assertEquals(total, actual);
     }
 }

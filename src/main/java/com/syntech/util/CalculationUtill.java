@@ -15,8 +15,6 @@ import javax.enterprise.context.RequestScoped;
 @RequestScoped
 public class CalculationUtill {
 
-    BigDecimal value = new BigDecimal("100");
-
     public BigDecimal calculateSubtotal(BigDecimal rate, BigDecimal quantity) {
         BigDecimal subtotal;
         if (rate == null || quantity == null || rate == BigDecimal.ZERO || quantity == BigDecimal.ZERO) {
@@ -34,7 +32,7 @@ public class CalculationUtill {
         } else if (discount == BigDecimal.ZERO) {
            return discountAmount = BigDecimal.ZERO;    
         } else {
-            discountAmount = (subtotal.multiply(discount)).divide(value);
+            discountAmount = (subtotal.multiply(discount)).divide(new BigDecimal("100"));
             return discountAmount;
         }
     }
@@ -58,7 +56,7 @@ public class CalculationUtill {
             vatAmount = BigDecimal.ZERO;
             return vatAmount;
         } else {
-            vatAmount = (subtotalafterdiscount.multiply(vat)).divide(value);
+            vatAmount = (subtotalafterdiscount.multiply(vat)).divide(new BigDecimal("100"));
             return vatAmount;
         }
     }

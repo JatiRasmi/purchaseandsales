@@ -159,13 +159,13 @@
                 <version>1.9.13</version>
         </dependency>-->
 
-        <!--            https://mvnrepository.com/artifact/org.mockito/mockito-all 
-        <dependency>
+        <!--https://mvnrepository.com/artifact/org.mockito/mockito-all--> 
+<!--        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
-        </dependency>
-        -->
+        </dependency>-->
+        
     </dependencies>
     
     <build>
@@ -267,22 +267,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            
-            
-            <!-- Disable annotation processors during normal compilation -->
-            <!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <compilerArgument>-proc:none</compilerArgument>
-                    <showDeprecation>false</showDeprecation>
-                    <debug>false</debug>
-                </configuration>
-            </plugin>-->
         </plugins>
     </build>
 </project>

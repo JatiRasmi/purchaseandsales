@@ -377,7 +377,6 @@
         </p:confirmDialog>
 
 
-        <!--purchase view.xhtml part-->
         <p:dialog header="Purchase Details" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="managePurchaseViewDialog" responsive="true" 
                   height="700"  width="1700">
@@ -389,7 +388,7 @@
                     </p:toolbarGroup>
 
                     <p:toolbarGroup align="right">
-                        <p:panelGrid id ="grid" columns="6">
+                        <p:panelGrid id ="grid" columns="7">
                             <p:outputLabel for="outtxt_supplier" id="olbl_supplier" value="Supplier"/>
                             <p:outputLabel for="outtxt_date" id="olbl_date" value="Ordered Date" />
                             <p:outputLabel for="outtxt_expecteddeliverydate" id="olbl_expecetddeliverydate"
@@ -413,7 +412,7 @@
                 <p:dataTable id="dt_view" widgetVar="dtView" 
                              var="viewdata" value="#{purchaseOrderController.purchaseOrder.purchaseOrderDetailList}"
                              reflow="true" rowIndexVar="rowIndex" rowHover="true" 
-                             rowKey="#{viewdata.id}" paginator="true" rows="10" rowSelectMode="add" 
+                             rowKey="#{viewdata.id}" paginator="true" rows="5" rowSelectMode="add" 
                              paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"

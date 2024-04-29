@@ -131,27 +131,6 @@ public class PurchaseOrderController implements Serializable {
         index = null;
     }
 
-    public void subtotalCalculate() {
-        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
-        this.purchaseOrderDetail.setSubTotal(subtotal);
-    }
-
-    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
-        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscount());
-        this.purchaseOrderDetail.setDiscountAmount(discountAmount);
-
-        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscountAmount());
-        this.purchaseOrderDetail.setSubTotalAfterDiscount(subafterdiscount);
-    }
-
-    public void calculateVatAmountAndTotalAmount() {
-        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVat());
-        this.purchaseOrderDetail.setVatAmount(vatAmount);
-
-        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVatAmount());
-        this.purchaseOrderDetail.setTotalAmount(totalAmount);
-    }
-
     public void create() {
         try {
             purchaseOrderRepository.create(purchaseOrder);
@@ -191,10 +170,6 @@ public class PurchaseOrderController implements Serializable {
         messageUtill.showInfo("Order for purchase Edited Successfully", "Order Edited");
     }
 
-    public String beforeView(PurchaseOrder purchaseOrder) {
-        return "/purchase/purchaseView.xhtml?faces-redirect=true&id=" + purchaseOrder.getId();
-    }
-
     private Long id;
 
     public Long getId() {
@@ -205,8 +180,29 @@ public class PurchaseOrderController implements Serializable {
         this.id = id;
     }
 
-    public void view() {
-        purchaseOrder = purchaseOrderRepository.eagerload(id);
+    public void view(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrderRepository.eagerload(purchaseOrder.getId());
+    }
+
+    public void subtotalCalculate() {
+        BigDecimal subtotal = calculationUtill.calculateSubtotal(purchaseOrderDetail.getQuantity(), purchaseOrderDetail.getRate());
+        this.purchaseOrderDetail.setSubTotal(subtotal);
+    }
+
+    public void calculateDiscountAmountAndSubTotalAfterDiscount() {
+        BigDecimal discountAmount = calculationUtill.calculateDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscount());
+        this.purchaseOrderDetail.setDiscountAmount(discountAmount);
+
+        BigDecimal subafterdiscount = calculationUtill.calculateSubtotalAfterDiscount(purchaseOrderDetail.getSubTotal(), purchaseOrderDetail.getDiscountAmount());
+        this.purchaseOrderDetail.setSubTotalAfterDiscount(subafterdiscount);
+    }
+
+    public void calculateVatAmountAndTotalAmount() {
+        BigDecimal vatAmount = calculationUtill.calculateVat(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVat());
+        this.purchaseOrderDetail.setVatAmount(vatAmount);
+
+        BigDecimal totalAmount = calculationUtill.calculateTotal(purchaseOrderDetail.getSubTotalAfterDiscount(), purchaseOrderDetail.getVatAmount());
+        this.purchaseOrderDetail.setTotalAmount(totalAmount);
     }
 
     public void calculateTotalAmount() {

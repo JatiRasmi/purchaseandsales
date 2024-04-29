@@ -44,7 +44,7 @@ public class PurchaseOrderRepository extends AbstractRepository<PurchaseOrder> {
     }
 
     public PurchaseOrderRepository filterByIdEagerLoad(Long purchaseorderid) {
-        Join<PurchaseOrder, PurchaseOrderDetail> purchaseItemJoin = (Join<PurchaseOrder, PurchaseOrderDetail>) root.<PurchaseOrder, PurchaseOrderDetail>fetch("salesOrderDetailList", JoinType.LEFT);
+        Join<PurchaseOrder, PurchaseOrderDetail> purchaseItemJoin = (Join<PurchaseOrder, PurchaseOrderDetail>) root.<PurchaseOrder, PurchaseOrderDetail>fetch("purchaseOrderDetailList", JoinType.LEFT);
         Predicate criteriaPredicates = criteriaBuilder.equal(purchaseItemJoin.get("purchaseOrder").get("id"), purchaseorderid);
         this.addCriteria(criteriaPredicates);
         return this;

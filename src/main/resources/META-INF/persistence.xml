@@ -11,6 +11,14 @@
       
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+            <!--when creating table for first time write create in value-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="create"/>--> 
+>>>>>>> c9d2287 (cloned repository and made some necessary changes in purchase and persistence.xml)
+>>>>>>> c8b987b (cloned repository and made some necessary changes in purchase and persistence.xml)
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value = "true" /> 
             <property name="hibernate.jdbc.batch_size" value = "20" />

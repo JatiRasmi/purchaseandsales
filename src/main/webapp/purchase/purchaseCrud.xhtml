@@ -16,8 +16,6 @@
 
                 <p:toolbarGroup align="right">
 
-
-
                     <p:commandButton id="add-purchaseorder-button" icon="pi pi-plus"
                                      actionListener="#{purchaseOrderController.beforeCreate()}"
                                      oncomplete="PF('managePurchaseOrderDialog').show()" 
@@ -35,7 +33,7 @@
 
             <p:dataTable id="dt_purchaseorders" widgetVar="dtPurchaseorders" var="purchaseorder"
                          value="#{purchaseOrderController.purchaseOrderList}"
-                         reflow="true" rowIndexVar="rowIndex" 
+                         reflow="true" styleClass="purchaseorders-table" rowIndexVar="rowIndex" 
                          selectionMode="single"
                          selection="#{purchaseOrderController.purchaseOrder}" rowKey="#{purchaseorder.id}" 
                          paginator="true"
@@ -44,14 +42,9 @@
                          {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                          rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
-
-
-
                 <p:column headerText="S.No." width="3%">
                     <h:outputText value="#{rowIndex+1}"/>
                 </p:column>
-
-
                 <p:column headerText="Supplier" sortBy="#{purchaseorder.supplier.name}" filterBy="#{purchaseorder.supplier.name}">
                     <h:outputText value="#{purchaseorder.supplier.name}"/>
                 </p:column> 
@@ -71,19 +64,19 @@
                 </p:column>
 
                 <p:column headerText="Action">
-
                     <p:commandButton id="edit" icon="pi pi-pencil"
                                      actionListener="#{purchaseOrderController.beforeEdit(purchaseorder)}" 
                                      oncomplete="PF('managePurchaseOrderDialog').show()" process="@this"
                                      update="@this form_create_purchaseorder"/>
 
-                    <p:commandButton icon="pi pi-trash" actionListener="#{purchaseOrderController.delete(purchaseorder)}" 
+
+                    <p:commandButton icon="pi pi-trash" action="#{purchaseOrderController.delete(purchaseorder)}" 
                                      process="@this" update=":form_purchaseorder:dt_purchaseorders msg ">
                         <p:confirm  header=" Delete Confirmation" message="Are You Sure ?" />
                     </p:commandButton>
-
-                    <p:commandButton ajax="false"
-                                     action="#{purchaseOrderController.beforeView(purchaseorder)}" 
+                    <p:commandButton id="view" actionListener="#{purchaseOrderController.view(purchaseorder)}" 
+                                     oncomplete="PF('managePurchaseViewDialog').show()"  process="@this"
+                                     update="@this form_view msg"
                                      icon="pi pi-external-link"/>
                 </p:column>
             </p:dataTable>
@@ -91,7 +84,6 @@
 
         <p:dialog header="PurchaseOrder" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="managePurchaseOrderDialog" responsive="true" height="700"  width="1700" id="dlg_manage">
-
             <h:form id="form_create_purchaseorder">
                 <p:panelGrid id ="grid" columns="9">
 
@@ -228,7 +220,8 @@
 
                     </p:toolbarGroup>
 
-                    <p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+
                         <p:card style="width: 25em">
                             <p:panel>
                                 <p:panelGrid columns="2">
@@ -267,7 +260,6 @@
 
         <p:dialog header="PurchaseOrderDetail" showEffect="fade" modal="false" appendTo="@(body)"
                   widgetVar="managePurchaseOrderDetailDialog" responsive="true" id="dialog_manage">
-
             <h:form id="form_create_purchaseorderdetail">
                 <p:panelGrid id ="grid" columns="6">
 
@@ -358,14 +350,15 @@
 
                     <p:commandButton id="purchaseorderdetail_create" value="Add" icon="pi pi-check" 
                                      actionListener="#{purchaseOrderController.addToList()}"
-                                     update="form_create_purchaseorder  msg" 
+
+                                     update="form_create_purchaseorder form_create_purchaseorderdetail msg" 
                                      process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();" 
                                      rendered="#{purchaseOrderController.index eq null}" />
 
                     <p:commandButton id="purchaseorderdetail_edit" value="Edit" icon="pi pi-check"
                                      actionListener="#{purchaseOrderController.editFromList()}"
                                      process="@this" oncomplete="PF('managePurchaseOrderDetailDialog').hide();"
-                                     update="@this form_create_purchaseorder msg"
+                                     update="@this form_create_purchaseorder form_create_purchaseorderdetail msg"
                                      rendered="#{purchaseOrderController.index ne null}" />
 
                     <p:commandButton value="Cancel" icon="pi pi-times" 
@@ -382,8 +375,98 @@
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" 
                              icon="ui-icon-close" id="ui-confirm-no-btn"/>
         </p:confirmDialog>
+
+
+        <!--purchase view.xhtml part-->
+        <p:dialog header="Purchase Details" showEffect="fade" modal="false" appendTo="@(body)"
+                  widgetVar="managePurchaseViewDialog" responsive="true" 
+                  height="700"  width="1700">
+            <h:form id="form_view">
+
+                <p:toolbar>
+                    <p:toolbarGroup align="left">
+
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup align="right">
+                        <p:panelGrid id ="grid" columns="6">
+                            <p:outputLabel for="outtxt_supplier" id="olbl_supplier" value="Supplier"/>
+                            <p:outputLabel for="outtxt_date" id="olbl_date" value="Ordered Date" />
+                            <p:outputLabel for="outtxt_expecteddeliverydate" id="olbl_expecetddeliverydate"
+                                           value="Expected Delivery Date" />
+                            <p:outputLabel for="outtxt_subtotal" id="olbl_subtotal" value="Sub Total Amount"/>
+                            <p:outputLabel for="outtxt_discount" id="olbl_discount" value="Total Discount Amount"/>
+                            <p:outputLabel for="outtxt_vat" id="olbl_vat" value="Vat Amount"/>
+                            <p:outputLabel for="outtxt_total" id="olbl_total" value="Total Amount"/>
+
+
+                            <h:outputText style="font-weight: bold;" id="outtxt_supplier"  value="#{purchaseOrderController.purchaseOrder.supplier.name}"/>
+                            <h:outputText style="font-weight: bold;" id="outtxt_date"  value="#{purchaseOrderController.purchaseOrder.date}"/>
+                            <h:outputText style="font-weight: bold;" id="outtxt_expecteddeliverydate"  value="#{purchaseOrderController.purchaseOrder.expectedDeliveryDate}"/>                    
+                            <h:outputText style="font-weight: bold;" id="outtxt_subtotal"  value="#{purchaseOrderController.purchaseOrder.subTotal}"/>
+                            <h:outputText style="font-weight: bold;" id="outtxt_discount"  value="#{purchaseOrderController.purchaseOrder.discountAmount}"/>
+                            <h:outputText style="font-weight: bold;" id="outtxt_vat"  value="#{purchaseOrderController.purchaseOrder.vatAmount}"/>
+                            <h:outputText style="font-weight: bold;" id="outtxt_total"  value="#{purchaseOrderController.purchaseOrder.totalAmount}"/>
+                        </p:panelGrid>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable id="dt_view" widgetVar="dtView" 
+                             var="viewdata" value="#{purchaseOrderController.purchaseOrder.purchaseOrderDetailList}"
+                             reflow="true" rowIndexVar="rowIndex" rowHover="true" 
+                             rowKey="#{viewdata.id}" paginator="true" rows="10" rowSelectMode="add" 
+                             paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                             rowsPerPageTemplate="5,10,25,{ShowAll|'All'}">
+
+                    <p:column headerText="S.No." width="3%">
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column headerText="Product" sortBy="#{viewdata.product.name}">
+                        <h:outputText value="#{viewdata.product.name}"/>
+                    </p:column> 
+
+
+                    <p:column headerText="Quantity" sortBy="#{viewdata.quantity}">
+                        <h:outputText value="#{viewdata.quantity}"/>
+                    </p:column>
+
+                    <p:column headerText="Rate" sortBy="#{viewdata.rate}">
+                        <h:outputText value="#{viewdata.rate}"/>
+                    </p:column>
+
+                    <p:column headerText="SubTotalAmount" sortBy="#{viewdata.subTotal}"> 
+                        <h:outputText value="#{viewdata.subTotal}"/>
+                    </p:column>
+
+                    <p:column headerText="Discount(%)" sortBy="#{viewdata.discount}">
+                        <h:outputText value="#{viewdata.discount}"/>
+                    </p:column>
+
+                    <p:column headerText="DiscountAmount" sortBy="#{viewdata.discountAmount}">
+                        <h:outputText value="#{viewdata.discountAmount}"/>
+                    </p:column>
+
+                    <p:column headerText="SubTotalAfterDiscount" sortBy="#{viewdata.subTotalAfterDiscount}">
+                        <h:outputText value="#{viewdata.subTotalAfterDiscount}"/>
+                    </p:column>
+
+                    <p:column headerText="VAT(%)" sortBy="#{viewdata.vat}">
+                        <h:outputText value="#{viewdata.vat}"/>
+                    </p:column>
+
+                    <p:column headerText="VatAmount" sortBy="#{viewdata.vatAmount}">
+                        <h:outputText value="#{viewdata.vatAmount}"/>
+                    </p:column>
+
+                    <p:column headerText="TotalAmount" sortBy="#{viewdata.totalAmount}">
+                        <h:outputText value="#{viewdata.totalAmount}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+        </p:dialog>
+
     </ui:define>
 </ui:composition>
-
-
-<!--<ui:include>-->
